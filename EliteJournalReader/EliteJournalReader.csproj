@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7790285B-E2EE-440B-8EA6-D27BBE6006D9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EliteJournalReader</RootNamespace>
+    <AssemblyName>EliteJournalReader</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Events\ClearSavedGameEvent.cs" />
+    <Compile Include="Events\CollectCargoEvent.cs" />
+    <Compile Include="Events\EjectCargoEvent.cs" />
+    <Compile Include="Events\EngineerApplyEvent.cs" />
+    <Compile Include="Events\EngineerCraftEvent.cs" />
+    <Compile Include="Events\EngineerProgressEvent.cs" />
+    <Compile Include="Events\DockFighterEvent.cs" />
+    <Compile Include="Events\DockSRVEvent.cs" />
+    <Compile Include="Events\FuelScoopEvent.cs" />
+    <Compile Include="Events\RebootRepairEvent.cs" />
+    <Compile Include="Events\ReceiveTextEvent.cs" />
+    <Compile Include="Events\SendTextEvent.cs" />
+    <Compile Include="Events\SynthesisEvent.cs" />
+    <Compile Include="Events\VehicleSwitchEvent.cs" />
+    <Compile Include="Events\WingAddEvent.cs" />
+    <Compile Include="Events\WingJoinEvent.cs" />
+    <Compile Include="Events\ResurrectEvent.cs" />
+    <Compile Include="Events\WingLeaveEvent.cs" />
+    <Compile Include="Events\LaunchFighterEvent.cs" />
+    <Compile Include="Events\LaunchSRVEvent.cs" />
+    <Compile Include="Events\PromotionEvent.cs" />
+    <Compile Include="Events\CockpitBreachedEvent.cs" />
+    <Compile Include="Events\SelfDestructEvent.cs" />
+    <Compile Include="Events\PowerplayVoucherEvent.cs" />
+    <Compile Include="Events\PowerplayVoteEvent.cs" />
+    <Compile Include="Events\PowerplaySalaryEvent.cs" />
+    <Compile Include="Events\PowerplayNominateEvent.cs" />
+    <Compile Include="Events\PowerplayLeaveEvent.cs" />
+    <Compile Include="Events\PowerplayJoinEvent.cs" />
+    <Compile Include="Events\PowerplayFastTrackEvent.cs" />
+    <Compile Include="Events\PowerplayDeliverEvent.cs" />
+    <Compile Include="Events\ModuleBuyEvent.cs" />
+    <Compile Include="Events\ModuleSellEvent.cs" />
+    <Compile Include="Events\PowerplayCollectEvent.cs" />
+    <Compile Include="Events\CommitCrimeEvent.cs" />
+    <Compile Include="Events\DatalinkScanEvent.cs" />
+    <Compile Include="Events\PowerplayDefectEvent.cs" />
+    <Compile Include="Events\ShipyardSwapEvent.cs" />
+    <Compile Include="Events\ShipyardTransferEvent.cs" />
+    <Compile Include="Events\ShipyardSellEvent.cs" />
+    <Compile Include="Events\ShipyardBuyEvent.cs" />
+    <Compile Include="Events\SellDronesEvent.cs" />
+    <Compile Include="Events\RestockVehicleEvent.cs" />
+    <Compile Include="Events\RepairEvent.cs" />
+    <Compile Include="Events\RefuelPartialEvent.cs" />
+    <Compile Include="Events\MissionAbandonedEvent.cs" />
+    <Compile Include="Events\MissionAcceptedEvent.cs" />
+    <Compile Include="Events\MissionCompletedEvent.cs" />
+    <Compile Include="Events\MissionFailedEvent.cs" />
+    <Compile Include="Events\RefuelAllEvent.cs" />
+    <Compile Include="Events\RedeemVoucherEvent.cs" />
+    <Compile Include="Events\MarketBuyEvent.cs" />
+    <Compile Include="Events\MarketSellEvent.cs" />
+    <Compile Include="Events\MiningRefinedEvent.cs" />
+    <Compile Include="Events\BuyAmmoEvent.cs" />
+    <Compile Include="Events\BuyDronesEvent.cs" />
+    <Compile Include="Events\CommunityGoalJoinEvent.cs" />
+    <Compile Include="Events\CommunityGoalRewardEvent.cs" />
+    <Compile Include="Events\PayLegacyFinesEvent.cs" />
+    <Compile Include="Events\PayFinesEvent.cs" />
+    <Compile Include="Events\ModuleSwapEvent.cs" />
+    <Compile Include="Events\BuyTradeDataEvent.cs" />
+    <Compile Include="Events\ScreenshotEvent.cs" />
+    <Compile Include="Events\NewCommanderEvent.cs" />
+    <Compile Include="Events\FSDJumpEvent.cs" />
+    <Compile Include="Events\LiftoffEvent.cs" />
+    <Compile Include="Events\SellExplorationDataEvent.cs" />
+    <Compile Include="Events\BuyExplorationDataEvent.cs" />
+    <Compile Include="Events\MaterialDiscoveredEvent.cs" />
+    <Compile Include="Events\MaterialDiscardedEvent.cs" />
+    <Compile Include="Events\MaterialCollectedEvent.cs" />
+    <Compile Include="Events\ScanEvent.cs" />
+    <Compile Include="Events\InterdictionEvent.cs" />
+    <Compile Include="Events\InterdictedEvent.cs" />
+    <Compile Include="Events\FactionKillBondEvent.cs" />
+    <Compile Include="Events\EscapeInterdictionEvent.cs" />
+    <Compile Include="Events\DiedEvent.cs" />
+    <Compile Include="Events\CapShipBondEvent.cs" />
+    <Compile Include="Events\BountyEvent.cs" />
+    <Compile Include="Events\UndockedEvent.cs" />
+    <Compile Include="Events\TouchdownEvent.cs" />
+    <Compile Include="Events\SupercruiseExitEvent.cs" />
+    <Compile Include="Events\SupercruiseEntryEvent.cs" />
+    <Compile Include="Events\LocationEvent.cs" />
+    <Compile Include="Events\DockedEvent.cs" />
+    <Compile Include="Events\RankEvent.cs" />
+    <Compile Include="Events\ProgressEvent.cs" />
+    <Compile Include="Events\LoadGameEvent.cs" />
+    <Compile Include="Events\JournalHeadingEvent.cs" />
+    <Compile Include="JournalEvent.cs" />
+    <Compile Include="JObjectExtensions.cs" />
+    <Compile Include="JournalEventArgs.cs" />
+    <Compile Include="JournalWatcher.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
