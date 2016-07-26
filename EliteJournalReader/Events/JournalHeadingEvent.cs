@@ -16,8 +16,8 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                GameVersion = evt.Value<string>("gameversion");
+                Build = evt.Value<string>("build");
             }
 
             public string GameVersion { get; set; }

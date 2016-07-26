@@ -7,6 +7,11 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written:
+    //Parameters:
+    //•	Type: cargo type
+    //•	Count: number of units
+    //•	Abandoned: whether ‘abandoned’
     public class EjectCargoEvent : JournalEvent<EjectCargoEvent.EjectCargoEventArgs>
     {
         public EjectCargoEvent() : base("EjectCargo") { }
@@ -16,12 +21,14 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Type = evt.Value<string>("Type");
+                Count = evt.Value<int>("Count");
+                Abandoned = evt.Value<bool>("Abandoned");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Type { get; set; }
+            public int Count { get; set; }
+            public bool Abandoned { get; set; }
         }
     }
 }

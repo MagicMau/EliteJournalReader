@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when joining up with a power
+    //Parameters:
+    //•	Power
     public class PowerplayJoinEvent : JournalEvent<PowerplayJoinEvent.PowerplayJoinEventArgs>
     {
         public PowerplayJoinEvent() : base("PowerplayJoin") { }
@@ -16,12 +19,10 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Power = evt.Value<string>("Power");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Power { get; set; }
         }
     }
 }

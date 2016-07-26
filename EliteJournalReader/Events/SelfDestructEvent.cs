@@ -7,21 +7,14 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when the ‘self destruct’ function is used
+    //Parameters: none
     public class SelfDestructEvent : JournalEvent<SelfDestructEvent.SelfDestructEventArgs>
     {
         public SelfDestructEvent() : base("SelfDestruct") { }
 
         public class SelfDestructEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
-            }
-
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
         }
     }
 }

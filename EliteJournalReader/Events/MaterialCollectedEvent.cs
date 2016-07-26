@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: whenever materials are collected 
+    //Parameters: 
+    //•	Category: type of material (Raw/Encoded/Manufactured)
+    //•	Name: name of material
     public class MaterialCollectedEvent : JournalEvent<MaterialCollectedEvent.MaterialCollectedEventArgs>
     {
         public MaterialCollectedEvent() : base("MaterialCollected") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Category = evt.Value<string>("Category");
+                Name = evt.Value<string>("Name");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Category { get; set; }
+            public string Name { get; set; }
         }
     }
 }

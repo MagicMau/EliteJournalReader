@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when a player defects from one power to another
+    //Parameters:
+    //•	FromPower
+    //•	ToPower
     public class PowerplayDefectEvent : JournalEvent<PowerplayDefectEvent.PowerplayDefectEventArgs>
     {
         public PowerplayDefectEvent() : base("PowerplayDefect") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                FromPower = evt.Value<string>("FromPower");
+                ToPower = evt.Value<string>("ToPower");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string FromPower { get; set; }
+            public string ToPower { get; set; }
         }
     }
 }

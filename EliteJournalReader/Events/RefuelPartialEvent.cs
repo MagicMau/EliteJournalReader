@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when refuelling (10%)
+    //Parameters:
+    //•	Cost: cost of fuel
+    //•	Amount: tons of fuel purchased
     public class RefuelPartialEvent : JournalEvent<RefuelPartialEvent.RefuelPartialEventArgs>
     {
         public RefuelPartialEvent() : base("RefuelPartial") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Cost = evt.Value<int>("Cost");
+                Amount = evt.Value<int>("Amount");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public int Cost { get; set; }
+            public int Amount { get; set; }
         }
     }
 }

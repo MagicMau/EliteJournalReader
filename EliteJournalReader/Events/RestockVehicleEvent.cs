@@ -7,6 +7,11 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when purchasing an SRV or Fighter
+    //Parameters:
+    //•	Type: type of vehicle being purchased (SRV or fighter model)
+    //•	Loadout: variant
+    //•	Cost: purchase cost
     public class RestockVehicleEvent : JournalEvent<RestockVehicleEvent.RestockVehicleEventArgs>
     {
         public RestockVehicleEvent() : base("RestockVehicle") { }
@@ -16,12 +21,14 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Type = evt.Value<string>("Type");
+                Loadout = evt.Value<string>("Loadout");
+                Cost = evt.Value<int>("Cost");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Type { get; set; }
+            public string Loadout { get; set; }
+            public int Cost { get; set; }
         }
     }
 }

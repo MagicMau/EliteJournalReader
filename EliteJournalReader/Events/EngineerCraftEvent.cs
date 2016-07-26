@@ -7,6 +7,12 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when requesting an engineer upgrade
+    //Parameters:
+    //•	Engineer: name of engineer
+    //•	Blueprint: name of blueprint
+    //•	Level: crafting level
+    //•	Ingredients: JSON object with names and quantities of materials required
     public class EngineerCraftEvent : JournalEvent<EngineerCraftEvent.EngineerCraftEventArgs>
     {
         public EngineerCraftEvent() : base("EngineerCraft") { }
@@ -16,12 +22,16 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Engineer = evt.Value<string>("Engineer");
+                Blueprint = evt.Value<string>("Blueprint");
+                Level = evt.Value<int>("Level");
+                Ingredients = evt["Ingredients"]?.ToObject<Dictionary<string, int>>();
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Engineer { get; set; }
+            public string Blueprint { get; set; }
+            public int Level { get; set; }
+            public Dictionary<string, int> Ingredients { get; set; }
         }
     }
 }

@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when claiming payment for combat bounties and bonds
+    //Parameters:
+    //•	Type
+    //•	Amount
     public class RedeemVoucherEvent : JournalEvent<RedeemVoucherEvent.RedeemVoucherEventArgs>
     {
         public RedeemVoucherEvent() : base("RedeemVoucher") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Type = evt.Value<string>("Type");
+                Amount = evt.Value<int>("Amount");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Type { get; set; }
+            public int Amount { get; set; }
         }
     }
 }

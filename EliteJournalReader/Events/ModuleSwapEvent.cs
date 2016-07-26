@@ -7,6 +7,13 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when moving a module to a different slot on the ship
+    //Parameters:
+    //•	FromSlot
+    //•	ToSlot
+    //•	FromItem
+    //•	ToItem
+    //•	Ship
     public class ModuleSwapEvent : JournalEvent<ModuleSwapEvent.ModuleSwapEventArgs>
     {
         public ModuleSwapEvent() : base("ModuleSwap") { }
@@ -16,12 +23,20 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                FromSlot = evt.Value<string>("FromSlot");
+                ToSlot = evt.Value<string>("ToSlot");
+                FromItem = evt.Value<string>("FromItem");
+                ToItem = evt.Value<string>("ToItem");
+                Ship = evt.Value<string>("Ship");
+                ShipId = evt.Value<int>("ShipId");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string FromSlot { get; set; }
+            public string ToSlot { get; set; }
+            public string FromItem { get; set; }
+            public string ToItem { get; set; }
+            public string Ship { get; set; }
+            public int ShipId { get; set; }
         }
     }
 }

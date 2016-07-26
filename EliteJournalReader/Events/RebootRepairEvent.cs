@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when the ‘reboot repair’ function is used
+    //Parameters:
+    //•	Modules: JSON array of names of modules repaired
     public class RebootRepairEvent : JournalEvent<RebootRepairEvent.RebootRepairEventArgs>
     {
         public RebootRepairEvent() : base("RebootRepair") { }
@@ -16,12 +19,10 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Modules = evt.Value<JArray>("Modules").Values<string>().ToArray();
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string[] Modules { get; set; }
         }
     }
 }

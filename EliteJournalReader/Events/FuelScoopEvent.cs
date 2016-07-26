@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when scooping fuel from a star
+    //Parameters:
+    //•	Scooped: tons fuel scooped
+    //•	Total: total fuel level after scooping
     public class FuelScoopEvent : JournalEvent<FuelScoopEvent.FuelScoopEventArgs>
     {
         public FuelScoopEvent() : base("FuelScoop") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Scooped = evt.Value<decimal>("Scooped");
+                Total = evt.Value<decimal>("Total");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public decimal Scooped { get; set; }
+            public decimal Total { get; set; }
         }
     }
 }

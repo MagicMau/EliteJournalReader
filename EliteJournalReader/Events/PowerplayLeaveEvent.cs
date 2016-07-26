@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when leaving a power
+    //Parameters:
+    //•	Power
     public class PowerplayLeaveEvent : JournalEvent<PowerplayLeaveEvent.PowerplayLeaveEventArgs>
     {
         public PowerplayLeaveEvent() : base("PowerplayLeave") { }
@@ -16,12 +19,10 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Power = evt.Value<string>("Power");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Power { get; set; }
         }
     }
 }

@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when switching control between the main ship and a fighter
+    //Parameters:
+    //•	To: ( Mothership/Fighter)
     public class VehicleSwitchEvent : JournalEvent<VehicleSwitchEvent.VehicleSwitchEventArgs>
     {
         public VehicleSwitchEvent() : base("VehicleSwitch") { }
@@ -16,12 +19,10 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                To = evt.Value<string>("To");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string To { get; set; }
         }
     }
 }

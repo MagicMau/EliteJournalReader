@@ -7,6 +7,14 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when a crime is recorded against the player
+    //Parameters:
+    //•	CrimeType
+    //•	Faction
+    //Optional parameters (depending on crime)
+    //•	Victim
+    //•	Fine
+    //•	Bounty
     public class CommitCrimeEvent : JournalEvent<CommitCrimeEvent.CommitCrimeEventArgs>
     {
         public CommitCrimeEvent() : base("CommitCrime") { }
@@ -16,12 +24,17 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                CrimeType = evt.Value<string>("CrimeType");
+                Faction = evt.Value<string>("Faction");
+                Fine = evt.Value<int?>("Fine");
+                Bounty = evt.Value<int?>("Bounty");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string CrimeType { get; set; }
+            public string Faction { get; set; }
+            public string Victim { get; set; }
+            public int? Fine { get; set; }
+            public int? Bounty { get; set; }
         }
     }
 }

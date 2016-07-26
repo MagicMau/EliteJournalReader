@@ -328,7 +328,7 @@ namespace EliteJournalReader
             try
             {
                 var evt = JObject.Parse(line);
-                var eventType = evt.StringValue("event");
+                var eventType = evt.Value<string>("event");
                 FireEvent(eventType, evt);
             }
             catch (Exception e)

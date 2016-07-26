@@ -7,6 +7,11 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when the player restarts after death
+    //Parameters:
+    //•	Option: the option selected on the insurance rebuy screen
+    //•	Cost: the price paid
+    //•	Bankrupt: whether the commander declared bankruptcy
     public class ResurrectEvent : JournalEvent<ResurrectEvent.ResurrectEventArgs>
     {
         public ResurrectEvent() : base("Resurrect") { }
@@ -16,12 +21,14 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Option = evt.Value<string>("Option");
+                Cost = evt.Value<int>("Cost");
+                Bankrupt = evt.Value<bool>("Bankrupt");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Option { get; set; }
+            public int Cost { get; set; }
+            public bool Bankrupt { get; set; }
         }
     }
 }

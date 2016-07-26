@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when launching a fighter
+    //Parameters:
+    //•	Loadout
+    //•	PlayerControlled: whether player is controlling the fighter from launch
     public class LaunchFighterEvent : JournalEvent<LaunchFighterEvent.LaunchFighterEventArgs>
     {
         public LaunchFighterEvent() : base("LaunchFighter") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Loadout = evt.Value<string>("Loadout");
+                PlayerControlled = evt.Value<bool>("PlayerControlled");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Loadout { get; set; }
+            public bool PlayerControlled { get; set; }
         }
     }
 }

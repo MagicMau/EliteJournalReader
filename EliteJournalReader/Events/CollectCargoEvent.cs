@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when scooping cargo from space or planet surface
+    //Parameters:
+    //•	Type: cargo type
+    //•	Stolen: whether stolen goods
     public class CollectCargoEvent : JournalEvent<CollectCargoEvent.CollectCargoEventArgs>
     {
         public CollectCargoEvent() : base("CollectCargo") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Type = evt.Value<string>("Type");
+                Stolen = evt.Value<bool>("Stolen");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Type { get; set; }
+            public bool Stolen { get; set; }
         }
     }
 }

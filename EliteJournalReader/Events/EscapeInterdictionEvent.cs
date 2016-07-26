@@ -7,21 +7,14 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: Player has escaped interdiction
+    //Parameters: None
     public class EscapeInterdictionEvent : JournalEvent<EscapeInterdictionEvent.EscapeInterdictionEventArgs>
     {
         public EscapeInterdictionEvent() : base("EscapeInterdiction") { }
 
         public class EscapeInterdictionEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
-            }
-
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
         }
     }
 }

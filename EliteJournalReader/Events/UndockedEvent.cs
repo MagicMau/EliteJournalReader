@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: liftoff from a landing pad in a station, outpost or settlement
+    //Parameters:
+    //•	StationName: name of station
     public class UndockedEvent : JournalEvent<UndockedEvent.UndockedEventArgs>
     {
         public UndockedEvent() : base("Undocked") { }
@@ -16,12 +19,10 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                StationName = evt.Value<string>("StationName");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string StationName { get; set; }
         }
     }
 }

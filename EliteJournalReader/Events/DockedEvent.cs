@@ -7,6 +7,11 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when landing at landing pad in a space station, outpost, or surface settlement
+    //Parameters:
+    //•	StationName: name of station
+    //•	StationType: type of station
+    //•	CockpitBreach:true (only if landing with breached cockpit)
     public class DockedEvent : JournalEvent<DockedEvent.DockedEventArgs>
     {
         public DockedEvent() : base("Docked") { }
@@ -16,12 +21,14 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                StationName = evt.Value<string>("StationName");
+                StationType = evt.Value<string>("StationType");
+                CockpitBreach = evt.Value<bool?>("CockpitBreach");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string StationName { get; set; }
+            public string StationType { get; set; }
+            public bool? CockpitBreach { get; set; }
         }
     }
 }

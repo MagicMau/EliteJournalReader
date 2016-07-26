@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when synthesis is used to repair or rearm
+    //Parameters:
+    //•	Name: synthesis blueprint
+    //•	Materials: JSON object listing materials used and quantities
     public class SynthesisEvent : JournalEvent<SynthesisEvent.SynthesisEventArgs>
     {
         public SynthesisEvent() : base("Synthesis") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Name = evt.Value<string>("Name");
+                Materials = evt["Materials"]?.ToObject<Dictionary<string, int>>();
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Name { get; set; }
+            public Dictionary<string, int> Materials { get; set; }
         }
     }
 }

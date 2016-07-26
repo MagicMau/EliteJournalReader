@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: deploying the SRV from a ship onto planet surface
+    //Parameters:
+    //•	Loadout
     public class LaunchSRVEvent : JournalEvent<LaunchSRVEvent.LaunchSRVEventArgs>
     {
         public LaunchSRVEvent() : base("LaunchSRV") { }
@@ -16,12 +19,10 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Loadout = evt.Value<string>("Loadout");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Loadout { get; set; }
         }
     }
 }

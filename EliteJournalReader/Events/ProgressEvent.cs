@@ -7,6 +7,14 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: at startup
+    //Parameters:
+    //•	Combat: percent progress to next rank
+    //•	Trade: 		“
+    //•	Explore: 	“
+    //•	Empire: 	“
+    //•	Federation: 	“
+    //•	CQC: 		“
     public class ProgressEvent : JournalEvent<ProgressEvent.ProgressEventArgs>
     {
         public ProgressEvent() : base("Progress") { }
@@ -16,12 +24,20 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Combat = evt.Value<int>("Combat");
+                Trade = evt.Value<int>("Trade");
+                Explore = evt.Value<int>("Explore");
+                Empire = evt.Value<int>("Empire");
+                Federation = evt.Value<int>("Federation");
+                CQC = evt.Value<int>("CQC");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public int Combat { get; set; }
+            public int Trade { get; set; }
+            public int Explore { get; set; }
+            public int Empire { get; set; }
+            public int Federation { get; set; }
+            public int CQC { get; set; }
         }
     }
 }

@@ -16,12 +16,18 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                BodyName = evt.Value<string>("BodyName");
+                Description = evt.Value<string>("Description");
+                StarType = evt.Value<string>("StarType");
+                Landable = evt.Value<bool?>("Landable") ?? false;
+                Materials = evt["Materials"]?.ToObject<Dictionary<string, decimal>>();
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string BodyName { get; set; }
+            public string Description { get; set; }
+            public string StarType { get; set; }
+            public bool Landable { get; set; }
+            public Dictionary<string, decimal> Materials { get; set; }
         }
     }
 }

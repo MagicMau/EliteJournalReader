@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when signing up to a community goal
+    //Parameters:
+    //•	Name
+    //•	System
     public class CommunityGoalJoinEvent : JournalEvent<CommunityGoalJoinEvent.CommunityGoalJoinEventArgs>
     {
         public CommunityGoalJoinEvent() : base("CommunityGoalJoin") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Name = evt.Value<string>("Name");
+                System = evt.Value<string>("System");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Name { get; set; }
+            public string System { get; set; }
         }
     }
 }

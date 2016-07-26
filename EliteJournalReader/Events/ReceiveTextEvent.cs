@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when a text message is received from another player
+    //Parameters:
+    //•	From
+    //•	Message
     public class ReceiveTextEvent : JournalEvent<ReceiveTextEvent.ReceiveTextEventArgs>
     {
         public ReceiveTextEvent() : base("ReceiveText") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                From = evt.Value<string>("From");
+                Message = evt.Value<string>("Message");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string From { get; set; }
+            public string Message { get; set; }
         }
     }
 }

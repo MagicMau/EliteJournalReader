@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when paying to fast-track allocation of commodities
+    //Parameters:
+    //•	Power
+    //•	Cost
     public class PowerplayFastTrackEvent : JournalEvent<PowerplayFastTrackEvent.PowerplayFastTrackEventArgs>
     {
         public PowerplayFastTrackEvent() : base("PowerplayFastTrack") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Power = evt.Value<string>("Power");
+                Cost = evt.Value<int>("Cost");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Power { get; set; }
+            public int Cost { get; set; }
         }
     }
 }

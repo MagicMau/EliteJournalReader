@@ -7,21 +7,14 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when docking an SRV with the ship
+    //Parameters: none
     public class DockSRVEvent : JournalEvent<DockSRVEvent.DockSRVEventArgs>
     {
         public DockSRVEvent() : base("DockSRV") { }
 
         public class DockSRVEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
-            }
-
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
         }
     }
 }

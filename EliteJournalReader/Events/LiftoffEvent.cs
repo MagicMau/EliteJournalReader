@@ -7,21 +7,14 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when taking off from planet surface
+    //Parameters: none
     public class LiftoffEvent : JournalEvent<LiftoffEvent.LiftoffEventArgs>
     {
         public LiftoffEvent() : base("Liftoff") { }
 
         public class LiftoffEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
-            }
-
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
         }
     }
 }

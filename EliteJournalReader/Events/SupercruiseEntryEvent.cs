@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: entering supercruise from normal space
+    //Parameters:
+    //•	Starsystem
     public class SupercruiseEntryEvent : JournalEvent<SupercruiseEntryEvent.SupercruiseEntryEventArgs>
     {
         public SupercruiseEntryEvent() : base("SupercruiseEntry") { }
@@ -16,12 +19,10 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                StarSystem = evt.Value<string>("StarSystem");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string StarSystem { get; set; }
         }
     }
 }

@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when receiving payment for powerplay combat
+    //Parameters:
+    //•	Power
+    //•	Systems:[name,name]
     public class PowerplayVoucherEvent : JournalEvent<PowerplayVoucherEvent.PowerplayVoucherEventArgs>
     {
         public PowerplayVoucherEvent() : base("PowerplayVoucher") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Power = evt.Value<string>("Power");
+                Systems = evt.Value<JArray>("Systems").Values<string>().ToArray();
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Power { get; set; }
+            public string[] Systems { get; set; }
         }
     }
 }

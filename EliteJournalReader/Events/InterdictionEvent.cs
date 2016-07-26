@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: player has (attempted to) interdict another player or npc
+    //Parameters: 
+    //•	Success
     public class InterdictionEvent : JournalEvent<InterdictionEvent.InterdictionEventArgs>
     {
         public InterdictionEvent() : base("Interdiction") { }
@@ -16,12 +19,10 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Success = evt.Value<bool>("Success");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public bool Success { get; set; }
         }
     }
 }

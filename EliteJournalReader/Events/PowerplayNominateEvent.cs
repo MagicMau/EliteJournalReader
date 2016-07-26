@@ -7,6 +7,11 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when nominating a system for expansion
+    //Parameters:
+    //•	Power
+    //•	System
+    //•	Votes
     public class PowerplayNominateEvent : JournalEvent<PowerplayNominateEvent.PowerplayNominateEventArgs>
     {
         public PowerplayNominateEvent() : base("PowerplayNominate") { }
@@ -16,12 +21,14 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Power = evt.Value<string>("Power");
+                System = evt.Value<string>("System");
+                Votes = evt.Value<int>("Votes");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Power { get; set; }
+            public string System { get; set; }
+            public int Votes { get; set; }
         }
     }
 }

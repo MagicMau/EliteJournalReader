@@ -7,6 +7,12 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: when the player’s rank increases
+    //Parameters: one of the following
+    //•	Combat: new rank
+    //•	Trade: new rank
+    //•	Explore: new rank
+    //•	CQC: new rank
     public class PromotionEvent : JournalEvent<PromotionEvent.PromotionEventArgs>
     {
         public PromotionEvent() : base("Promotion") { }
@@ -16,12 +22,16 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Combat = evt.Value<int?>("Combat");
+                Trade = evt.Value<int?>("Trade");
+                Explore = evt.Value<int?>("Explore");
+                CQC = evt.Value<int?>("CQC");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public int? Combat { get; set; }
+            public int? Trade { get; set; }
+            public int? Explore { get; set; }
+            public int? CQC { get; set; }
         }
     }
 }

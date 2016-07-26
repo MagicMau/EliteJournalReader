@@ -7,6 +7,11 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: Player rewarded for taking part in a combat zone
+    //Parameters: 
+    //•	Reward
+    //•	AwardingFaction
+    //•	VictimFaction
     public class FactionKillBondEvent : JournalEvent<FactionKillBondEvent.FactionKillBondEventArgs>
     {
         public FactionKillBondEvent() : base("FactionKillBond") { }
@@ -16,12 +21,14 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                AwardingFaction = evt.Value<string>("AwardingFaction");
+                VictimFaction = evt.Value<string>("VictimFaction");
+                Reward = evt.Value<int>("Reward");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string AwardingFaction { get; set; }
+            public string VictimFaction { get; set; }
+            public int Reward { get; set; }
         }
     }
 }

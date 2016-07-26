@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when buying trade data in the galaxy map
+    //Parameters:
+    //•	System: star system requested
+    //•	Cost: cost of data
     public class BuyTradeDataEvent : JournalEvent<BuyTradeDataEvent.BuyTradeDataEventArgs>
     {
         public BuyTradeDataEvent() : base("BuyTradeData") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                System = evt.Value<string>("System");
+                Cost = evt.Value<int>("Cost");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string System { get; set; }
+            public int Cost { get; set; }
         }
     }
 }

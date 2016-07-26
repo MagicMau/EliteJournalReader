@@ -7,6 +7,11 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when a player increases their access to an engineer
+    //Parameters
+    //•	Engineer: name of engineer
+    //•	Rank: rank reached (when unlocked)
+    //•	Progress: progress stage (Invited/Acquainted/Unlocked/Barred)
     public class EngineerProgressEvent : JournalEvent<EngineerProgressEvent.EngineerProgressEventArgs>
     {
         public EngineerProgressEvent() : base("EngineerProgress") { }
@@ -16,12 +21,14 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Engineer = evt.Value<string>("Engineer");
+                Rank = evt.Value<int?>("Rank");
+                Progress = evt.Value<string>("Progress");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Engineer { get; set; }
+            public int? Rank { get; set; }
+            public string Progress { get; set; }
         }
     }
 }

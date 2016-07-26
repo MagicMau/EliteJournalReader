@@ -134,11 +134,11 @@
     <Compile Include="Events\LoadGameEvent.cs" />
     <Compile Include="Events\JournalHeadingEvent.cs" />
     <Compile Include="JournalEvent.cs" />
-    <Compile Include="JObjectExtensions.cs" />
     <Compile Include="JournalEventArgs.cs" />
     <Compile Include="JournalWatcher.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,12 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when purchasing goods in the market
+    //Parameters:
+    //•	Type: cargo type
+    //•	Count: number of units
+    //•	BuyPrice: cost per unit
+    //•	TotalCost: total cost
     public class MarketBuyEvent : JournalEvent<MarketBuyEvent.MarketBuyEventArgs>
     {
         public MarketBuyEvent() : base("MarketBuy") { }
@@ -16,12 +22,16 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Type = evt.Value<string>("Type");
+                Count = evt.Value<int>("Count");
+                BuyPrice = evt.Value<int>("BuyPrice");
+                TotalCost = evt.Value<int>("TotalCost");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Type { get; set; }
+            public int Count { get; set; }
+            public int BuyPrice { get; set; }
+            public int TotalCost { get; set; }
         }
     }
 }

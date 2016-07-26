@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when purchasing ammunition
+    //Parameters:
+    //•	Cost
     public class BuyAmmoEvent : JournalEvent<BuyAmmoEvent.BuyAmmoEventArgs>
     {
         public BuyAmmoEvent() : base("BuyAmmo") { }
@@ -16,12 +19,10 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Cost = evt.Value<int>("Cost");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public int Cost { get; set; }
         }
     }
 }

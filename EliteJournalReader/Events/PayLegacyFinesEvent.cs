@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when paying legacy fines
+    //Parameters:
+    //•	Amount
     public class PayLegacyFinesEvent : JournalEvent<PayLegacyFinesEvent.PayLegacyFinesEventArgs>
     {
         public PayLegacyFinesEvent() : base("PayLegacyFines") { }
@@ -16,12 +19,10 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Amount = evt.Value<int>("Amount");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public int Amount { get; set; }
         }
     }
 }

@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when repairing the ship
+    //Parameters:
+    //•	Item: all, wear, hull, paint, or name of module
+    //•	Cost: cost of repair
     public class RepairEvent : JournalEvent<RepairEvent.RepairEventArgs>
     {
         public RepairEvent() : base("Repair") { }
@@ -16,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Item = evt.Value<string>("Item");
+                Cost = evt.Value<int>("Cost");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string Item { get; set; }
+            public int Cost { get; set; }
         }
     }
 }

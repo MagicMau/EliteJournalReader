@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: this player has joined a wing
+    //Parameters:
+    //•	Others: JSON array of other player names already in wing
     public class WingJoinEvent : JournalEvent<WingJoinEvent.WingJoinEventArgs>
     {
         public WingJoinEvent() : base("WingJoin") { }
@@ -16,12 +19,10 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Others = evt.Value<JArray>("Others").Values<string>().ToArray();
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string[] Others { get; set; }
         }
     }
 }

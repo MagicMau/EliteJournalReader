@@ -14,7 +14,7 @@ namespace EliteJournalReader
 
         public virtual void Initialize(JObject evt)
         {
-            Timestamp = DateTime.Parse(evt.StringValue("timestamp"),
+            Timestamp = DateTime.Parse(evt.Value<string>("timestamp"),
                 CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
         }
     }

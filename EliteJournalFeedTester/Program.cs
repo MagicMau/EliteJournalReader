@@ -23,6 +23,7 @@ namespace EliteJournalFeedTester
             var watcher = new JournalWatcher(path);
 
             watcher.GetEvent<JournalHeadingEvent>()?.AddHandler((s, e) => Console.WriteLine("Heading received: gameversion = " + e.GameVersion));
+            watcher.GetEvent<FSDJumpEvent>()?.AddHandler((s, e) => Console.WriteLine("Woohoo, jumped to Y = " + e.StarPos.Y));
             
             watcher.StartWatching();
 

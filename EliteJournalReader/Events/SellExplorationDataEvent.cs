@@ -7,6 +7,12 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When Written: when selling exploration data in Cartographics
+    //Parameters:
+    //•	Systems: JSON array of system names
+    //•	Discovered: JSON array of discovered bodies
+    //•	BaseValue: value of systems
+    //•	Bonus: bonus for first discoveries
     public class SellExplorationDataEvent : JournalEvent<SellExplorationDataEvent.SellExplorationDataEventArgs>
     {
         public SellExplorationDataEvent() : base("SellExplorationData") { }
@@ -16,12 +22,16 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
+                Systems = evt.Value<JArray>("Systems").Values<string>().ToArray();
+                Discovered = evt.Value<JArray>("Discovered").Values<string>().ToArray();
+                BaseValue = evt.Value<int>("BaseValue");
+                Bonus = evt.Value<int>("Bonus");
             }
 
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
+            public string[] Systems { get; set; }
+            public string[] Discovered { get; set; }
+            public int BaseValue { get; set; }
+            public int Bonus { get; set; }
         }
     }
 }

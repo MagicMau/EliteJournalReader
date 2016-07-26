@@ -7,21 +7,14 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
+    //When written: this player has left a wing
+    //Parameters: none
     public class WingLeaveEvent : JournalEvent<WingLeaveEvent.WingLeaveEventArgs>
     {
         public WingLeaveEvent() : base("WingLeave") { }
 
         public class WingLeaveEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                GameVersion = evt.StringValue("gameversion");
-                Build = evt.StringValue("build");
-            }
-
-            public string GameVersion { get; set; }
-            public string Build { get; set; }
         }
     }
 }
