@@ -24,6 +24,8 @@ namespace EliteJournalFeedTester
 
             watcher.GetEvent<JournalHeadingEvent>()?.AddHandler((s, e) => Console.WriteLine("Heading received: gameversion = " + e.GameVersion));
             watcher.GetEvent<FSDJumpEvent>()?.AddHandler((s, e) => Console.WriteLine("Woohoo, jumped to Y = " + e.StarPos.Y));
+            watcher.GetEvent<ScanEvent>()?.AddHandler((s, e) => Console.WriteLine("Scanned a body {0}", e.BodyName));
+            watcher.GetEvent<DockedEvent>()?.AddHandler((s, e) => Console.WriteLine("Docked at {0}", e.StationName));
             
             watcher.StartWatching();
 
