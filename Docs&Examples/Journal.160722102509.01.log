@@ -1,0 +1,27 @@
+{ "timestamp": "2016-07-22T09:25:09Z", "event":"Heading", "part":1, "gameversion":"2.2 (Trunk)", "build":"r113955 " }
+{ "timestamp": "2016-07-22T09:25:35Z", "event":"LoadGame", "Commander":"HRC1", "Ship":"Asp" }
+{ "timestamp": "2016-07-22T09:25:35Z", "event":"Rank", "Combat":0, "Trade":0, "Explore":1, "Empire":0, "Federation":0, "CQC":0 }
+{ "timestamp": "2016-07-22T09:25:35Z", "event":"Progress", "Combat":0, "Trade":0, "Explore":7, "Empire":0, "Federation":0, "CQC":0 }
+{ "timestamp": "2016-07-22T09:25:43Z", "event":"Location", "StarSystem":"Timocani", "StarPos":[24.625,10.750,-72.406], "Faction":"Timocani Gold Vision Limited" }
+{ "timestamp": "2016-07-22T09:28:21Z", "event":"FSDJump", "StarSystem":"Cerno", "StarPos":[30.063,26.875,-82.938], "JumpDist":20.012, "Faction":"Cerno Transport Interstellar" }
+{ "timestamp": "2016-07-22T09:30:21Z", "event":"Scan", "BodyName":"Praea Euq NW-W b1-3", "StarType":"M" }
+{ "timestamp": "2016-07-22T09:31:21Z", "event":"Scan", "BodyName":"HIP 16121 4", "Description":"High metal content body", "Landable":"true", "Materials":{ "iron":  23.8, "nickel":  18.0, "sulphur":  16.7, "carbon":  14.1, "phosphorus":   9.0, "vanadium":   5.9, "germanium":   5.0, "selenium":   2.6, "cadmium":   1.9, "molybdenum":   1.6, "ruthenium":   1.5 } }
+{ "timestamp": "2016-07-22T09:32:41Z", "event":"SupercruiseExit", "StarSystem":"Cerno", "Body":"Kanwar Enterprise" }
+{ "timestamp": "2016-07-22T09:33:05Z", "event":"Docked", "StationName":"Kanwar Enterprise", "StationType":"Coriolis", "Faction":"Cerno Transport Interstellar" }
+{ "timestamp": "2016-07-22T09:33:23Z", "event":"RefuelAll", "Cost":248, "Amount":4.937758 }
+{ "timestamp": "2016-07-22T09:34:28Z", "event":"SellExplorationData", "Systems":[ "Maia", "Merope", "Atlas", "Wolf 289", "Geawenki", "Timocani" ], "Discovered":[ "Timocani A", "Timocani A 2" ], "BaseValue":8783, "Bonus":1919 }
+{ "timestamp": "2016-07-22T09:35:52Z", "event":"ModuleBuy", "Slot":"MainEngines", "SellItem":"int_engine_size5_class1", "SellPrice":19565, "BuyItem":"int_engine_size5_class2", "BuyPrice":184310, "Ship":"asp" }
+{ "timestamp": "2016-07-22T09:36:07Z", "event":"ModuleSell", "Slot":"Slot06_Size2", "SellItem":"int_cargorack_size1_class1", "SellPrice":877, "Ship":"asp" }
+{ "timestamp": "2016-07-22T09:36:27Z", "event":"ModuleBuy", "Slot":"Slot07_Size2", "SellItem":"int_stellarbodydiscoveryscanner_standard", "SellPrice":0, "BuyItem":"int_stellarbodydiscoveryscanner_intermediate", "BuyPrice":492375, "Ship":"asp" }
+{ "timestamp": "2016-07-22T09:36:44Z", "event":"ModuleBuy", "Slot":"Slot05_Size3", "BuyItem":"int_fuelscoop_size3_class5", "BuyPrice":880381, "Ship":"asp" }
+{ "timestamp": "2016-07-22T09:37:05Z", "event":"ModuleBuy", "Slot":"Slot03_Size3", "SellItem":"int_cargorack_size2_class1", "SellPrice":2851, "BuyItem":"int_cargorack_size3_class1", "BuyPrice":10299, "Ship":"asp" }
+{ "timestamp": "2016-07-22T09:37:37Z", "event":"ModuleBuy", "Slot":"Slot06_Size2", "BuyItem":"int_buggybay_size2_class2", "BuyPrice":21060, "Ship":"asp" }
+{ "timestamp": "2016-07-22T09:41:47Z", "event":"MarketBuy", "Type":"semiconductors", "Count":8, "BuyPrice":538, "TotalCost":4304 }
+{ "timestamp": "2016-07-22T09:42:35Z", "event":"MissionAccepted", "Faction":"Cerno Transport Interstellar", "Name":"Mission_Delivery", "Commodity":"MicroControllers", "Count":9 }
+{ "timestamp": "2016-07-22T09:42:56Z", "event":"Undocked", "StationName":"Kanwar Enterprise", "StationType":"Coriolis" }
+{ "timestamp": "2016-07-22T09:44:37Z", "event":"FSDJump", "StarSystem":"Enek", "StarPos":[37.250,32.719,-87.281], "JumpDist":10.231, "Faction":"Enek Comms Co" }
+{ "timestamp": "2016-07-22T09:45:07Z", "event":"FuelScoop", "Scooped":0.446264, "Total":32.000000 }
+{ "timestamp": "2016-07-22T09:47:32Z", "event":"SupercruiseExit", "StarSystem":"Enek", "Body":"Carr Station" }
+{ "timestamp": "2016-07-22T09:48:07Z", "event":"Docked", "StationName":"Carr Station", "StationType":"Coriolis", "Faction":"Enek Comms Co" }
+{ "timestamp": "2016-07-22T09:49:35Z", "event":"MarketSell", "Type":"semiconductors", "Count":8, "SellPrice":1375, "TotalSale":11000, "AvgPricePaid":538 }
+{ "timestamp": "2016-07-22T14:14:19Z", "event":"Location", "StarSystem":"LFT 926", "StarPos":[51.031,17.688,30.219], "Economy":"$economy_HighTech;", "Economy_French":"Haute Technologie", "Government":"$government_PrisonColony;", "Government_French":"Colonie pénitentiaire", "Security":"$SYSTEM_SECURITY_high;", "Security_French":"Haute sécurité", "Faction":"Los Chupacabras" }
