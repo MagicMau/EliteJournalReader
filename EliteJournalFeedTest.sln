@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EliteJournalFeedTester", "E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation and Examples", "Documentation and Examples", "{DA312AA3-B78C-4A19-B264-665019D60E96}"
 	ProjectSection(SolutionItems) = preProject
-		Docs&Examples\Journal.160722102509.01.log = Docs&Examples\Journal.160722102509.01.log
+		..\..\..\..\OneDrive\Elite\JournalFeed\Journal.160726141417.01.log = ..\..\..\..\OneDrive\Elite\JournalFeed\Journal.160726141417.01.log
 		Docs&Examples\Journal_Manual.doc = Docs&Examples\Journal_Manual.doc
 	EndProjectSection
 EndProject
