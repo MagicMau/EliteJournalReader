@@ -34,7 +34,9 @@ namespace EliteJournalFeedTester
                     .Select(k => string.Format("{0} ({2}, flying a {1})", k.Name, k.Ship, k.Rank))
                     .Aggregate((x, y) => string.Format("{0}, {1}", x, y)));
             });
-            
+
+            watcher.GetEvent<RankEvent>()?.AddHandler((s, e) => Console.WriteLine("Combat rank is {0}, Exploration rank is {1}", e.Combat.ToString(), e.Explore.ToString()));
+
             watcher.StartWatching();
 
 

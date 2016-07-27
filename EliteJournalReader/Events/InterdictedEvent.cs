@@ -27,7 +27,7 @@ namespace EliteJournalReader.Events
                 Submitted = evt.Value<bool>("Submitted");
                 Interdictor = evt.Value<string>("Interdictor");
                 IsPlayer = evt.Value<bool>("IsPlayer");
-                CombatRank = evt.Value<int?>("CombatRank") ?? 0;
+                CombatRank = (CombatRank)(evt.Value<int?>("CombatRank") ?? 0);
                 Faction = evt.Value<string>("Faction");
                 Power = evt.Value<string>("Power");
             }
@@ -35,7 +35,7 @@ namespace EliteJournalReader.Events
             public bool Submitted { get; set; }
             public string Interdictor { get; set; }
             public bool IsPlayer { get; set; }
-            public int CombatRank { get; set; }
+            public CombatRank CombatRank { get; set; }
             public string Faction { get; set; }
             public string Power { get; set; }
 

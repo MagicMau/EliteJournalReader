@@ -150,6 +150,7 @@
     </Compile>
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ranks.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
