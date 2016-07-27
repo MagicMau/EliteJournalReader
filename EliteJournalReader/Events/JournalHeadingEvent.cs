@@ -9,7 +9,7 @@ namespace EliteJournalReader.Events
 {
     public class JournalHeadingEvent : JournalEvent<JournalHeadingEvent.JournalHeadingEventArgs>
     {
-        public JournalHeadingEvent() : base("Heading") { }
+        public JournalHeadingEvent() : base("Fileheader") { }
 
         public class JournalHeadingEventArgs : JournalEventArgs
         {
@@ -18,10 +18,12 @@ namespace EliteJournalReader.Events
                 base.Initialize(evt);
                 GameVersion = evt.Value<string>("gameversion");
                 Build = evt.Value<string>("build");
+                Language = evt.Value<string>("language");
             }
 
             public string GameVersion { get; set; }
             public string Build { get; set; }
+            public string Language { get; set; }
         }
     }
 }

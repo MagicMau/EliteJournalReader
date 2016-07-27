@@ -9,7 +9,12 @@ namespace EliteJournalReader.Events
 {
     //When written: player has (attempted to) interdict another player or npc
     //Parameters: 
-    //•	Success
+    //•	Success : true or false
+    //•	Interdicted: victim pilot name
+    //•	IsPlayer: whether player or npc
+    //•	CombatRank: if a player
+    //•	Faction: if an npc
+    //•	Power: if npc working for power
     public class InterdictionEvent : JournalEvent<InterdictionEvent.InterdictionEventArgs>
     {
         public InterdictionEvent() : base("Interdiction") { }
@@ -20,9 +25,19 @@ namespace EliteJournalReader.Events
             {
                 base.Initialize(evt);
                 Success = evt.Value<bool>("Success");
+                Interdictor = evt.Value<string>("Interdictor");
+                IsPlayer = evt.Value<bool>("IsPlayer");
+                CombatRank = evt.Value<int?>("CombatRank") ?? 0;
+                Faction = evt.Value<string>("Faction");
+                Power = evt.Value<string>("Power");
             }
 
             public bool Success { get; set; }
+            public string Interdictor { get; set; }
+            public bool IsPlayer { get; set; }
+            public int CombatRank { get; set; }
+            public string Faction { get; set; }
+            public string Power { get; set; }
         }
     }
 }

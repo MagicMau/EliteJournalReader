@@ -12,8 +12,12 @@ namespace EliteJournalReader.Events
     //•	ShipType: ship being purchased
     //•	ShipPrice: purchase cost 
     //•	StoreOldShip: (if storing old ship) ship type being stored
+    //•	StoreShipID
     //•	SellOldShip: (if selling current ship) ship type being sold
+    //•	SellShipID
     //•	SellPrice: (if selling current ship) ship sale price
+    //
+    //Note: the new ship’s ShipID will be logged in a separate event after the purchase
     public class ShipyardBuyEvent : JournalEvent<ShipyardBuyEvent.ShipyardBuyEventArgs>
     {
         public ShipyardBuyEvent() : base("ShipyardBuy") { }
@@ -25,15 +29,19 @@ namespace EliteJournalReader.Events
                 base.Initialize(evt);
                 ShipType = evt.Value<string>("ShipType");
                 ShipPrice = evt.Value<int>("ShipPrice");
-                StoreOldShip = evt.Value<bool?>("StoreOldShip");
-                SellOldShip = evt.Value<bool?>("SellOldShip");
+                StoreOldShip = evt.Value<string>("StoreOldShip");
+                StoreShipId = evt.Value<int?>("StoreShipID");
+                SellOldShip = evt.Value<string>("SellOldShip");
+                SellShipId = evt.Value<int?>("SellShipID");
                 SellPrice = evt.Value<int?>("SellPrice");
             }
 
             public string ShipType { get; set; }
             public int ShipPrice { get; set; }
-            public bool? StoreOldShip { get; set; }
-            public bool? SellOldShip { get; set; }
+            public string StoreOldShip { get; set; }
+            public int? StoreShipId { get; set; }
+            public string SellOldShip { get; set; }
+            public int? SellShipId { get; set; }
             public int? SellPrice { get; set; }
         }
     }

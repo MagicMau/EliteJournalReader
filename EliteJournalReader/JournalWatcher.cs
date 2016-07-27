@@ -85,11 +85,11 @@ namespace EliteJournalReader
             NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime | NotifyFilters.Size;
             try
             {
-                Path = path;
+                Path = System.IO.Path.GetFullPath(path);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Trace.WriteLine("Exception in setting path: " + ex.Message);
             }
         }
 

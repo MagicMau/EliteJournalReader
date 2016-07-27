@@ -14,15 +14,20 @@ namespace EliteJournalReader.Events
     //•	KillerRank
     //When written: player was killed by a wing
     //Parameters:
-    //•	KillerNames: a JSON array of player names
-    //•	KillerShips: a JSON array of ship names
-    //•	KillerRanks: a JSON array of rank names
+    //•	Killers: a JSON array of objects containing player name, ship, and rank
     public class DiedEvent : JournalEvent<DiedEvent.DiedEventArgs>
     {
         public DiedEvent() : base("Died") { }
 
         public class DiedEventArgs : JournalEventArgs
         {
+            public struct Killer
+            {
+                public string Name;
+                public string Ship;
+                public string Rank;
+            }
+
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
@@ -30,23 +35,24 @@ namespace EliteJournalReader.Events
                 string killerName = evt.Value<string>("KillerName");
                 if (string.IsNullOrEmpty(killerName))
                 {
-                    // it was a wing
-                    KillerNames = evt.Value<JArray>("KillerNames").Values<string>().ToArray();
-                    KillerShips = evt.Value<JArray>("KillerShips").Values<string>().ToArray();
-                    KillerRanks = evt.Value<JArray>("KillerRanks").Values<string>().ToArray();
+                    Killers = evt["Killers"].ToObject<Killer[]>();
                 }
                 else
                 {
                     // it was an individual
-                    KillerNames = new string[1] { killerName };
-                    KillerShips = new string[1] { evt.Value<string>("KillerShip") };
-                    KillerRanks = new string[1] { evt.Value<string>("KillerRank") };
+                    Killers = new Killer[1]
+                    {
+                        new Killer
+                        {
+                            Name = killerName,
+                            Ship = evt.Value<string>("KillerShip"),
+                            Rank = evt.Value<string>("KillerRank")
+                        }
+                    };
                 }
             }
 
-            public string[] KillerNames { get; set; }
-            public string[] KillerShips { get; set; }
-            public string[] KillerRanks { get; set; }
+            public Killer[] Killers { get; set; }
         }
     }
 }

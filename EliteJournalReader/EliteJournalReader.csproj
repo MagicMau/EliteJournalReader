@@ -46,6 +46,11 @@
   <ItemGroup>
     <Compile Include="Events\ClearSavedGameEvent.cs" />
     <Compile Include="Events\CollectCargoEvent.cs" />
+    <Compile Include="Events\USSDropEvent.cs" />
+    <Compile Include="Events\DockingDeniedEvent.cs" />
+    <Compile Include="Events\DockingGrantedEvent.cs" />
+    <Compile Include="Events\DockingRequestedEvent.cs" />
+    <Compile Include="Events\DockingTimeoutEvent.cs" />
     <Compile Include="Events\EjectCargoEvent.cs" />
     <Compile Include="Events\EngineerApplyEvent.cs" />
     <Compile Include="Events\EngineerCraftEvent.cs" />
@@ -53,9 +58,15 @@
     <Compile Include="Events\DockFighterEvent.cs" />
     <Compile Include="Events\DockSRVEvent.cs" />
     <Compile Include="Events\FuelScoopEvent.cs" />
+    <Compile Include="Events\DockingCancelledEvent.cs" />
+    <Compile Include="Events\HeatWarningEvent.cs" />
+    <Compile Include="Events\HeatDamageEvent.cs" />
+    <Compile Include="Events\HullDamageEvent.cs" />
+    <Compile Include="Events\ShieldStateEvent.cs" />
     <Compile Include="Events\RebootRepairEvent.cs" />
     <Compile Include="Events\ReceiveTextEvent.cs" />
     <Compile Include="Events\SendTextEvent.cs" />
+    <Compile Include="Events\ShipyardNewEvent.cs" />
     <Compile Include="Events\SynthesisEvent.cs" />
     <Compile Include="Events\VehicleSwitchEvent.cs" />
     <Compile Include="Events\WingAddEvent.cs" />
@@ -70,7 +81,6 @@
     <Compile Include="Events\PowerplayVoucherEvent.cs" />
     <Compile Include="Events\PowerplayVoteEvent.cs" />
     <Compile Include="Events\PowerplaySalaryEvent.cs" />
-    <Compile Include="Events\PowerplayNominateEvent.cs" />
     <Compile Include="Events\PowerplayLeaveEvent.cs" />
     <Compile Include="Events\PowerplayJoinEvent.cs" />
     <Compile Include="Events\PowerplayFastTrackEvent.cs" />

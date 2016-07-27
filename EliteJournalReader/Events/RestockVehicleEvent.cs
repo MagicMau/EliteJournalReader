@@ -12,6 +12,7 @@ namespace EliteJournalReader.Events
     //•	Type: type of vehicle being purchased (SRV or fighter model)
     //•	Loadout: variant
     //•	Cost: purchase cost
+    //•	Count: number of vehicles purchased
     public class RestockVehicleEvent : JournalEvent<RestockVehicleEvent.RestockVehicleEventArgs>
     {
         public RestockVehicleEvent() : base("RestockVehicle") { }
@@ -24,11 +25,13 @@ namespace EliteJournalReader.Events
                 Type = evt.Value<string>("Type");
                 Loadout = evt.Value<string>("Loadout");
                 Cost = evt.Value<int>("Cost");
+                Count = evt.Value<int>("Count");
             }
 
             public string Type { get; set; }
             public string Loadout { get; set; }
             public int Cost { get; set; }
+            public int Count { get; set; }
         }
     }
 }

@@ -13,7 +13,14 @@ namespace EliteJournalReader.Events
     //•	StarPos: star position, as a Json array [x, y, z], in light years
     //•	Body: star’s body name
     //•	JumpDist: distance jumped
+    //•	FuelUsed
+    //•	FuelLevel
     //•	BoostUsed: whether FSD boost was used
+    //•	Faction: system controlling faction
+    //•	FactionState
+    //•	Economy
+    //•	Government
+    //•	Security
     public class FSDJumpEvent : JournalEvent<FSDJumpEvent.FSDJumpEventArgs>
     {
         public FSDJumpEvent() : base("FSDJump") { }
@@ -27,14 +34,34 @@ namespace EliteJournalReader.Events
                 StarPos = new Position(evt.Value<JArray>("StarPos"));
                 Body = evt.Value<string>("Body");
                 JumpDist = evt.Value<decimal>("JumpDist");
+                FuelUsed = evt.Value<decimal>("FuelUsed");
+                FuelLevel = evt.Value<decimal>("FuelLevel");
                 BoostUsed = evt.Value<bool>("BoostUsed");
+                Faction = evt.Value<string>("Faction");
+                FactionState = evt.Value<string>("FactionState");
+                Economy = evt.Value<string>("Economy");
+                Economy_Localised = evt.Value<string>("Economy_Localised");
+                Government = evt.Value<string>("Government");
+                Government_Localised = evt.Value<string>("Government_Localised");
+                Security = evt.Value<string>("Security");
+                Security_Localised = evt.Value<string>("Security_Localised");
             }
 
             public string StarSystem { get; set; }
             public Position StarPos { get; set; }
             public string Body { get; set; }
             public decimal JumpDist { get; set; }
+            public decimal FuelUsed { get; set; }
+            public decimal FuelLevel { get; set; }
             public bool BoostUsed { get; set; }
+            public string Faction { get; set; }
+            public string FactionState { get; set; }
+            public string Economy { get; set; }
+            public string Economy_Localised { get; set; }
+            public string Government { get; set; }
+            public string Government_Localised { get; set; }
+            public string Security { get; set; }
+            public string Security_Localised { get; set; }
         }
     }
 }
