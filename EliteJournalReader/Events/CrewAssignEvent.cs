@@ -7,24 +7,25 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
-    //When Written: when a mission has been abandoned
+    //When Written: when changing the task assignment of a member of crew
     //Parameters:
-    //•	Name: name of mission
-    public class MissionAbandonedEvent : JournalEvent<MissionAbandonedEvent.MissionAbandonedEventArgs>
+    //•	Name
+    //•	Role
+    public class CrewAssignEvent : JournalEvent<CrewAssignEvent.CrewAssignEventArgs>
     {
-        public MissionAbandonedEvent() : base("MissionAbandoned") { }
+        public CrewAssignEvent() : base("CrewAssign") { }
 
-        public class MissionAbandonedEventArgs : JournalEventArgs
+        public class CrewAssignEventArgs : JournalEventArgs
         {
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
                 Name = evt.Value<string>("Name");
-                MissionId = evt.Value<int>("MissionID");
+                Role = evt.Value<string>("Role");
             }
 
             public string Name { get; set; }
-            public int MissionId { get; set; }
+            public string Role { get; set; }
         }
     }
 }

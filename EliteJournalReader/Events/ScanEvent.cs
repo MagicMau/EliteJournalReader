@@ -17,7 +17,7 @@ namespace EliteJournalReader.Events
     //•	AbsoluteMagnitude
     //•	OrbitalPeriod (seconds)
     //•	RotationPeriod (seconds)
-    //•	Rings
+    //•	Rings: [ array ] - if present
     //
     //Parameters(Planet/Moon) 
     //•	Bodyname: name of body
@@ -27,13 +27,21 @@ namespace EliteJournalReader.Events
     //•	PlanetClass
     //•	Atmosphere
     //•	Volcanism
+    //•	SurfaceGravity
     //•	SurfaceTemperature
     //•	SurfacePressure
     //•	Landable: true (if landable)
     //•	Materials: JSON object with material names and percentage occurrence
     //•	OrbitalPeriod (seconds)
     //•	RotationPeriod (seconds)
-    //•	Rings
+    //•	Rings [ array of info ] - if rings present
+    //
+    // Rings properties
+    //•	Name
+    //•	RingClass
+    //•	MassMT - ie in megatons
+    //•	InnerRad
+    //•	OuterRad
     //
     public class ScanEvent : JournalEvent<ScanEvent.ScanEventArgs>
     {
@@ -51,7 +59,7 @@ namespace EliteJournalReader.Events
                 AbsoluteMagnitude = evt.Value<decimal?>("StellarMass");
                 OrbitalPeriod = evt.Value<decimal>("StellarMass");
                 RotationPeriod = evt.Value<decimal>("StellarMass");
-                Rings = evt.Value<int>("StellarMass");
+                Rings = evt["Rings"]?.ToObject<PlanetRing[]>();
 
                 TidalLock = evt.Value<bool?>("TidalLock") ?? false;
                 TerraformState = evt.Value<string>("TerraformState");
@@ -74,7 +82,7 @@ namespace EliteJournalReader.Events
             public decimal? AbsoluteMagnitude { get; set; }
             public decimal OrbitalPeriod { get; set; }
             public decimal RotationPeriod { get; set; }
-            public int Rings { get; set; }
+            public PlanetRing[] Rings { get; set; }
 
             public bool? TidalLock { get; set; }
             public string TerraformState { get; set; }
@@ -88,5 +96,14 @@ namespace EliteJournalReader.Events
             public bool? Landable { get; set; }
             public Dictionary<string, decimal> Materials { get; set; }
         }
+    }
+
+    public struct PlanetRing
+    {
+        public string Name;
+        public string RingClass;
+        public decimal MassMT;
+        public decimal InnerRad;
+        public decimal OuterRad;
     }
 }

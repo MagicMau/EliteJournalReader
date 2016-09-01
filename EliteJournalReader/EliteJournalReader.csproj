@@ -46,6 +46,17 @@
   <ItemGroup>
     <Compile Include="Events\ClearSavedGameEvent.cs" />
     <Compile Include="Events\CollectCargoEvent.cs" />
+    <Compile Include="Events\CrewHireEvent.cs" />
+    <Compile Include="Events\CrewFireEvent.cs" />
+    <Compile Include="Events\CrewAssignEvent.cs" />
+    <Compile Include="Events\ContinuedEvent.cs" />
+    <Compile Include="Events\DataScannedEvent.cs" />
+    <Compile Include="Events\DatalinkVoucherEvent.cs" />
+    <Compile Include="Events\JetConeDamageEvent.cs" />
+    <Compile Include="Events\JetConeBoostEvent.cs" />
+    <Compile Include="Events\ModuleStoreEvent.cs" />
+    <Compile Include="Events\ModuleRetrieveEvent.cs" />
+    <Compile Include="Events\PVPKillEvent.cs" />
     <Compile Include="Events\USSDropEvent.cs" />
     <Compile Include="Events\DockingDeniedEvent.cs" />
     <Compile Include="Events\DockingGrantedEvent.cs" />

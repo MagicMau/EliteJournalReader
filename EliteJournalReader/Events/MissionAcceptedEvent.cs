@@ -33,6 +33,7 @@ namespace EliteJournalReader.Events
                 Target = evt.Value<string>("Target");
                 TargetType = evt.Value<string>("TargetType");
                 TargetFaction = evt.Value<string>("TargetFaction");
+                MissionId = evt.Value<int>("MissionID");
             }
 
             public string Name { get; set; }
@@ -42,6 +43,7 @@ namespace EliteJournalReader.Events
             public string Target { get; set; }
             public string TargetType { get; set; }
             public string TargetFaction { get; set; }
+            public int MissionId { get; set; }
         }
     }
 }

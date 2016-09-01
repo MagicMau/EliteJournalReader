@@ -18,6 +18,7 @@ namespace EliteJournalReader.Events
     //•	BoostUsed: whether FSD boost was used
     //•	Faction: system controlling faction
     //•	FactionState
+    //•	Allegiance
     //•	Economy
     //•	Government
     //•	Security
@@ -39,6 +40,7 @@ namespace EliteJournalReader.Events
                 BoostUsed = evt.Value<bool>("BoostUsed");
                 Faction = evt.Value<string>("Faction");
                 FactionState = evt.Value<string>("FactionState");
+                Allegiance = evt.Value<string>("Allegiance");
                 Economy = evt.Value<string>("Economy");
                 Economy_Localised = evt.Value<string>("Economy_Localised");
                 Government = evt.Value<string>("Government");
@@ -56,6 +58,7 @@ namespace EliteJournalReader.Events
             public bool BoostUsed { get; set; }
             public string Faction { get; set; }
             public string FactionState { get; set; }
+            public string Allegiance { get; set; }
             public string Economy { get; set; }
             public string Economy_Localised { get; set; }
             public string Government { get; set; }

@@ -10,6 +10,7 @@ namespace EliteJournalReader.Events
     //When Written: when paying fines
     //Parameters:
     //•	Amount
+    //•	BrokerPercentage (present if paid via a Broker)
     public class PayFinesEvent : JournalEvent<PayFinesEvent.PayFinesEventArgs>
     {
         public PayFinesEvent() : base("PayFines") { }
@@ -20,9 +21,11 @@ namespace EliteJournalReader.Events
             {
                 base.Initialize(evt);
                 Amount = evt.Value<int>("Amount");
+                BrokerPercentage = evt.Value<decimal?>("BrokerPercentage");
             }
 
             public int Amount { get; set; }
+            public decimal? BrokerPercentage { get; set; }
         }
     }
 }

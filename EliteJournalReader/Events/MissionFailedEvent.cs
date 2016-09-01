@@ -20,9 +20,11 @@ namespace EliteJournalReader.Events
             {
                 base.Initialize(evt);
                 Name = evt.Value<string>("Name");
+                MissionId = evt.Value<int>("MissionID");
             }
 
             public string Name { get; set; }
+            public int MissionId { get; set; }
         }
     }
 }
