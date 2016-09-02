@@ -7,9 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
-    //When written: when scanning a data link
+    //When written: if the journal file grows to 500k lines, we write this event, close the file, and start a new one
     //Parameters:
-    //•	Message: message from data link
+    //•	Message: next part number
     public class ContinuedEvent : JournalEvent<ContinuedEvent.ContinuedEventArgs>
     {
         public ContinuedEvent() : base("Continued") { }
