@@ -9,13 +9,13 @@ namespace EliteJournalReader
 {
     public struct Position
     {
-        public decimal X, Y, Z;
+        public double X, Y, Z;
 
         public Position(JArray array)
         {
-            X = array[0].Value<decimal>();
-            Y = array[1].Value<decimal>();
-            Z = array[2].Value<decimal>();
+            X = array[0].Value<double>();
+            Y = array[1].Value<double>();
+            Z = array[2].Value<double>();
         }
     }
 }

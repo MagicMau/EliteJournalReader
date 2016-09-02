@@ -19,10 +19,10 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                BoostValue = evt.Value<decimal>("BoostValue");
+                BoostValue = evt.Value<double>("BoostValue");
             }
 
-            public decimal BoostValue { get; set; }
+            public double BoostValue { get; set; }
         }
     }
 }

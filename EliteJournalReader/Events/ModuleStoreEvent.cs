@@ -31,7 +31,7 @@ namespace EliteJournalReader.Events
                 StoredItem = evt.Value<string>("StoredItem");
                 EngineerModifications = evt.Value<string>("EngineerModifications");
                 ReplacementItem = evt.Value<string>("ReplacementItem");
-                Cost = evt.Value<decimal?>("Cost");
+                Cost = evt.Value<int?>("Cost");
             }
 
             public string Slot { get; set; }
@@ -40,7 +40,7 @@ namespace EliteJournalReader.Events
             public string StoredItem { get; set; }
             public string EngineerModifications { get; set; }
             public string ReplacementItem { get; set; }
-            public decimal? Cost { get; set; }
+            public int? Cost { get; set; }
         }
     }
 }

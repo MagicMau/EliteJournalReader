@@ -21,11 +21,11 @@ namespace EliteJournalReader.Events
             {
                 base.Initialize(evt);
                 Amount = evt.Value<int>("Amount");
-                BrokerPercentage = evt.Value<decimal?>("BrokerPercentage");
+                BrokerPercentage = evt.Value<double?>("BrokerPercentage");
             }
 
             public int Amount { get; set; }
-            public decimal? BrokerPercentage { get; set; }
+            public double? BrokerPercentage { get; set; }
         }
     }
 }

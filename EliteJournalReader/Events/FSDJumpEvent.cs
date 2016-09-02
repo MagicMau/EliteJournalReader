@@ -34,9 +34,9 @@ namespace EliteJournalReader.Events
                 StarSystem = evt.Value<string>("StarSystem");
                 StarPos = new Position(evt.Value<JArray>("StarPos"));
                 Body = evt.Value<string>("Body");
-                JumpDist = evt.Value<decimal>("JumpDist");
-                FuelUsed = evt.Value<decimal>("FuelUsed");
-                FuelLevel = evt.Value<decimal>("FuelLevel");
+                JumpDist = evt.Value<double>("JumpDist");
+                FuelUsed = evt.Value<double>("FuelUsed");
+                FuelLevel = evt.Value<double>("FuelLevel");
                 BoostUsed = evt.Value<bool>("BoostUsed");
                 Faction = evt.Value<string>("Faction");
                 FactionState = evt.Value<string>("FactionState");
@@ -52,9 +52,9 @@ namespace EliteJournalReader.Events
             public string StarSystem { get; set; }
             public Position StarPos { get; set; }
             public string Body { get; set; }
-            public decimal JumpDist { get; set; }
-            public decimal FuelUsed { get; set; }
-            public decimal FuelLevel { get; set; }
+            public double JumpDist { get; set; }
+            public double FuelUsed { get; set; }
+            public double FuelLevel { get; set; }
             public bool BoostUsed { get; set; }
             public string Faction { get; set; }
             public string FactionState { get; set; }

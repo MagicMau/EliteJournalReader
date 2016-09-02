@@ -21,12 +21,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                Reward = evt.Value<decimal>("Reward");
+                Reward = evt.Value<int>("Reward");
                 VictimFaction = evt.Value<string>("VictimFaction");
                 PayeeFaction = evt.Value<string>("PayeeFaction");
             }
 
-            public decimal Reward { get; set; }
+            public int Reward { get; set; }
             public string VictimFaction { get; set; }
             public string PayeeFaction { get; set; }
         }

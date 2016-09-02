@@ -213,7 +213,7 @@ namespace EliteJournalReader
         }
 
 
-        private void CheckForSystemChangeAsync()
+        private void CheckForJournalUpdateAsync()
         {
             journalThread = new Thread(ido =>
             {
@@ -310,7 +310,7 @@ namespace EliteJournalReader
             {
                 lastOffset = 0;
                 LatestJournalFile = latestJournal;
-                CheckForSystemChangeAsync();
+                CheckForJournalUpdateAsync();
             }
 
             return latestJournal;

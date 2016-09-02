@@ -26,14 +26,14 @@ namespace EliteJournalReader.Events
                 ShipType = evt.Value<string>("ShipType");
                 ShipId = evt.Value<int>("ShipID");
                 System = evt.Value<string>("System");
-                Distance = evt.Value<decimal>("Distance");
+                Distance = evt.Value<double>("Distance");
                 TransferPrice = evt.Value<int>("TransferPrice");
             }
 
             public string ShipType { get; set; }
             public int ShipId { get; set; }
             public string System { get; set; }
-            public decimal Distance { get; set; }
+            public double Distance { get; set; }
             public int TransferPrice { get; set; }
         }
     }

@@ -20,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                Scooped = evt.Value<decimal>("Scooped");
-                Total = evt.Value<decimal>("Total");
+                Scooped = evt.Value<double>("Scooped");
+                Total = evt.Value<double>("Total");
             }
 
-            public decimal Scooped { get; set; }
-            public decimal Total { get; set; }
+            public double Scooped { get; set; }
+            public double Total { get; set; }
         }
     }
 }

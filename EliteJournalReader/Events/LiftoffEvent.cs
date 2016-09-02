@@ -20,12 +20,12 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                Latitude = evt.Value<decimal>("Latitude");
-                Longitude = evt.Value<decimal>("Longitude");
+                Latitude = evt.Value<double>("Latitude");
+                Longitude = evt.Value<double>("Longitude");
             }
 
-            public decimal Latitude { get; set; }
-            public decimal Longitude { get; set; }
+            public double Latitude { get; set; }
+            public double Longitude { get; set; }
         }
     }
 }
