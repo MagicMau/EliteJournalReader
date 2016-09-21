@@ -28,12 +28,20 @@ namespace EliteJournalReader.Events
                 base.Initialize(evt);
                 Name = evt.Value<string>("Name");
                 Faction = evt.Value<string>("Faction");
+                MissionId = evt.Value<int>("MissionID");
+
                 Commodity = evt.Value<string>("Commodity");
                 Count = evt.Value<int?>("Count");
                 Target = evt.Value<string>("Target");
                 TargetType = evt.Value<string>("TargetType");
                 TargetFaction = evt.Value<string>("TargetFaction");
-                MissionId = evt.Value<int>("MissionID");
+                Expiry = evt.Value<DateTime?>("Expiry");
+                DestinationSystem = evt.Value<string>("DestinationSystem");
+                DestinationStation = evt.Value<string>("DestinationStation");
+                PassengerCount = evt.Value<int?>("PassengerCount");
+                PassengerVIPs = evt.Value<bool?>("PassengerVIPs");
+                PassengerWanted = evt.Value<bool?>("PassengerWanted");
+                PassengerType = evt.Value<string>("PassengerType");
             }
 
             public string Name { get; set; }
@@ -44,6 +52,14 @@ namespace EliteJournalReader.Events
             public string TargetType { get; set; }
             public string TargetFaction { get; set; }
             public int MissionId { get; set; }
+            public DateTime? Expiry { get; set; }
+            public string DestinationSystem { get; set; }
+            public string DestinationStation { get; set; }
+            public int? PassengerCount { get; set; }
+            public bool? PassengerVIPs { get; set; }
+            public bool? PassengerWanted { get; set; }
+            public string PassengerType { get; set; }
+
         }
     }
 }
