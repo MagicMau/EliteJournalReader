@@ -20,14 +20,13 @@ namespace EliteJournalReader
     /// </summary>
     public class JournalWatcher : FileSystemWatcher
     {
-        public const int UPDATE_INTERVAL_MILLISECONDS = 5000;
-        
+        public const int UPDATE_INTERVAL_MILLISECONDS = 500;
 
         /// <summary>
         ///     The default filter
         /// </summary>
         private const string DefaultFilter = @"Journal.*.log";
-        
+
         /// <summary>
         ///     The last offset used when reading the netLog file.
         /// </summary>
@@ -36,7 +35,7 @@ namespace EliteJournalReader
         /// <summary>
         ///     The latest log file
         /// </summary>
-        private string latestJournalFile;
+        public string LatestJournalFile { get; private set; }
 
         /// <summary>
         /// Monitor the journal in a separate thread
@@ -63,12 +62,12 @@ namespace EliteJournalReader
                 .GetAssemblies()
                 .SelectMany(assembly => assembly.GetTypes())
                 .Where(type => typeof(JournalEvent).IsAssignableFrom(type));
-            
+
             var handlers = from type in allHandlerTypes
                            where !(type.IsAbstract || type.IsGenericTypeDefinition || type.IsInterface)
                            select (JournalEvent)Activator.CreateInstance(type);
 
-            foreach(var handler in handlers)
+            foreach (var handler in handlers)
             {
                 journalEvents[handler.GetType()] = handler;
                 foreach (var eventName in handler.EventNames)
@@ -90,21 +89,6 @@ namespace EliteJournalReader
             catch (Exception ex)
             {
                 Trace.WriteLine("Exception in setting path: " + ex.Message);
-            }
-        }
-
-        /// <summary>
-        ///     Gets or sets the latest log file.
-        /// </summary>
-        public string LatestJournalFile
-        {
-            get
-            {
-                return latestJournalFile;
-            }
-            set
-            {
-                latestJournalFile = value;
             }
         }
 
@@ -150,12 +134,41 @@ namespace EliteJournalReader
             return filesFound;
         }
 
+        private readonly Regex journalFileRegex = new Regex(@"^(?<path>.*)\\Journal\.(?<timestamp>\d+)\.(?<part>\d+)\.log$", RegexOptions.Compiled);
+
         /// <summary>
-        /// Forces a refresh of the <see cref="LatestJournalFile"/> and calls <see cref="CheckForSystemChange"/>
+        /// This will look into the journal folder and check the latest journal.
+        /// It will then fire events from all previous events in the current play session to facilitate
+        /// rebuilding a status object before going "live".
         /// </summary>
-        public async void Refresh()
+        /// <returns></returns>
+        private void ProcessPreviousJournals()
         {
-            await UpdateLatestJournalFile();
+            var journals = Directory.GetFiles(Path, "Journal.*").OrderByDescending(f => f);
+            if (!journals.Any())
+                return; // there's nothing
+
+            // return the list until we find one with a part number 01.
+            int partNr = 1;
+            var match = journalFileRegex.Match(journals.First());
+            if (match.Success)
+                int.TryParse(match.Groups["part"].Value, out partNr);
+
+            var previousFiles = journals.Take(partNr).Reverse();
+
+            // now process each journal
+            foreach (var filename in previousFiles)
+            {
+                string journalFile = System.IO.Path.Combine(Path, filename);
+                using (StreamReader reader = new StreamReader(new FileStream(journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                {
+                    lastOffset = 0;
+                    LatestJournalFile = filename;
+                    Trace.WriteLine($"Journal: now reading previous entries from {LatestJournalFile}.");
+                    ParseData(reader);
+                }
+            }
+
         }
 
         /// <summary>
@@ -189,17 +202,20 @@ namespace EliteJournalReader
 
             cancellationTokenSource = new CancellationTokenSource();
 
-            var _ = UpdateLatestJournalFile(); // let's not care that it's awaitable
+            // before we start watching, rerun all events up until now (including any previous parts of this game session)
+            ProcessPreviousJournals();
+
             Created += async (sender, args) => await UpdateLatestJournalFile();
             Changed += JournalWatcher_Changed;
 
             EnableRaisingEvents = true;
+            CheckForJournalUpdateAsync();
         }
 
         private async void JournalWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             // if we're not watching anything, let's see if there is a log available
-            if (latestJournalFile == null || e.Name != latestJournalFile)
+            if (LatestJournalFile == null || e.Name != LatestJournalFile)
                 await UpdateLatestJournalFile();
         }
 
@@ -219,14 +235,14 @@ namespace EliteJournalReader
             {
                 // keep a current ID for this thread. If the ID changes, we are watching a different file, and this thread can exit.
                 int id = (int)ido;
-                var logFile = System.IO.Path.Combine(Path, latestJournalFile);
+                var journalFile = System.IO.Path.Combine(Path, LatestJournalFile);
                 try
                 {
-                    using (StreamReader reader = new StreamReader(new FileStream(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                    using (StreamReader reader = new StreamReader(new FileStream(journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                     {
                         while (id == journalThreadId)
                         {
-                            // check for updates every 5 seconds
+                            // check for updates every 0.5 seconds
                             // if we are no longer watching (this thread), stop.
                             if (!Pause() || id != journalThreadId)
                                 return;
@@ -235,28 +251,14 @@ namespace EliteJournalReader
                             if (reader.BaseStream.Length == lastOffset)
                                 continue;
 
-                            // seek to the last max offset
-                            reader.BaseStream.Seek(lastOffset, SeekOrigin.Begin);
-
-                            // read new data
-                            var newData = reader.ReadToEnd();
-
-                            // update the last max offset
-                            lastOffset = reader.BaseStream.Position;
-
-                            // split the new data into lines
-                            var lines = newData.Split('\r', '\n');
-
-                            // parse each line
-                            foreach (var line in lines)
-                                Parse(line);
+                            ParseData(reader);
                         }
                     }
                 }
                 catch
                 {
                     // Something went wrong, let's check log files again
-                    latestJournalFile = null;
+                    LatestJournalFile = null;
                 }
 
                 if (id == journalThreadId)
@@ -264,11 +266,32 @@ namespace EliteJournalReader
                     // We're here, so something must've gone wrong
                     // Let's try again in a few seconds
                     Pause();
-                    UpdateLatestJournalFile().Wait();
+                    UpdateLatestJournalFile().Wait(cancellationTokenSource.Token);
                 }
             });
+            journalThread.Name = "Journal Watcher";
             journalThread.IsBackground = true;
             journalThread.Start(++journalThreadId);
+
+        }
+
+        private void ParseData(StreamReader reader)
+        {
+            // seek to the last max offset
+            reader.BaseStream.Seek(lastOffset, SeekOrigin.Begin);
+
+            // read new data
+            var newData = reader.ReadToEnd();
+
+            // update the last max offset
+            lastOffset = reader.BaseStream.Position;
+
+            // split the new data into lines
+            var lines = newData.Split('\r', '\n');
+
+            // parse each line
+            foreach (var line in lines)
+                Parse(line);
 
         }
 
@@ -276,7 +299,7 @@ namespace EliteJournalReader
         {
             try
             {
-                Task.Delay(UPDATE_INTERVAL_MILLISECONDS, cancellationTokenSource.Token).Wait();
+                Task.Delay(UPDATE_INTERVAL_MILLISECONDS, cancellationTokenSource.Token).Wait(cancellationTokenSource.Token);
                 return true;
             }
             catch
@@ -290,13 +313,16 @@ namespace EliteJournalReader
         /// </summary>
         private async Task<string> UpdateLatestJournalFile()
         {
+            // filenames have format: Journal.160922194205.01.log
             var journals = Directory.GetFiles(Path, "Journal.*");
 
+            // keep waiting until there is a journal, or we're being cancelled.
             while (journals.Length == 0)
             {
                 try
                 {
                     await Task.Delay(UPDATE_INTERVAL_MILLISECONDS, cancellationTokenSource.Token);
+                    journals = Directory.GetFiles(Path, "Journal.*");
                 }
                 catch (TaskCanceledException)
                 {
@@ -304,14 +330,20 @@ namespace EliteJournalReader
                 }
             }
 
+            // because the timestamp is in the filename, we can just sort by filename descending.
             var latestJournal = journals.OrderByDescending(f => f).First();
 
-            if (latestJournalFile != latestJournal)
+            bool isChanged = LatestJournalFile != latestJournal;
+            if (isChanged)
             {
                 lastOffset = 0;
                 LatestJournalFile = latestJournal;
+
+                Trace.WriteLine($"Journal: now reading from {LatestJournalFile}.");
+
                 CheckForJournalUpdateAsync();
             }
+
 
             return latestJournal;
         }
@@ -329,6 +361,11 @@ namespace EliteJournalReader
             {
                 var evt = JObject.Parse(line);
                 var eventType = evt.Value<string>("event");
+
+#if DEBUG
+                Trace.WriteLine($"Journal - firing event {eventType} @ {evt["timestamp"]?.Value<string>()}.");
+#endif
+
                 FireEvent(eventType, evt);
             }
             catch (Exception e)
@@ -359,5 +396,5 @@ namespace EliteJournalReader
             return null;
         }
     }
-    
+
 }
