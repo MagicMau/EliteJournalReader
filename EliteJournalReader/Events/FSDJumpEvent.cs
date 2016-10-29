@@ -47,6 +47,11 @@ namespace EliteJournalReader.Events
                 Government_Localised = evt.Value<string>("Government_Localised");
                 Security = evt.Value<string>("Security");
                 Security_Localised = evt.Value<string>("Security_Localised");
+                Powers = evt.Value<string[]>("Powers");
+                string power = evt.Value<string>("Power");
+                if (!string.IsNullOrEmpty(power))
+                    Powers = new string[] { power };
+                PowerplayState = evt.Value<string>("PowerplayState").ToEnum(PowerplayState.Unknown);
             }
 
             public string StarSystem { get; set; }
@@ -65,6 +70,8 @@ namespace EliteJournalReader.Events
             public string Government_Localised { get; set; }
             public string Security { get; set; }
             public string Security_Localised { get; set; }
+            public string[] Powers { get; set; }
+            public PowerplayState PowerplayState { get; set; }
         }
     }
 }

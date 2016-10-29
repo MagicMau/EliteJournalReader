@@ -28,6 +28,7 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
+                StarSystem = evt.Value<string>("StarSystem");
                 StationName = evt.Value<string>("StationName");
                 StationType = evt.Value<string>("StationType");
                 CockpitBreach = evt.Value<bool?>("CockpitBreach");
@@ -42,6 +43,7 @@ namespace EliteJournalReader.Events
                 Security_Localised = evt.Value<string>("Security_Localised");
             }
 
+            public string StarSystem { get; set; }
             public string StationName { get; set; }
             public string StationType { get; set; }
             public bool? CockpitBreach { get; set; }

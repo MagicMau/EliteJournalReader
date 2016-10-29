@@ -25,7 +25,7 @@ namespace EliteJournalReader.Events
             {
                 base.Initialize(evt);
                 Success = evt.Value<bool>("Success");
-                Interdictor = evt.Value<string>("Interdictor");
+                Interdicted = evt.Value<string>("Interdicted");
                 IsPlayer = evt.Value<bool>("IsPlayer");
                 CombatRank = (CombatRank)(evt.Value<int?>("CombatRank") ?? 0);
                 Faction = evt.Value<string>("Faction");
@@ -33,7 +33,7 @@ namespace EliteJournalReader.Events
             }
 
             public bool Success { get; set; }
-            public string Interdictor { get; set; }
+            public string Interdicted { get; set; }
             public bool IsPlayer { get; set; }
             public CombatRank CombatRank { get; set; }
             public string Faction { get; set; }

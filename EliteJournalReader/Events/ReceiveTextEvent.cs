@@ -22,10 +22,12 @@ namespace EliteJournalReader.Events
                 base.Initialize(evt);
                 From = evt.Value<string>("From");
                 Message = evt.Value<string>("Message");
+                Channel = evt.Value<string>("Channel");
             }
 
             public string From { get; set; }
             public string Message { get; set; }
+            public string Channel { get; set; }
         }
     }
 }

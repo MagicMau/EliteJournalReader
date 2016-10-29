@@ -19,18 +19,24 @@ namespace EliteJournalReader.Events
 
         public class BountyEventArgs : JournalEventArgs
         {
+            public struct FactionReward
+            {
+                public string Faction;
+                public int Reward;
+            }
+
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                Faction = evt.Value<string>("Faction");
-                Reward = evt.Value<int>("Reward");
+                Rewards = evt["Rewards"].ToObject<FactionReward[]>();
                 VictimFaction = evt.Value<string>("VictimFaction");
+                TotalReward = evt.Value<int>("TotalReward");
                 SharedWithOthers = evt.Value<bool?>("SharedWithOthers");
             }
 
-            public string Faction { get; set; }
-            public int Reward { get; set; }
+            public FactionReward[] Rewards { get; set; }
             public string VictimFaction { get; set; }
+            public int TotalReward { get; set; }
             public bool? SharedWithOthers { get; set; }
         }
     }

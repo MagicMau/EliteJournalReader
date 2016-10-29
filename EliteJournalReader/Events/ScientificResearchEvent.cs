@@ -7,26 +7,27 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
-    //When Written: whenever materials are collected 
-    //Parameters: 
-    //•	Category: type of material (Raw/Encoded/Manufactured)
-    //•	Name: name of material
-    public class MaterialCollectedEvent : JournalEvent<MaterialCollectedEvent.MaterialCollectedEventArgs>
+    //When written: when contributing materials to a "research" community goal
+    //Parameters:
+    //•	Name: material name
+    //•	Category
+    //•	Count
+    public class ScientificResearchEvent : JournalEvent<ScientificResearchEvent.ScientificResearchEventArgs>
     {
-        public MaterialCollectedEvent() : base("MaterialCollected") { }
+        public ScientificResearchEvent() : base("ScientificResearch") { }
 
-        public class MaterialCollectedEventArgs : JournalEventArgs
+        public class ScientificResearchEventArgs : JournalEventArgs
         {
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                Category = evt.Value<string>("Category");
                 Name = evt.Value<string>("Name");
+                Category = evt.Value<string>("Category");
                 Count = evt.Value<int>("Count");
             }
 
-            public string Category { get; set; }
             public string Name { get; set; }
+            public string Category { get; set; }
             public int Count { get; set; }
         }
     }

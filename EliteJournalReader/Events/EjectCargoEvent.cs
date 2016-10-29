@@ -24,11 +24,13 @@ namespace EliteJournalReader.Events
                 Type = evt.Value<string>("Type");
                 Count = evt.Value<int>("Count");
                 Abandoned = evt.Value<bool>("Abandoned");
+                PowerplayOrigin = evt.Value<string>("PowerplayOrigin");
             }
 
             public string Type { get; set; }
             public int Count { get; set; }
             public bool Abandoned { get; set; }
+            public string PowerplayOrigin { get; set; }
         }
     }
 }

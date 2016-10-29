@@ -14,6 +14,7 @@ namespace EliteJournalReader.Events
     //•	FromItem
     //•	ToItem
     //•	Ship
+    //•	ShipID
     public class ModuleSwapEvent : JournalEvent<ModuleSwapEvent.ModuleSwapEventArgs>
     {
         public ModuleSwapEvent() : base("ModuleSwap") { }

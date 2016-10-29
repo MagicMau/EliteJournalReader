@@ -33,6 +33,7 @@ namespace EliteJournalReader.Events
                 StarSystem = evt.Value<string>("StarSystem");
                 StarPos = new Position(evt.Value<JArray>("StarPos"));
                 Body = evt.Value<string>("Body");
+                BodyType = evt.Value<string>("BodyType").ToEnum(BodyType.Unknown);
                 Docked = evt.Value<bool?>("Docked") ?? false;
                 StationName = evt.Value<string>("StationName");
                 StationType = evt.Value<string>("StationType");
@@ -45,11 +46,17 @@ namespace EliteJournalReader.Events
                 Government_Localised = evt.Value<string>("Government_Localised");
                 Security = evt.Value<string>("Security");
                 Security_Localised = evt.Value<string>("Security_Localised");
+                Powers = evt.Value<string[]>("Powers");
+                string power = evt.Value<string>("Power");
+                if (!string.IsNullOrEmpty(power))
+                    Powers = new string[] { power };
+                PowerplayState = evt.Value<string>("PowerplayState").ToEnum(PowerplayState.Unknown);
             }
 
             public string StarSystem { get; set; }
             public Position StarPos { get; set; }
             public string Body { get; set; }
+            public BodyType BodyType { get; set; }
             public bool Docked { get; set; }
             public string StationName { get; set; }
             public string StationType { get; set; }
@@ -62,6 +69,8 @@ namespace EliteJournalReader.Events
             public string Government_Localised { get; set; }
             public string Security { get; set; }
             public string Security_Localised { get; set; }
+            public string[] Powers { get; set; }
+            public PowerplayState PowerplayState { get; set; }
         }
     }
 }

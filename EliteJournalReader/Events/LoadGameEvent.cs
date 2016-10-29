@@ -32,7 +32,7 @@ namespace EliteJournalReader.Events
                 ShipId = evt.Value<int>("ShipID");
                 StartLanded = evt.Value<bool?>("StartLanded");
                 StartDead = evt.Value<bool?>("StartDead");
-                GameMode = evt.Value<string>("GameMode");
+                GameMode = evt.Value<string>("GameMode").ToEnum(GameMode.Unknown);
                 Group = evt.Value<string>("Group");
                 Credits = evt.Value<int>("Credits");
                 Loan = evt.Value<int>("Loan");
@@ -43,7 +43,7 @@ namespace EliteJournalReader.Events
             public int ShipId { get; set; }
             public bool? StartLanded { get; set; }
             public bool? StartDead { get; set; }
-            public string GameMode { get; set; }
+            public GameMode GameMode { get; set; }
             public string Group { get; set; }
             public int Credits { get; set; }
             public int Loan { get; set; }

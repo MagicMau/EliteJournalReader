@@ -12,7 +12,20 @@ namespace EliteJournalReader.Events
     //•	Message: next part number
     public class ContinuedEvent : JournalEvent<ContinuedEvent.ContinuedEventArgs>
     {
-        public ContinuedEvent() : base("Continued") { }
+        public ContinuedEvent() : base("Continued")
+        {
+
+        }
+
+        internal override void FireEvent(object sender, JObject evt)
+        {
+            base.FireEvent(sender, evt);
+
+            // a continued event signals that a new file is coming, so
+            // let's start polling for it
+            var watcher = sender as JournalWatcher;
+            watcher?.StartPollingForNewJournal();
+        }
 
         public class ContinuedEventArgs : JournalEventArgs
         {

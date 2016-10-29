@@ -29,6 +29,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug local|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug local\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug EDDB|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug EDDB\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -44,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumHelpers.cs" />
     <Compile Include="Events\ApproachSettlementEvent.cs" />
     <Compile Include="Events\ClearSavedGameEvent.cs" />
     <Compile Include="Events\CollectCargoEvent.cs" />
@@ -55,9 +74,14 @@
     <Compile Include="Events\DatalinkVoucherEvent.cs" />
     <Compile Include="Events\JetConeDamageEvent.cs" />
     <Compile Include="Events\JetConeBoostEvent.cs" />
+    <Compile Include="Events\FetchRemoteModuleEvent.cs" />
+    <Compile Include="Events\MassModuleStoreEvent.cs" />
+    <Compile Include="Events\ModuleSellRemoteEvent.cs" />
     <Compile Include="Events\ModuleStoreEvent.cs" />
     <Compile Include="Events\ModuleRetrieveEvent.cs" />
     <Compile Include="Events\PVPKillEvent.cs" />
+    <Compile Include="Events\RepairAllEvent.cs" />
+    <Compile Include="Events\ScientificResearchEvent.cs" />
     <Compile Include="Events\USSDropEvent.cs" />
     <Compile Include="Events\DockingDeniedEvent.cs" />
     <Compile Include="Events\DockingGrantedEvent.cs" />
@@ -155,6 +179,7 @@
     <Compile Include="Events\ProgressEvent.cs" />
     <Compile Include="Events\LoadGameEvent.cs" />
     <Compile Include="Events\FileheaderEvent.cs" />
+    <Compile Include="JournalDescriptions.cs" />
     <Compile Include="JournalEvent.cs" />
     <Compile Include="JournalEventArgs.cs" />
     <Compile Include="JournalWatcher.cs">

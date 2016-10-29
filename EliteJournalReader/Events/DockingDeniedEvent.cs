@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace EliteJournalReader.Events
 {
@@ -23,11 +25,24 @@ namespace EliteJournalReader.Events
             {
                 base.Initialize(evt);
                 StationName = evt.Value<string>("StationName");
-                Reason = evt.Value<string>("Reason");
+                Reason = evt.Value<string>("Reason").ToEnum(DockingDeniedReason.Unknown);
             }
 
             public string StationName { get; set; }
-            public string Reason { get; set; }
+
+            public DockingDeniedReason Reason { get; set; }
         }
+    }
+
+    public enum DockingDeniedReason
+    {
+        Unknown,
+        NoSpace,
+        TooLarge,
+        Hostile,
+        Offences,
+        Distance,
+        ActiveFighter,
+        NoReason
     }
 }

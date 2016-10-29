@@ -26,6 +26,12 @@ namespace EliteJournalReader.Events
 
         public class MissionCompletedEventArgs : JournalEventArgs
         {
+            public struct CommodityReward
+            {
+                public string Name;
+                public int Count;
+            }
+
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
@@ -39,6 +45,7 @@ namespace EliteJournalReader.Events
                 Reward = evt.Value<int?>("Reward") ?? 0;
                 Donation = evt.Value<int?>("Donation");
                 PermitsAwarded = evt.Value<JArray>("PermitsAwarded")?.Values<string>().ToArray();
+                CommodityRewards = evt["CommodityReward"]?.ToObject<CommodityReward[]>();
                 MissionId = evt.Value<int>("MissionID");
             }
 
@@ -52,6 +59,7 @@ namespace EliteJournalReader.Events
             public int Reward { get; set; }
             public int? Donation { get; set; }
             public string[] PermitsAwarded { get; set; }
+            public CommodityReward[] CommodityRewards { get; set; }
             public int MissionId { get; set; }
         }
     }

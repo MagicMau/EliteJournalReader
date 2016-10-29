@@ -7,12 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
-    //When written: player is awarded a ApproachSettlement for a kill
-    //Parameters: 
-    //•	Faction: the faction awarding the ApproachSettlement
-    //•	Reward: the reward value
-    //•	VictimFaction: the victim’s faction
-    //•	SharedWithOthers: whether shared with other players
+    //When written: when approaching a planetary settlement
+    //Parameters:
+    //•	Name
     public class ApproachSettlementEvent : JournalEvent<ApproachSettlementEvent.ApproachSettlementEventArgs>
     {
         public ApproachSettlementEvent() : base("ApproachSettlement") { }

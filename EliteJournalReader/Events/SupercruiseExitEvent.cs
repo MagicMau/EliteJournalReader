@@ -22,10 +22,12 @@ namespace EliteJournalReader.Events
                 base.Initialize(evt);
                 StarSystem = evt.Value<string>("StarSystem");
                 Body = evt.Value<string>("Body");
+                BodyType = evt.Value<string>("BodyType").ToEnum(BodyType.Unknown);
             }
 
             public string StarSystem { get; set; }
             public string Body { get; set; }
+            public BodyType BodyType { get; set; }
         }
     }
 }

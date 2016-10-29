@@ -23,12 +23,21 @@ namespace EliteJournalReader.Events
                 base.Initialize(evt);
                 Engineer = evt.Value<string>("Engineer");
                 Rank = evt.Value<int?>("Rank");
-                Progress = evt.Value<string>("Progress");
+                Progress = evt.Value<string>("Progress").ToEnum(EngineerProgressStage.Unknown);
             }
 
             public string Engineer { get; set; }
             public int? Rank { get; set; }
-            public string Progress { get; set; }
+            public EngineerProgressStage Progress { get; set; }
         }
+    }
+
+    public enum EngineerProgressStage
+    {
+        Unknown,
+        Invited,
+        Acquainted,
+        Unlocked,
+        Barred
     }
 }

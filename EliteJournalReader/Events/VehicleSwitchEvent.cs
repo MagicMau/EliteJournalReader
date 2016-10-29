@@ -19,10 +19,17 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                To = evt.Value<string>("To");
+                To = evt.Value<string>("To").ToEnum(Vehicle.Unknown);
             }
 
-            public string To { get; set; }
+            public Vehicle To { get; set; }
         }
+    }
+
+    public enum Vehicle
+    {
+        Unknown,
+        Mothership,
+        Fighter
     }
 }
