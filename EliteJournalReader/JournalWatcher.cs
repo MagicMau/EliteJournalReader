@@ -21,7 +21,7 @@ namespace EliteJournalReader
     public class JournalWatcher : FileSystemWatcher
     {
         public const int UPDATE_INTERVAL_MILLISECONDS = 500;
-
+        
         /// <summary>
         ///     The default filter
         /// </summary>
@@ -444,6 +444,7 @@ namespace EliteJournalReader
             catch (Exception e)
             {
                 Trace.WriteLine($"Exception handling journal event:\r\n\t{line}\r\n\tException: {e.Message}");
+                OnError(new ErrorEventArgs(e));
             }
         }
 

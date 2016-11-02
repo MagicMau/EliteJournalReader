@@ -19,7 +19,7 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                Modules = evt.Value<JArray>("Modules").Values<string>().ToArray();
+                Modules = evt["Modules"]?.ToObject<string[]>();
             }
 
             public string[] Modules { get; set; }

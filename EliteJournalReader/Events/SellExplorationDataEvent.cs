@@ -22,8 +22,8 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                Systems = evt.Value<JArray>("Systems").Values<string>().ToArray();
-                Discovered = evt.Value<JArray>("Discovered").Values<string>().ToArray();
+                Systems = evt["Systems"]?.ToObject<string[]>();
+                Discovered = evt["Discovered"]?.ToObject<string[]>();
                 BaseValue = evt.Value<int>("BaseValue");
                 Bonus = evt.Value<int>("Bonus");
             }

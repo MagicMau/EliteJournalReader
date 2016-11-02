@@ -47,7 +47,7 @@ namespace EliteJournalReader.Events
                 Government_Localised = evt.Value<string>("Government_Localised");
                 Security = evt.Value<string>("Security");
                 Security_Localised = evt.Value<string>("Security_Localised");
-                Powers = evt.Value<string[]>("Powers");
+                Powers = evt["Powers"]?.ToObject<string[]>();
                 string power = evt.Value<string>("Power");
                 if (!string.IsNullOrEmpty(power))
                     Powers = new string[] { power };

@@ -44,7 +44,7 @@ namespace EliteJournalReader.Events
                 TargetFaction = evt.Value<string>("TargetFaction");
                 Reward = evt.Value<int?>("Reward") ?? 0;
                 Donation = evt.Value<int?>("Donation");
-                PermitsAwarded = evt.Value<JArray>("PermitsAwarded")?.Values<string>().ToArray();
+                PermitsAwarded = evt["PermitsAwarded"]?.ToObject<string[]>();
                 CommodityRewards = evt["CommodityReward"]?.ToObject<CommodityReward[]>();
                 MissionId = evt.Value<int>("MissionID");
             }

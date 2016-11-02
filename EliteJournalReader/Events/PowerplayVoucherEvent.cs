@@ -21,7 +21,7 @@ namespace EliteJournalReader.Events
             {
                 base.Initialize(evt);
                 Power = evt.Value<string>("Power");
-                Systems = evt.Value<JArray>("Systems").Values<string>().ToArray();
+                Systems = evt["Systems"]?.ToObject<string[]>();
             }
 
             public string Power { get; set; }
