@@ -16,12 +16,12 @@ namespace EliteJournalReader.Events
     //•	FuelUsed
     //•	FuelLevel
     //•	BoostUsed: whether FSD boost was used
-    //•	Faction: system controlling faction
+    //•	SystemFaction: system controlling faction
     //•	FactionState
-    //•	Allegiance
-    //•	Economy
-    //•	Government
-    //•	Security
+    //•	SystemAllegiance
+    //•	SystemEconomy
+    //•	SystemGovernment
+    //•	SystemSecurity
     public class FSDJumpEvent : JournalEvent<FSDJumpEvent.FSDJumpEventArgs>
     {
         public FSDJumpEvent() : base("FSDJump") { }
@@ -38,15 +38,15 @@ namespace EliteJournalReader.Events
                 FuelUsed = evt.Value<double>("FuelUsed");
                 FuelLevel = evt.Value<double>("FuelLevel");
                 BoostUsed = evt.Value<bool>("BoostUsed");
-                Faction = evt.Value<string>("Faction");
+                Faction = evt.Value<string>("SystemFaction");
                 FactionState = evt.Value<string>("FactionState");
-                Allegiance = evt.Value<string>("Allegiance");
-                Economy = evt.Value<string>("Economy");
-                Economy_Localised = evt.Value<string>("Economy_Localised");
-                Government = evt.Value<string>("Government");
-                Government_Localised = evt.Value<string>("Government_Localised");
-                Security = evt.Value<string>("Security");
-                Security_Localised = evt.Value<string>("Security_Localised");
+                Allegiance = evt.Value<string>("SystemAllegiance");
+                Economy = evt.Value<string>("SystemEconomy");
+                Economy_Localised = evt.Value<string>("SystemEconomy_Localised");
+                Government = evt.Value<string>("SystemGovernment");
+                Government_Localised = evt.Value<string>("SystemGovernment_Localised");
+                Security = evt.Value<string>("SystemSecurity");
+                Security_Localised = evt.Value<string>("SystemSecurity_Localised");
                 Powers = evt["Powers"]?.ToObject<string[]>();
                 string power = evt.Value<string>("Power");
                 if (!string.IsNullOrEmpty(power))

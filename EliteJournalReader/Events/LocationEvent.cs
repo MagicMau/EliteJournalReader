@@ -17,10 +17,10 @@ namespace EliteJournalReader.Events
     //•	StationType: (if docked)
     //•	Faction: star system controlling faction
     //•	FactionState
-    //•	Allegiance
-    //•	Economy
-    //•	Government
-    //•	Security
+    //•	SystemAllegiance
+    //•	SystemEconomy
+    //•	SystemGovernment
+    //•	SystemSecurity
     public class LocationEvent : JournalEvent<LocationEvent.LocationEventArgs>
     {
         public LocationEvent() : base("Location") { }
@@ -39,13 +39,13 @@ namespace EliteJournalReader.Events
                 StationType = evt.Value<string>("StationType");
                 Faction = evt.Value<string>("Faction");
                 FactionState = evt.Value<string>("FactionState");
-                Allegiance = evt.Value<string>("Allegiance");
-                Economy = evt.Value<string>("Economy");
-                Economy_Localised = evt.Value<string>("Economy_Localised");
-                Government = evt.Value<string>("Government");
-                Government_Localised = evt.Value<string>("Government_Localised");
-                Security = evt.Value<string>("Security");
-                Security_Localised = evt.Value<string>("Security_Localised");
+                Allegiance = evt.Value<string>("SystemAllegiance");
+                Economy = evt.Value<string>("SystemEconomy");
+                Economy_Localised = evt.Value<string>("SystemEconomy_Localised");
+                Government = evt.Value<string>("SystemGovernment");
+                Government_Localised = evt.Value<string>("SystemGovernment_Localised");
+                Security = evt.Value<string>("SystemSecurity");
+                Security_Localised = evt.Value<string>("SystemSecurity_Localised");
                 Powers = evt["Powers"]?.ToObject<string[]>();
                 string power = evt.Value<string>("Power");
                 if (!string.IsNullOrEmpty(power))

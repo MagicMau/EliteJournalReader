@@ -13,12 +13,11 @@ namespace EliteJournalReader.Events
     //•	StationType: type of station
     //•	StarSystem: name of system
     //•	CockpitBreach:true (only if landing with breached cockpit)
-    //•	Faction: station’s controlling faction
+    //•	StationFaction: station’s controlling faction
     //•	FactionState
-    //•	Allegiance
-    //•	Economy
-    //•	Government
-    //•	Security
+    //•	StationAllegiance
+    //•	StationEconomy
+    //•	StationGovernment
     public class DockedEvent : JournalEvent<DockedEvent.DockedEventArgs>
     {
         public DockedEvent() : base("Docked") { }
@@ -32,15 +31,13 @@ namespace EliteJournalReader.Events
                 StationName = evt.Value<string>("StationName");
                 StationType = evt.Value<string>("StationType");
                 CockpitBreach = evt.Value<bool?>("CockpitBreach");
-                Faction = evt.Value<string>("Faction");
+                Faction = evt.Value<string>("StationFaction");
                 FactionState = evt.Value<string>("FactionState");
-                Allegiance = evt.Value<string>("Allegiance");
-                Economy = evt.Value<string>("Economy");
-                Economy_Localised = evt.Value<string>("Economy_Localised");
-                Government = evt.Value<string>("Government");
-                Government_Localised = evt.Value<string>("Government_Localised");
-                Security = evt.Value<string>("Security");
-                Security_Localised = evt.Value<string>("Security_Localised");
+                Allegiance = evt.Value<string>("StationAllegiance");
+                Economy = evt.Value<string>("StationEconomy");
+                Economy_Localised = evt.Value<string>("StationEconomy_Localised");
+                Government = evt.Value<string>("StationGovernment");
+                Government_Localised = evt.Value<string>("StationGovernment_Localised");
             }
 
             public string StarSystem { get; set; }
