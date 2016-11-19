@@ -28,7 +28,7 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                Rewards = evt["Rewards"].ToObject<FactionReward[]>();
+                Rewards = evt["Rewards"]?.ToObject<FactionReward[]>();
                 VictimFaction = evt.Value<string>("VictimFaction");
                 TotalReward = evt.Value<int>("TotalReward");
                 SharedWithOthers = evt.Value<bool?>("SharedWithOthers");

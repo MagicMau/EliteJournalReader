@@ -230,7 +230,7 @@ namespace EliteJournalReader
             Changed += JournalWatcher_Changed;
 
             EnableRaisingEvents = true;
-            CheckForJournalUpdateAsync();
+            CheckForJournalUpdateAsync(LatestJournalFile);
         }
 
         private async void JournalWatcher_Changed(object sender, FileSystemEventArgs e)
@@ -283,13 +283,13 @@ namespace EliteJournalReader
         }
 
 
-        private void CheckForJournalUpdateAsync()
+        private void CheckForJournalUpdateAsync(string filename)
         {
             journalThread = new Thread(ido =>
             {
                 // keep a current ID for this thread. If the ID changes, we are watching a different file, and this thread can exit.
                 int id = (int)ido;
-                var journalFile = System.IO.Path.Combine(Path, LatestJournalFile);
+                var journalFile = System.IO.Path.Combine(Path, filename);
                 try
                 {
                     using (StreamReader reader = new StreamReader(new FileStream(journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
@@ -416,7 +416,7 @@ namespace EliteJournalReader
                 isPollingForNewFile = false;
                 Trace.WriteLine($"Journal: now reading from {LatestJournalFile}.");
 
-                CheckForJournalUpdateAsync();
+                CheckForJournalUpdateAsync(latestJournal);
             }
 
 
