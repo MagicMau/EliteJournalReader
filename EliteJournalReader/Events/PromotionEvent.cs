@@ -26,12 +26,16 @@ namespace EliteJournalReader.Events
                 Trade = (TradeRank?)evt.Value<int?>("Trade");
                 Explore = (ExplorationRank?)evt.Value<int?>("Explore");
                 CQC = (CQCRank?)evt.Value<int?>("CQC");
+                Federation = (FederationRank?)evt.Value<int?>("Federation");
+                Empire = (EmpireRank?)evt.Value<int?>("Empire");
             }
 
             public CombatRank? Combat { get; set; }
             public TradeRank? Trade { get; set; }
             public ExplorationRank? Explore { get; set; }
             public CQCRank? CQC { get; set; }
+            public FederationRank? Federation { get; set; }
+            public EmpireRank? Empire { get; set; }
         }
     }
 }

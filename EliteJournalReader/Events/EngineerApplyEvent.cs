@@ -25,13 +25,13 @@ namespace EliteJournalReader.Events
                 Engineer = evt.Value<string>("Engineer");
                 Blueprint = evt.Value<string>("Blueprint");
                 Level = evt.Value<int>("Level");
-                Override = evt.Value<bool?>("Override");
+                Override = evt.Value<string>("Override");
             }
 
             public string Engineer { get; set; }
             public string Blueprint { get; set; }
             public int Level { get; set; }
-            public bool? Override { get; set; }
+            public string Override { get; set; }
         }
     }
 }

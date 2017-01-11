@@ -154,6 +154,7 @@ namespace EliteJournalReader.Events
                 TerraformState = evt.Value<string>("TerraformState").ToEnum(TerraformState.None);
                 PlanetClass = evt.Value<string>("PlanetClass").ToEnum(PlanetClass.Unknown);
                 Atmosphere = evt.Value<string>("Atmosphere").ToEnum(AtmosphereClass.Unknown);
+                AtmosphereType = evt.Value<string>("AtmosphereType").ToEnum(AtmosphereType.Unknown);
                 Volcanism = evt.Value<string>("Volcanism").ToEnum(VolcanismClass.Unknown);
                 SurfaceGravity = evt.Value<double?>("SurfaceGravity");
                 SurfaceTemperature = evt.Value<double?>("SurfaceTemperature");
@@ -187,6 +188,7 @@ namespace EliteJournalReader.Events
             public TerraformState TerraformState { get; set; }
             public PlanetClass PlanetClass { get; set; }
             public AtmosphereClass Atmosphere { get; set; }
+            public AtmosphereType AtmosphereType { get; set; }
             public VolcanismClass Volcanism { get; set; }
             public double? SemiMajorAxis { get; set; } // not in description of event
             public double? SurfaceGravity { get; set; } // not in description of event

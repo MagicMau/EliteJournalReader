@@ -20,9 +20,13 @@ namespace EliteJournalReader.Events
             {
                 base.Initialize(evt);
                 Health = evt.Value<double>("Health");
+                PlayerPilot = evt.Value<bool>("PlayerPilot");
+                Fighter = evt.Value<bool>("Fighter");
             }
 
             public double Health { get; set; }
+            public bool PlayerPilot { get; set; }
+            public bool Fighter { get; set; }
         }
     }
 }

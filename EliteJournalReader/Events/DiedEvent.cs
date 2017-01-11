@@ -35,7 +35,7 @@ namespace EliteJournalReader.Events
                 string killerName = evt.Value<string>("KillerName");
                 if (string.IsNullOrEmpty(killerName))
                 {
-                    Killers = evt["Killers"].ToObject<Killer[]>();
+                    Killers = evt["Killers"]?.ToObject<Killer[]>();
                 }
                 else
                 {

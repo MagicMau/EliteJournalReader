@@ -133,6 +133,32 @@ namespace EliteJournalReader
         Oxygen
     }
 
+    public enum AtmosphereType
+    {
+        Unknown,
+        None,
+        EarthLike,
+        AmmoniaOxygen,
+        Oxygen,
+        Ammonia,
+        Water,
+        CarbonDioxide,
+        SulphurDioxide,
+        Nitrogen,
+        WaterRich,
+        MethaneRich,
+        AmmoniaRich,
+        CarbonDioxideRich,
+        Methane,
+        Helium,
+        Neon,
+        Argon,
+        NeonRich,
+        ArgonRich,
+        SilicateVapour,
+        MetallicVapour
+    }
+
     public enum VolcanismClass
     {
         Unknown,
