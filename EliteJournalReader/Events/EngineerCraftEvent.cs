@@ -25,7 +25,22 @@ namespace EliteJournalReader.Events
                 Engineer = evt.Value<string>("Engineer");
                 Blueprint = evt.Value<string>("Blueprint");
                 Level = evt.Value<int>("Level");
-                Ingredients = evt["Ingredients"]?.ToObject<Dictionary<string, int>>();
+
+                var ingredients = evt["Ingredients"];
+                if (ingredients != null)
+                {
+                    if (ingredients.Type == JTokenType.Object)
+                        Ingredients = ingredients.ToObject<Dictionary<string, int>>();
+                    else if (ingredients.Type == JTokenType.Array)
+                    {
+                        Ingredients = new Dictionary<string, int>();
+                        foreach (var jo in (JArray)ingredients)
+                        {
+                            Ingredients[jo.Value<string>("Name")] = jo.Value<int>("Count");
+                        }
+                    }
+                }
+
             }
 
             public string Engineer { get; set; }

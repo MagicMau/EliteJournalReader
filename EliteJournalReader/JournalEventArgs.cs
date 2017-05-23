@@ -8,7 +8,7 @@ namespace EliteJournalReader
     {
         public JObject OriginalEvent { get; private set; }
 
-        public DateTime Timestamp { get; private set; }
+        public DateTime Timestamp { get; set; }
 
         public JournalEventArgs()
         {

@@ -20,6 +20,11 @@ namespace EliteJournalReader.Events
         //•	Group: name of group (if in a group)
         //•	Credits: current credit balance
         //•	Loan: current loan
+        //•	ShipName: user-defined ship name
+        //•	ShipIdent: user-defined ship ID string
+        //•	FuelLevel: current fuel 
+        //•	FuelCapacity: size of main tank
+
         public LoadGameEvent() : base("LoadGame") { }
 
         public class LoadGameEventArgs : JournalEventArgs
@@ -34,8 +39,12 @@ namespace EliteJournalReader.Events
                 StartDead = evt.Value<bool?>("StartDead");
                 GameMode = evt.Value<string>("GameMode").ToEnum(GameMode.Unknown);
                 Group = evt.Value<string>("Group");
-                Credits = evt.Value<int>("Credits");
+                Credits = evt.Value<long>("Credits");
                 Loan = evt.Value<int>("Loan");
+                ShipName = evt.Value<string>("ShipName");
+                ShipIdent = evt.Value<string>("ShipIdent");
+                FuelLevel = evt.Value<double>("FuelLevel");
+                FuelCapacity = evt.Value<double>("FuelCapacity");
             }
 
             public string Commander { get; set; }
@@ -45,8 +54,12 @@ namespace EliteJournalReader.Events
             public bool? StartDead { get; set; }
             public GameMode GameMode { get; set; }
             public string Group { get; set; }
-            public int Credits { get; set; }
+            public long Credits { get; set; }
             public int Loan { get; set; }
+            public string ShipName { get; set; }
+            public string ShipIdent { get; set; }
+            public double FuelLevel { get; set; }
+            public double FuelCapacity { get; set; }
         }
     }
 }

@@ -236,9 +236,56 @@ namespace EliteJournalReader
 
     public enum TerraformState
     {
+        Unknown,
         None,
         Terraformable,
         Terraforming,
         Terraformed
+    }
+
+    public enum ReserveLevel
+    {
+        Unknown,
+        Depleted,
+        Low,
+        Common,
+        Major,
+        Pristine
+    }
+
+    public enum InfluenceLevel
+    {
+        Unknown,
+        None,
+        Low,
+        Med,
+        High
+    }
+
+    public enum ReputationLevel
+    {
+        Unknown,
+        None,
+        Low,
+        Med,
+        High
+    }
+
+    public enum JumpType
+    {
+        Unknown,
+        Hyperspace,
+        Supercruise
+    }
+
+    public enum TextChannel
+    {
+        Unknown,
+        NPC,
+        Local,
+        Player,
+        Wing,
+        Friend,
+        VoiceChat
     }
 }

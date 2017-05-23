@@ -13,9 +13,9 @@ namespace EliteJournalReader
 
         public Position(JArray array)
         {
-            X = array[0].Value<double>();
-            Y = array[1].Value<double>();
-            Z = array[2].Value<double>();
+            X = Math.Round(array[0].Value<double>(), 3);
+            Y = Math.Round(array[1].Value<double>(), 3);
+            Z = Math.Round(array[2].Value<double>(), 3);
         }
 
         public bool IsZero()
@@ -43,6 +43,11 @@ namespace EliteJournalReader
         public double[] ToArray()
         {
             return new[] { X, Y, Z };
+        }
+
+        public override string ToString()
+        {
+            return System.FormattableString.Invariant($"{X}, {Y}, {Z}");
         }
     }
 }

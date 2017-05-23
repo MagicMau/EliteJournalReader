@@ -24,8 +24,7 @@ namespace EliteJournalReader
             if (e != null)
                 return (T)e.GetValue(null);
 
-            T result;
-            if (Enum.TryParse(value, out result))
+            if (Enum.TryParse(value, true, out T result))
                 return result;
 
             return defaultValue;

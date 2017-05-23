@@ -11,6 +11,7 @@ namespace EliteJournalReader.Events
     //Parameters:
     //•	Latitude
     //•	Longitude
+    //•	PlayerControlled: (bool) false if ship dismissed when player is in SRV, true if player is taking off
     public class LiftoffEvent : JournalEvent<LiftoffEvent.LiftoffEventArgs>
     {
         public LiftoffEvent() : base("Liftoff") { }
@@ -22,10 +23,12 @@ namespace EliteJournalReader.Events
                 base.Initialize(evt);
                 Latitude = evt.Value<double>("Latitude");
                 Longitude = evt.Value<double>("Longitude");
+                IsPlayerControlled = evt.Value<bool>("IsPlayerControlled");
             }
 
             public double Latitude { get; set; }
             public double Longitude { get; set; }
+            public bool IsPlayerControlled { get; set; }
         }
     }
 }

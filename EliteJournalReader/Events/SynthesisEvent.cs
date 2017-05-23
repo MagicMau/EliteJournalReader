@@ -21,7 +21,21 @@ namespace EliteJournalReader.Events
             {
                 base.Initialize(evt);
                 Name = evt.Value<string>("Name");
-                Materials = evt["Materials"]?.ToObject<Dictionary<string, int>>();
+
+                var mats = evt["Materials"];
+                if (mats != null)
+                {
+                    if (mats.Type == JTokenType.Object)
+                        Materials = mats.ToObject<Dictionary<string, int>>();
+                    else if (mats.Type == JTokenType.Array)
+                    {
+                        Materials = new Dictionary<string, int>();
+                        foreach (var jo in (JArray)mats)
+                        {
+                            Materials[jo.Value<string>("Name")] = jo.Value<int>("Count");
+                        }
+                    }
+                }
             }
 
             public string Name { get; set; }

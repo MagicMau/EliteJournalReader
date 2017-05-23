@@ -64,6 +64,8 @@ namespace EliteJournalReader
         /// </summary>
         private static Dictionary<Type, JournalEvent> journalEvents = new Dictionary<Type, JournalEvent>();
 
+        public bool IsLive { get; private set; }
+
         /// <summary>
         /// Use reflection to generate a list of event handlers. This allows for a dynamic list of handler classes, one for each type
         /// of event.
@@ -155,13 +157,13 @@ namespace EliteJournalReader
         /// rebuilding a status object before going "live".
         /// </summary>
         /// <returns></returns>
-        private void ProcessPreviousJournals()
+        private bool ProcessPreviousJournals()
         {
             try
             {
-                var journals = Directory.GetFiles(Path, "Journal.*").OrderByDescending(f => f);
+                var journals = Directory.GetFiles(Path, "Journal.????????????.??.log").OrderByDescending(f => f);
                 if (!journals.Any())
-                    return; // there's nothing
+                    return true; // there's nothing
 
                 // return the list until we find one with a part number 01.
                 int partNr = 1;
@@ -187,7 +189,10 @@ namespace EliteJournalReader
             catch (Exception e)
             {
                 Trace.WriteLine($"Error while parsing previous data from {LatestJournalFile}: " + e.Message);
+                return false;
             }
+
+            return true;
         }
 
         /// <summary>
@@ -201,7 +206,7 @@ namespace EliteJournalReader
         ///     The directory specified in <see cref="P:System.IO.FileSystemWatcher.Path" />
         ///     could not be found.
         /// </exception>
-        public void StartWatching()
+        public async Task StartWatching()
         {
             if (EnableRaisingEvents)
             {
@@ -222,7 +227,16 @@ namespace EliteJournalReader
             cancellationTokenSource = new CancellationTokenSource();
 
             // before we start watching, rerun all events up until now (including any previous parts of this game session)
-            ProcessPreviousJournals();
+            await Task.Run(() =>
+            {
+                if (ProcessPreviousJournals())
+                {
+                    // finally send an event that we've gone live
+                    IsLive = true;
+                    FireEvent("MagicMau.IsLiveEvent", new JObject(new JProperty("timestamp", DateTime.Now)));
+                }
+            });
+
             // because we might just have read an old log file, make sure we don't miss the new one when it arrives
             StartPollingForNewJournal();
 

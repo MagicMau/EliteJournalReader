@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EliteJournalReader</RootNamespace>
     <AssemblyName>EliteJournalReader</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,9 +49,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -64,6 +64,19 @@
   <ItemGroup>
     <Compile Include="EnumHelpers.cs" />
     <Compile Include="Events\ApproachSettlementEvent.cs" />
+    <Compile Include="Events\ScannedEvent.cs" />
+    <Compile Include="Events\PassengersEvent.cs" />
+    <Compile Include="Events\CargoEvent.cs" />
+    <Compile Include="Events\ChangeCrewRoleEvent.cs" />
+    <Compile Include="Events\KickCrewMemberEvent.cs" />
+    <Compile Include="Events\CrewMemberQuitsEvent.cs" />
+    <Compile Include="Events\CrewMemberJoinsEvent.cs" />
+    <Compile Include="Events\QuitACrewEvent.cs" />
+    <Compile Include="Events\JoinACrewEvent.cs" />
+    <Compile Include="Events\SetUserShipNameEvent.cs" />
+    <Compile Include="Events\StartJumpEvent.cs" />
+    <Compile Include="Events\MaterialsEvent.cs" />
+    <Compile Include="Events\LoadoutEvent.cs" />
     <Compile Include="Events\ClearSavedGameEvent.cs" />
     <Compile Include="Events\CollectCargoEvent.cs" />
     <Compile Include="Events\CrewHireEvent.cs" />
@@ -72,6 +85,7 @@
     <Compile Include="Events\ContinuedEvent.cs" />
     <Compile Include="Events\DataScannedEvent.cs" />
     <Compile Include="Events\DatalinkVoucherEvent.cs" />
+    <Compile Include="Events\IsLiveEvent.cs" />
     <Compile Include="Events\JetConeDamageEvent.cs" />
     <Compile Include="Events\JetConeBoostEvent.cs" />
     <Compile Include="Events\FetchRemoteModuleEvent.cs" />
@@ -185,12 +199,15 @@
     <Compile Include="JournalWatcher.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Models\Faction.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ranks.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -18,23 +18,26 @@ namespace EliteJournalReader.Events
     //•	RotationPeriod (seconds)
     //•	SurfaceTemperature
     //•	Age_MY: age in millions of years
-    //•	Rings: [ array ] - if present
+    //•	* Rings: [ array ] - if present
     //
     //Parameters(Planet/Moon) 
     //•	Bodyname: name of body
     //•	DistanceFromArrivalLS
-    //•	TidalLock: 1 if tidally locked
-    //•	TerraformState: Terraformable, Terraforming, Terraformed, or null
+    //•	* TidalLock: 1 if tidally locked
+    //•	* TerraformState: Terraformable, Terraforming, Terraformed, or null
     //•	PlanetClass
-    //•	Atmosphere
-    //•	Volcanism
+    //•	* Atmosphere
+    //•	* AtmosphereType
+    //•	* AtmosphereComposition: [ array of info ]
+    //•	* Volcanism
     //•	SurfaceGravity
-    //•	SurfaceTemperature
-    //•	SurfacePressure
-    //•	Landable: true (if landable)
-    //•	Materials: JSON object with material names and percentage occurrence
+    //•	* SurfaceTemperature
+    //•	* SurfacePressure
+    //•	* Landable: true (if landable)
+    //•	* Materials: JSON object with material names and percentage occurrence
     //•	RotationPeriod (seconds)
-    //•	Rings [ array of info ] - if rings present
+    //•	* Rings [ array of info ] - if rings present
+    //•	* ReserveLevel: (Pristine/Major/Common/Low/Depleted) – if rings present
     //
     // Orbital Parameters for any Star/Planet/Moon (except main star of single-star system)
     //•	SemiMajorAxis
@@ -43,12 +46,19 @@ namespace EliteJournalReader.Events
     //•	Periapsis
     //•	OrbitalPeriod (seconds)
     //
-    // Rings properties
+    // Rings properties *
     //•	Name
     //•	RingClass
     //•	MassMT - ie in megatons
     //•	InnerRad
     //•	OuterRad
+    //
+    //Note that a basic scan (ie without having a Detailed Surface Scanner installed) will now save a reduced amount of information.
+    //A basic scan on a planet will include body name, planet class, orbital data, rotation period, mass, 
+    //radius, surface gravity; but will exclude tidal lock, terraform state, atmosphere, volcanism, surface pressure and temperature, 
+    //available materials, and details of rings. The info for a star will be largely the same whether a basic scanner or detailed scanner is used.
+    //
+    //Entries in the list above marked with an asterisk are only included for a detailed scan
     //
     // STAR TYPES:
     // 
@@ -142,25 +152,49 @@ namespace EliteJournalReader.Events
                 base.Initialize(evt);
                 BodyName = evt.Value<string>("BodyName");
                 DistanceFromArrivalLs = evt.Value<double>("DistanceFromArrivalLS");
-                StarType = evt.Value<string>("StarType").ToEnum(StarType.Unknown);
+                StarType = evt.Value<string>("StarType");
                 StellarMass = evt.Value<double?>("StellarMass");
-                Radius = evt.Value<double?>("StellarMass");
-                AbsoluteMagnitude = evt.Value<double?>("StellarMass");
-                RotationPeriod = evt.Value<double>("StellarMass");
+                Radius = evt.Value<double?>("Radius");
+                AbsoluteMagnitude = evt.Value<double?>("AbsoluteMagnitude");
+                RotationPeriod = evt.Value<double>("RotationPeriod");
                 Age = evt.Value<double?>("Age_MY");
                 Rings = evt["Rings"]?.ToObject<PlanetRing[]>();
+                ReserveLevel = evt.Value<string>("ReserveLevel").ToEnum(ReserveLevel.Unknown);
 
                 TidalLock = evt.Value<bool?>("TidalLock") ?? false;
-                TerraformState = evt.Value<string>("TerraformState").ToEnum(TerraformState.None);
-                PlanetClass = evt.Value<string>("PlanetClass").ToEnum(PlanetClass.Unknown);
-                Atmosphere = evt.Value<string>("Atmosphere").ToEnum(AtmosphereClass.Unknown);
+                TerraformState = evt.Value<string>("TerraformState").ToEnum(TerraformState.Unknown);
+                PlanetClass = evt.Value<string>("PlanetClass");
+                Atmosphere = evt.Value<string>("Atmosphere");
                 AtmosphereType = evt.Value<string>("AtmosphereType").ToEnum(AtmosphereType.Unknown);
-                Volcanism = evt.Value<string>("Volcanism").ToEnum(VolcanismClass.Unknown);
+                var atmosComp = evt["AtmosphereComposition"];
+                if (atmosComp != null && atmosComp.Type == JTokenType.Array)
+                {
+                    AtmosphereComposition = new Dictionary<string, double>();
+                    foreach (var ac in (JArray)atmosComp)
+                        AtmosphereComposition[ac.Value<string>("Name")] = ac.Value<double>("Percent");
+                }
+
+                Volcanism = evt.Value<string>("Volcanism");
                 SurfaceGravity = evt.Value<double?>("SurfaceGravity");
                 SurfaceTemperature = evt.Value<double?>("SurfaceTemperature");
                 SurfacePressure = evt.Value<double?>("SurfacePressure");
                 Landable = evt.Value<bool?>("Landable") ?? false;
-                Materials = evt["Materials"]?.ToObject<Dictionary<string, double>>();
+                MassEM = evt.Value<double?>("MassEM");
+
+                var mats = evt["Materials"];
+                if (mats != null)
+                {
+                    if (mats.Type == JTokenType.Object)
+                        Materials = mats.ToObject<Dictionary<string, double>>();
+                    else if (mats.Type == JTokenType.Array)
+                    {
+                        Materials = new Dictionary<string, double>();
+                        foreach (var jo in (JArray)mats)
+                        {
+                            Materials[jo.Value<string>("Name")] = jo.Value<double>("Percent");
+                        }
+                    }
+                }
 
                 SemiMajorAxis = evt.Value<double?>("SemiMajorAxis");
                 Eccentricity = evt.Value<double?>("Eccentricity");
@@ -176,20 +210,23 @@ namespace EliteJournalReader.Events
 
             public string BodyName { get; set; }
             public double DistanceFromArrivalLs { get; set; }
-            public StarType StarType { get; set; }
+            public string StarType { get; set; }
             public double? StellarMass { get; set; }
             public double? Radius { get; set; }
             public double? AbsoluteMagnitude { get; set; }
             public double? OrbitalPeriod { get; set; }
             public double RotationPeriod { get; set; }
             public PlanetRing[] Rings { get; set; }
+            public ReserveLevel ReserveLevel { get; set; }
 
             public bool? TidalLock { get; set; }
             public TerraformState TerraformState { get; set; }
-            public PlanetClass PlanetClass { get; set; }
-            public AtmosphereClass Atmosphere { get; set; }
+            public string PlanetClass { get; set; }
+            public string Atmosphere { get; set; }
             public AtmosphereType AtmosphereType { get; set; }
-            public VolcanismClass Volcanism { get; set; }
+            public Dictionary<string, double> AtmosphereComposition { get; set; }
+            public string Volcanism { get; set; }
+            public double? MassEM { get; set; }
             public double? SemiMajorAxis { get; set; } // not in description of event
             public double? SurfaceGravity { get; set; } // not in description of event
             public double? SurfaceTemperature { get; set; }

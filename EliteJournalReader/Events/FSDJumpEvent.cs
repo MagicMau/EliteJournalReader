@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using EliteJournalReader.Models;
 
 namespace EliteJournalReader.Events
 {
@@ -22,6 +23,14 @@ namespace EliteJournalReader.Events
     //•	SystemEconomy
     //•	SystemGovernment
     //•	SystemSecurity
+    //•	Factions: an array of info for the local minor factions
+    //    o Name
+    //    o FactionState
+    //    o Government
+    //    o Influence
+    //If the player is pledged to a Power in Powerplay, and the star system is involved in powerplay,
+    //•	Powers: a json array with the names of any powers contesting the system, or the name of the controlling power
+    //•	PowerplayState: the system state – one of("InPrepareRadius", "Prepared", "Exploited", "Contested", "Controlled", "Turmoil", "HomeSystem")
     public class FSDJumpEvent : JournalEvent<FSDJumpEvent.FSDJumpEventArgs>
     {
         public FSDJumpEvent() : base("FSDJump") { }
@@ -52,6 +61,7 @@ namespace EliteJournalReader.Events
                 if (!string.IsNullOrEmpty(power))
                     Powers = new string[] { power };
                 PowerplayState = evt.Value<string>("PowerplayState").ToEnum(PowerplayState.Unknown);
+                Factions = evt["Factions"]?.ToObject<List<Faction>>();
             }
 
             public string StarSystem { get; set; }
@@ -72,6 +82,7 @@ namespace EliteJournalReader.Events
             public string Security_Localised { get; set; }
             public string[] Powers { get; set; }
             public PowerplayState PowerplayState { get; set; }
+            public List<Faction> Factions { get; set; }
         }
     }
 }

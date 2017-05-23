@@ -21,13 +21,25 @@ namespace EliteJournalReader.Events
             {
                 base.Initialize(evt);
                 From = evt.Value<string>("From");
+                From_Localised = evt.Value<string>("From_Localised");
                 Message = evt.Value<string>("Message");
-                Channel = evt.Value<string>("Channel");
+                Message_Localised = evt.Value<string>("Message_Localised");
+                Channel = evt.Value<string>("Channel").ToEnum(TextChannel.Unknown);
             }
 
             public string From { get; set; }
+            public string From_Localised { get; set; }
             public string Message { get; set; }
-            public string Channel { get; set; }
+            public string Message_Localised { get; set; }
+            public TextChannel Channel { get; set; }
+        }
+    }
+
+    public static class TextChannelExtensions
+    {
+        public static bool IsPlayerChannel(this TextChannel channel)
+        {
+            return channel != TextChannel.Unknown && channel != TextChannel.NPC;
         }
     }
 }
