@@ -23,6 +23,7 @@ namespace EliteJournalReader.Events
     //•	SystemEconomy
     //•	SystemGovernment
     //•	SystemSecurity
+    //•	Population
     //•	Factions: an array of info for the local minor factions
     //    o Name
     //    o FactionState
@@ -41,7 +42,7 @@ namespace EliteJournalReader.Events
             {
                 base.Initialize(evt);
                 StarSystem = evt.Value<string>("StarSystem");
-                StarPos = new Position(evt.Value<JArray>("StarPos"));
+                StarPos = new SystemPosition(evt.Value<JArray>("StarPos"));
                 Body = evt.Value<string>("Body");
                 JumpDist = evt.Value<double>("JumpDist");
                 FuelUsed = evt.Value<double>("FuelUsed");
@@ -56,6 +57,7 @@ namespace EliteJournalReader.Events
                 Government_Localised = evt.Value<string>("SystemGovernment_Localised");
                 Security = evt.Value<string>("SystemSecurity");
                 Security_Localised = evt.Value<string>("SystemSecurity_Localised");
+                Population = evt.Value<long?>("Population");
                 Powers = evt["Powers"]?.ToObject<string[]>();
                 string power = evt.Value<string>("Power");
                 if (!string.IsNullOrEmpty(power))
@@ -65,7 +67,7 @@ namespace EliteJournalReader.Events
             }
 
             public string StarSystem { get; set; }
-            public Position StarPos { get; set; }
+            public SystemPosition StarPos { get; set; }
             public string Body { get; set; }
             public double JumpDist { get; set; }
             public double FuelUsed { get; set; }
@@ -80,6 +82,7 @@ namespace EliteJournalReader.Events
             public string Government_Localised { get; set; }
             public string Security { get; set; }
             public string Security_Localised { get; set; }
+            public long? Population { get; set; }
             public string[] Powers { get; set; }
             public PowerplayState PowerplayState { get; set; }
             public List<Faction> Factions { get; set; }

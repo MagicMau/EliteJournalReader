@@ -17,6 +17,7 @@ namespace EliteJournalReader.Events
     //•	AbsoluteMagnitude
     //•	RotationPeriod (seconds)
     //•	SurfaceTemperature
+    //•	Luminosity
     //•	Age_MY: age in millions of years
     //•	* Rings: [ array ] - if present
     //
@@ -38,6 +39,9 @@ namespace EliteJournalReader.Events
     //•	RotationPeriod (seconds)
     //•	* Rings [ array of info ] - if rings present
     //•	* ReserveLevel: (Pristine/Major/Common/Low/Depleted) – if rings present
+    //If rotating:
+    //•	RotationPeriod(seconds)
+    //•	Axial tilt
     //
     // Orbital Parameters for any Star/Planet/Moon (except main star of single-star system)
     //•	SemiMajorAxis
@@ -141,6 +145,34 @@ namespace EliteJournalReader.Events
     // Nitrogen Geysers
     // Helium Geysers
     // Silicate Vapour Geysers
+    //
+    // STAR LUMINOSITY CLASSES:
+    // 0,
+    // I,
+    // Ia0,
+    // Ia,
+    // Ib,
+    // Iab,
+    // II,
+    // IIa,
+    // IIab,
+    // IIb,
+    // III,
+    // IIIa,
+    // IIIab,
+    // IIIb,
+    // IV,
+    // IVa,
+    // IVab,
+    // IVb,
+    // V,
+    // Va,
+    // Vab,
+    // Vb,
+    // Vz,
+    // VI,
+    // VII
+    //
     public class ScanEvent : JournalEvent<ScanEvent.ScanEventArgs>
     {
         public ScanEvent() : base("Scan") { }
@@ -156,10 +188,13 @@ namespace EliteJournalReader.Events
                 StellarMass = evt.Value<double?>("StellarMass");
                 Radius = evt.Value<double?>("Radius");
                 AbsoluteMagnitude = evt.Value<double?>("AbsoluteMagnitude");
-                RotationPeriod = evt.Value<double>("RotationPeriod");
+                Luminosity = evt.Value<string>("Luminosity");
                 Age = evt.Value<double?>("Age_MY");
                 Rings = evt["Rings"]?.ToObject<PlanetRing[]>();
                 ReserveLevel = evt.Value<string>("ReserveLevel").ToEnum(ReserveLevel.Unknown);
+
+                RotationPeriod = evt.Value<double?>("RotationPeriod");
+                AxialTilt = evt.Value<double?>("AxialTilt");
 
                 TidalLock = evt.Value<bool?>("TidalLock") ?? false;
                 TerraformState = evt.Value<string>("TerraformState").ToEnum(TerraformState.Unknown);
@@ -214,8 +249,10 @@ namespace EliteJournalReader.Events
             public double? StellarMass { get; set; }
             public double? Radius { get; set; }
             public double? AbsoluteMagnitude { get; set; }
+            public string Luminosity { get; set; }
             public double? OrbitalPeriod { get; set; }
-            public double RotationPeriod { get; set; }
+            public double? RotationPeriod { get; set; }
+            public double? AxialTilt { get; set; }
             public PlanetRing[] Rings { get; set; }
             public ReserveLevel ReserveLevel { get; set; }
 

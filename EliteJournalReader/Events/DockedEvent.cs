@@ -18,6 +18,13 @@ namespace EliteJournalReader.Events
     //•	StationAllegiance
     //•	StationEconomy
     //•	StationGovernment
+    //•	DistFromLS
+    //•	StationServices
+    //    StationServices can include: 
+    //          Dock, Autodock, BlackMarket, Commodities, Contacts, Exploration, Initiatives, Missions, 
+    //          Outfitting,CrewLounge, Rearm, Refuel, Repair, Shipyard, Tuning, Workshop, MissionsGenerated, 
+    //          Facilitator, Research, FlightController, StationOperations, OnDockMission, Powerplay, SearchAndRescue,
+
     public class DockedEvent : JournalEvent<DockedEvent.DockedEventArgs>
     {
         public DockedEvent() : base("Docked") { }
@@ -38,6 +45,8 @@ namespace EliteJournalReader.Events
                 Economy_Localised = evt.Value<string>("StationEconomy_Localised");
                 Government = evt.Value<string>("StationGovernment");
                 Government_Localised = evt.Value<string>("StationGovernment_Localised");
+                DistFromLS = evt.Value<double?>("DistFromLS");
+                StationServices = evt["StationServices"]?.ToObject<string[]>();
             }
 
             public string StarSystem { get; set; }
@@ -51,8 +60,8 @@ namespace EliteJournalReader.Events
             public string Economy_Localised { get; set; }
             public string Government { get; set; }
             public string Government_Localised { get; set; }
-            public string Security { get; set; }
-            public string Security_Localised { get; set; }
+            public double? DistFromLS { get; set; }
+            public string[] StationServices { get; set; }
         }
     }
 }

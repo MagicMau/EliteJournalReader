@@ -39,7 +39,7 @@ namespace EliteJournalReader.Events
             {
                 base.Initialize(evt);
                 StarSystem = evt.Value<string>("StarSystem");
-                StarPos = new Position(evt.Value<JArray>("StarPos"));
+                StarPos = new SystemPosition(evt.Value<JArray>("StarPos"));
                 Body = evt.Value<string>("Body");
                 BodyType = evt.Value<string>("BodyType").ToEnum(BodyType.Unknown);
                 Docked = evt.Value<bool?>("Docked") ?? false;
@@ -65,7 +65,7 @@ namespace EliteJournalReader.Events
             }
 
             public string StarSystem { get; set; }
-            public Position StarPos { get; set; }
+            public SystemPosition StarPos { get; set; }
             public string Body { get; set; }
             public BodyType BodyType { get; set; }
             public bool Docked { get; set; }

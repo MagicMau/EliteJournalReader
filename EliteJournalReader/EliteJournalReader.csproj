@@ -50,7 +50,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -63,7 +63,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumHelpers.cs" />
+    <Compile Include="Events\AfmuRepairsEvent.cs" />
     <Compile Include="Events\ApproachSettlementEvent.cs" />
+    <Compile Include="Events\NavBeaconScanEvent.cs" />
+    <Compile Include="Events\CommunityGoalEvent.cs" />
+    <Compile Include="Events\CommunityGoalDiscardEvent.cs" />
+    <Compile Include="Events\EngineerContributionEvent.cs" />
+    <Compile Include="Events\FriendsEvent.cs" />
+    <Compile Include="Events\MusicEvent.cs" />
+    <Compile Include="Events\RepairDroneEvent.cs" />
+    <Compile Include="Events\MissionRedirectedEvent.cs" />
     <Compile Include="Events\ScannedEvent.cs" />
     <Compile Include="Events\PassengersEvent.cs" />
     <Compile Include="Events\CargoEvent.cs" />
@@ -73,7 +82,9 @@
     <Compile Include="Events\CrewMemberJoinsEvent.cs" />
     <Compile Include="Events\QuitACrewEvent.cs" />
     <Compile Include="Events\JoinACrewEvent.cs" />
+    <Compile Include="Events\SearchAndRescueEvent.cs" />
     <Compile Include="Events\SetUserShipNameEvent.cs" />
+    <Compile Include="Events\SellShipOnRebuyEvent.cs" />
     <Compile Include="Events\StartJumpEvent.cs" />
     <Compile Include="Events\MaterialsEvent.cs" />
     <Compile Include="Events\LoadoutEvent.cs" />
@@ -200,7 +211,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Models\Faction.cs" />
-    <Compile Include="Position.cs" />
+    <Compile Include="SystemPosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ranks.cs" />
   </ItemGroup>

@@ -15,6 +15,7 @@ namespace EliteJournalReader.Events
     //•	TransferCost
     //•	Ship
     //•	ShipId
+    //•	TransferTime: (in seconds)
     public class FetchRemoteModuleEvent : JournalEvent<FetchRemoteModuleEvent.FetchRemoteModuleEventArgs>
     {
         public FetchRemoteModuleEvent() : base("FetchRemoteModule") { }
@@ -25,11 +26,12 @@ namespace EliteJournalReader.Events
             {
                 base.Initialize(evt);
                 StorageSlot = evt.Value<string>("StorageSlot");
-                StoredItem = evt.Value<string>("StoredItem");
+                StoredItem = evt.Value<string>("StoredItem_Localised") ?? evt.Value<string>("StoredItem");
                 ServerId = evt.Value<string>("ServerId");
                 TransferCost = evt.Value<int>("TransferCost");
                 Ship = evt.Value<string>("Ship");
                 ShipId = evt.Value<int>("ShipId");
+                TransferTime = evt.Value<int>("TransferTime");
             }
 
             public string StorageSlot { get; set; }
@@ -38,6 +40,7 @@ namespace EliteJournalReader.Events
             public string StoredItem { get; set; }
             public string ServerId { get; set; }
             public int TransferCost { get; set; }
+            public int TransferTime { get; set; }
         }
     }
 }

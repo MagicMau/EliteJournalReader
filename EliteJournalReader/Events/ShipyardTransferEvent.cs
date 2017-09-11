@@ -14,6 +14,7 @@ namespace EliteJournalReader.Events
     //•	System: where it is
     //•	Distance: how far away
     //•	TransferPrice: cost of transfer
+    //•	TransferTime: (in seconds)
     public class ShipyardTransferEvent : JournalEvent<ShipyardTransferEvent.ShipyardTransferEventArgs>
     {
         public ShipyardTransferEvent() : base("ShipyardTransfer") { }
@@ -28,6 +29,7 @@ namespace EliteJournalReader.Events
                 System = evt.Value<string>("System");
                 Distance = evt.Value<double>("Distance");
                 TransferPrice = evt.Value<int>("TransferPrice");
+                TransferTime = evt.Value<int>("TransferTime");
             }
 
             public string ShipType { get; set; }
@@ -35,6 +37,7 @@ namespace EliteJournalReader.Events
             public string System { get; set; }
             public double Distance { get; set; }
             public int TransferPrice { get; set; }
+            public int TransferTime { get; set; }
         }
     }
 }

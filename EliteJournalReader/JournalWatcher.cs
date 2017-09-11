@@ -25,7 +25,7 @@ namespace EliteJournalReader
         /// <summary>
         ///     The default filter
         /// </summary>
-        private const string DefaultFilter = @"Journal.*.log";
+        private const string DefaultFilter = @"Journal*.*.log";
         
         /// <summary>
         ///     The last offset used when reading the netLog file.
@@ -103,7 +103,7 @@ namespace EliteJournalReader
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("Exception in setting path: " + ex.Message);
+                Trace.TraceError("Exception in setting path: " + ex.Message);
             }
         }
 
@@ -149,7 +149,7 @@ namespace EliteJournalReader
             return filesFound;
         }
 
-        private readonly Regex journalFileRegex = new Regex(@"^(?<path>.*)\\Journal\.(?<timestamp>\d+)\.(?<part>\d+)\.log$", RegexOptions.Compiled);
+        private readonly Regex journalFileRegex = new Regex(@"^(?<path>.*)\\Journal(Beta)?\.(?<timestamp>\d+)\.(?<part>\d+)\.log$", RegexOptions.Compiled);
 
         /// <summary>
         /// This will look into the journal folder and check the latest journal.
@@ -161,7 +161,7 @@ namespace EliteJournalReader
         {
             try
             {
-                var journals = Directory.GetFiles(Path, "Journal.????????????.??.log").OrderByDescending(f => f);
+                var journals = Directory.GetFiles(Path, DefaultFilter).OrderByDescending(f => GetFileCreationDate(f));
                 if (!journals.Any())
                     return true; // there's nothing
 
@@ -181,18 +181,30 @@ namespace EliteJournalReader
                     {
                         lastOffset = 0;
                         LatestJournalFile = filename;
-                        Trace.WriteLine($"Journal: now reading previous entries from {LatestJournalFile}.");
+                        Trace.TraceInformation($"Journal: now reading previous entries from {LatestJournalFile}.");
                         ParseData(reader);
                     }
                 }
             }
             catch (Exception e)
             {
-                Trace.WriteLine($"Error while parsing previous data from {LatestJournalFile}: " + e.Message);
+                Trace.TraceError($"Error while parsing previous data from {LatestJournalFile}: " + e.Message);
                 return false;
             }
 
             return true;
+        }
+
+        private DateTime GetFileCreationDate(string path)
+        {
+            try
+            {
+                return File.GetCreationTime(path);
+            }
+            catch
+            {
+                return DateTime.MinValue;
+            }
         }
 
         /// <summary>
@@ -281,7 +293,7 @@ namespace EliteJournalReader
                     }
                     catch (Exception e)
                     {
-                        Trace.WriteLine($"Error while polling for new journal: {e.Message}.");
+                        Trace.TraceError($"Error while polling for new journal: {e.Message}.");
                     }
                 }
             });
@@ -340,9 +352,11 @@ namespace EliteJournalReader
                     Pause();
                     UpdateLatestJournalFile().Wait(cancellationTokenSource.Token);
                 }
-            });
-            journalThread.Name = "Journal Watcher";
-            journalThread.IsBackground = true;
+            })
+            {
+                Name = "Journal Watcher",
+                IsBackground = true
+            };
             journalThread.Start(++journalThreadId);
 
         }
@@ -366,7 +380,7 @@ namespace EliteJournalReader
             }
             catch (Exception e)
             {
-                Trace.WriteLine($"Exception while parsing journal data: {e.Message}");
+                Trace.TraceError($"Exception while parsing journal data: {e.Message}");
             }
             finally
             {
@@ -377,7 +391,7 @@ namespace EliteJournalReader
                 }
                 catch (Exception e)
                 {
-                    Trace.WriteLine($"Exception while updating position in journal file: {e.Message}");
+                    Trace.TraceError($"Exception while updating position in journal file: {e.Message}");
                     // might be something wrong with the file - let's start polling for a new one
                     StartPollingForNewJournal();
                 }
@@ -403,7 +417,7 @@ namespace EliteJournalReader
         private async Task<string> UpdateLatestJournalFile()
         {
             // filenames have format: Journal.160922194205.01.log
-            var journals = Directory.GetFiles(Path, "Journal.*");
+            var journals = Directory.GetFiles(Path, DefaultFilter);
 
             // keep waiting until there is a journal, or we're being cancelled.
             while (journals.Length == 0)
@@ -411,7 +425,7 @@ namespace EliteJournalReader
                 try
                 {
                     await Task.Delay(UPDATE_INTERVAL_MILLISECONDS, cancellationTokenSource.Token);
-                    journals = Directory.GetFiles(Path, "Journal.*");
+                    journals = Directory.GetFiles(Path, DefaultFilter);
                 }
                 catch (TaskCanceledException)
                 {
@@ -420,15 +434,15 @@ namespace EliteJournalReader
             }
 
             // because the timestamp is in the filename, we can just sort by filename descending.
-            var latestJournal = journals.OrderByDescending(f => f).First();
+            var latestJournal = Directory.GetFiles(Path, DefaultFilter).OrderByDescending(f => GetFileCreationDate(f)).FirstOrDefault();
 
-            bool isChanged = LatestJournalFile != latestJournal;
+            bool isChanged = latestJournal != null && LatestJournalFile != latestJournal;
             if (isChanged)
             {
                 lastOffset = 0;
                 LatestJournalFile = latestJournal;
                 isPollingForNewFile = false;
-                Trace.WriteLine($"Journal: now reading from {LatestJournalFile}.");
+                Trace.TraceInformation($"Journal: now reading from {LatestJournalFile}.");
 
                 CheckForJournalUpdateAsync(latestJournal);
             }
@@ -451,13 +465,14 @@ namespace EliteJournalReader
                 var evt = JObject.Parse(line);
                 var eventType = evt.Value<string>("event");
 #if DEBUG
-                Trace.WriteLine($"Journal - firing event {eventType} @ {evt["timestamp"]?.Value<string>()}\r\n\t{line}");
+                if (IsLive)
+                    Trace.TraceInformation($"Journal - firing event {eventType} @ {evt["timestamp"]?.Value<string>()}\r\n\t{line}");
 #endif
                 FireEvent(eventType, evt);
             }
             catch (Exception e)
             {
-                Trace.WriteLine($"Exception handling journal event:\r\n\t{line}\r\n\tException: {e.Message}");
+                Trace.TraceError($"Exception handling journal event:\r\n\t{line}\r\n\tException: {e.Message}");
                 OnError(new ErrorEventArgs(e));
             }
         }
@@ -469,11 +484,10 @@ namespace EliteJournalReader
         /// <param name="evt"></param>
         private void FireEvent(string eventType, JObject evt)
         {
-            JournalEvent handler;
-            if (journalEventsByName.TryGetValue(eventType, out handler))
+            if (journalEventsByName.TryGetValue(eventType, out JournalEvent handler))
                 handler.FireEvent(this, evt);
             else
-                Trace.WriteLine("No event handler registered for journal event of type: " + eventType);
+                Trace.TraceWarning("No event handler registered for journal event of type: " + eventType);
         }
 
         public TJournalEvent GetEvent<TJournalEvent>() where TJournalEvent : JournalEvent

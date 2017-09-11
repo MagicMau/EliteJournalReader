@@ -14,6 +14,8 @@ namespace EliteJournalReader.Events
     //•	Height: size in pixels
     //•	System: current star system
     //•	Body: name of nearest body
+    //•	Latitude: The latitude and longitude will be included if on a planet or in low-altitude flight
+    //•	Longitude
     public class ScreenshotEvent : JournalEvent<ScreenshotEvent.ScreenshotEventArgs>
     {
         public ScreenshotEvent() : base("Screenshot") { }
@@ -28,6 +30,8 @@ namespace EliteJournalReader.Events
                 Height = evt.Value<int>("Height");
                 System = evt.Value<string>("System");
                 Body = evt.Value<string>("Body");
+                Latitude = evt.Value<double?>("Latitude");
+                Longitude = evt.Value<double?>("Longitude");
             }
 
             public string Filename { get; set; }
@@ -35,6 +39,8 @@ namespace EliteJournalReader.Events
             public int Height { get; set; }
             public string System { get; set; }
             public string Body { get; set; }
+            public double? Latitude { get; set; }
+            public double? Longitude { get; set; }
         }
     }
 }
