@@ -62,6 +62,7 @@ namespace EliteJournalReader.Events
                     Powers = new string[] { power };
                 PowerplayState = evt.Value<string>("PowerplayState").ToEnum(PowerplayState.Unknown);
                 Factions = evt["Factions"]?.ToObject<List<Faction>>();
+                Population = evt.Value<long?>("Population");
             }
 
             public string StarSystem { get; set; }
@@ -82,6 +83,7 @@ namespace EliteJournalReader.Events
             public string Government_Localised { get; set; }
             public string Security { get; set; }
             public string Security_Localised { get; set; }
+            public long? Population { get; set; }
             public string[] Powers { get; set; }
             public PowerplayState PowerplayState { get; set; }
             public List<Faction> Factions { get; set; }

@@ -21,10 +21,12 @@ namespace EliteJournalReader.Events
                 base.Initialize(evt);
                 JumpType = evt.Value<string>("JumpType").ToEnum(JumpType.Unknown);
                 StarClass = evt.Value<string>("StarClass");
+                StarSystem = evt.Value<string>("StarSystem");
             }
 
             public JumpType JumpType { get; set; }
             public string StarClass { get; set; }
+            public string StarSystem { get; set; }
         }
     }
 }

@@ -20,19 +20,10 @@ namespace EliteJournalReader.Events
             public override void Initialize(JObject evt)
             {
                 base.Initialize(evt);
-                ScanType = evt.Value<string>("ScanType").ToEnum(ScanType.Unknown);
+                ScanType = evt.Value<string>("ScanType");
             }
 
-            public ScanType ScanType { get; set; }
-        }
-
-        public enum ScanType
-        {
-            Unknown,
-            Cargo,
-            Crim,
-            Cabin,
-            Data
+            public string ScanType { get; set; }
         }
     }
 }

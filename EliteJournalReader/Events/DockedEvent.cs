@@ -45,7 +45,7 @@ namespace EliteJournalReader.Events
                 Economy_Localised = evt.Value<string>("StationEconomy_Localised");
                 Government = evt.Value<string>("StationGovernment");
                 Government_Localised = evt.Value<string>("StationGovernment_Localised");
-                DistFromLS = evt.Value<double?>("DistFromLS");
+                DistFromStarLS = evt.Value<double?>("DistFromStarLS");
                 StationServices = evt["StationServices"]?.ToObject<string[]>();
             }
 
@@ -60,7 +60,7 @@ namespace EliteJournalReader.Events
             public string Economy_Localised { get; set; }
             public string Government { get; set; }
             public string Government_Localised { get; set; }
-            public double? DistFromLS { get; set; }
+            public double? DistFromStarLS { get; set; }
             public string[] StationServices { get; set; }
         }
     }

@@ -23,7 +23,7 @@ namespace EliteJournalReader.Events
                 base.Initialize(evt);
                 Latitude = evt.Value<double>("Latitude");
                 Longitude = evt.Value<double>("Longitude");
-                IsPlayerControlled = evt.Value<bool>("IsPlayerControlled");
+                IsPlayerControlled = evt.Value<bool>("PlayerControlled");
             }
 
             public double Latitude { get; set; }

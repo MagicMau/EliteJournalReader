@@ -311,6 +311,26 @@ namespace EliteJournalReader
 
         private void CheckForJournalUpdateAsync(string filename)
         {
+            journalThreadId++;
+            if (journalThread != null && journalThread.IsAlive)
+            {
+                try
+                {
+                    if (!journalThread.Join(UPDATE_INTERVAL_MILLISECONDS * 4))
+                    {
+                        journalThread.Abort();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Trace.TraceError($"Something went wrong shutting down the previous journal reader thread: {e.Message}");
+                }
+                finally
+                {
+                    journalThread = null;
+                }
+            }
+
             journalThread = new Thread(ido =>
             {
                 // keep a current ID for this thread. If the ID changes, we are watching a different file, and this thread can exit.
@@ -357,7 +377,7 @@ namespace EliteJournalReader
                 Name = "Journal Watcher",
                 IsBackground = true
             };
-            journalThread.Start(++journalThreadId);
+            journalThread.Start(journalThreadId);
 
         }
 
