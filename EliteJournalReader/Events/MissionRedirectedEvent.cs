@@ -22,18 +22,7 @@ namespace EliteJournalReader.Events
 
         public class MissionRedirectedEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                MissionId = evt.Value<int>("MissionID");
-                MissionName = evt.Value<string>("MissionName");
-                NewDestinationStation = evt.Value<string>("NewDestinationStation");
-                OldDestinationStation = evt.Value<string>("OldDestinationStation");
-                NewDestinationSystem = evt.Value<string>("NewDestinationSystem");
-                OldDestinationSystem = evt.Value<string>("OldDestinationSystem");
-            }
-
-            public int MissionId { get; set; }
+            public int MissionID { get; set; }
             public string MissionName { get; set; }
             public string NewDestinationStation { get; set; }
             public string OldDestinationStation { get; set; }

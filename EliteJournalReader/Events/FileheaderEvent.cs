@@ -13,15 +13,6 @@ namespace EliteJournalReader.Events
 
         public class FileheaderEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                GameVersion = evt.Value<string>("gameversion");
-                Build = evt.Value<string>("build");
-                Language = evt.Value<string>("language");
-                Part = evt.Value<int>("part");
-            }
-
             public string GameVersion { get; set; }
             public string Build { get; set; }
             public string Language { get; set; }

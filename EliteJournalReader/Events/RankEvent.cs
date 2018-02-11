@@ -30,17 +30,6 @@ namespace EliteJournalReader.Events
 
         public class RankEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Combat = (CombatRank)evt.Value<int>("Combat");
-                Trade = (TradeRank)evt.Value<int>("Trade");
-                Explore = (ExplorationRank)evt.Value<int>("Explore");
-                Empire = (EmpireRank)evt.Value<int>("Empire");
-                Federation = (FederationRank)evt.Value<int>("Federation");
-                CQC = (CQCRank)evt.Value<int>("CQC");
-            }
-
             public CombatRank Combat { get; set; }
             public TradeRank Trade { get; set; }
             public ExplorationRank Explore { get; set; }

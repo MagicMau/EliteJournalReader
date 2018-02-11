@@ -21,17 +21,7 @@ namespace EliteJournalReader.Events
 
         public class ShipyardTransferEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                ShipType = evt.Value<string>("ShipType");
-                ShipId = evt.Value<int>("ShipID");
-                System = evt.Value<string>("System");
-                Distance = evt.Value<double>("Distance");
-                TransferPrice = evt.Value<int>("TransferPrice");
-                TransferTime = evt.Value<int>("TransferTime");
-            }
-
+            public long MarketID { get; set; }
             public string ShipType { get; set; }
             public int ShipId { get; set; }
             public string System { get; set; }

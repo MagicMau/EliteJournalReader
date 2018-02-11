@@ -301,6 +301,8 @@ namespace EliteJournalReader
 
         public void StopWatching()
         {
+            EnableRaisingEvents = false;
+
             if (cancellationTokenSource != null)
                 cancellationTokenSource.Cancel();
 

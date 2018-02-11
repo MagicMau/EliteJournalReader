@@ -16,12 +16,6 @@ namespace EliteJournalReader.Events
 
         public class JetConeBoostEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                BoostValue = evt.Value<double>("BoostValue");
-            }
-
             public double BoostValue { get; set; }
         }
     }

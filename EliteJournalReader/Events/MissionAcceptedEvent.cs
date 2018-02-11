@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
@@ -23,35 +25,14 @@ namespace EliteJournalReader.Events
 
         public class MissionAcceptedEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Name = evt.Value<string>("Name");
-                Faction = evt.Value<string>("Faction");
-                MissionId = evt.Value<int>("MissionID");
-                Influence = evt.Value<string>("Influence").ToEnum(InfluenceLevel.Unknown);
-                Reputation = evt.Value<string>("Reputation").ToEnum(ReputationLevel.Unknown);
-
-                Commodity = evt.Value<string>("Commodity");
-                Commodity_Localised = evt.Value<string>("Commodity_Localised");
-                Count = evt.Value<int?>("Count");
-                Target = evt.Value<string>("Target");
-                TargetType = evt.Value<string>("TargetType");
-                TargetFaction = evt.Value<string>("TargetFaction");
-                KillCount = evt.Value<int?>("KillCount");
-                Expiry = evt.Value<DateTime?>("Expiry");
-                DestinationSystem = evt.Value<string>("DestinationSystem");
-                DestinationStation = evt.Value<string>("DestinationStation");
-                PassengerCount = evt.Value<int?>("PassengerCount");
-                PassengerVIPs = evt.Value<bool?>("PassengerVIPs");
-                PassengerWanted = evt.Value<bool?>("PassengerWanted");
-                PassengerType = evt.Value<string>("PassengerType");
-            }
-
-            public int MissionId { get; set; }
+            public long MissionID { get; set; }
             public string Name { get; set; }
             public string Faction { get; set; }
+
+            [JsonConverter(typeof(StringEnumConverter))]
             public InfluenceLevel Influence { get; set; }
+
+            [JsonConverter(typeof(StringEnumConverter))]
             public ReputationLevel Reputation { get; set; }
 
             public string Commodity { get; set; }

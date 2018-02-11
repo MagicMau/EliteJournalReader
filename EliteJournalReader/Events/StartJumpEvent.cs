@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
@@ -16,17 +18,11 @@ namespace EliteJournalReader.Events
 
         public class StartJumpEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                JumpType = evt.Value<string>("JumpType").ToEnum(JumpType.Unknown);
-                StarClass = evt.Value<string>("StarClass");
-                StarSystem = evt.Value<string>("StarSystem");
-            }
-
+            [JsonConverter(typeof(StringEnumConverter))]
             public JumpType JumpType { get; set; }
             public string StarClass { get; set; }
             public string StarSystem { get; set; }
+            public long SystemAddress { get; set; }
         }
     }
 }

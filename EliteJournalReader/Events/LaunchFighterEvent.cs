@@ -17,13 +17,6 @@ namespace EliteJournalReader.Events
 
         public class LaunchFighterEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Loadout = evt.Value<string>("Loadout");
-                PlayerControlled = evt.Value<bool>("PlayerControlled");
-            }
-
             public string Loadout { get; set; }
             public bool PlayerControlled { get; set; }
         }

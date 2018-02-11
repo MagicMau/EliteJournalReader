@@ -19,21 +19,13 @@ namespace EliteJournalReader.Events
 
         public class ModuleSellEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Slot = evt.Value<string>("Slot");
-                SellItem = evt.Value<string>("SellItem");
-                SellPrice = evt.Value<int>("SellPrice");
-                Ship = evt.Value<string>("Ship");
-                ShipId = evt.Value<int>("ShipId");
-            }
-
+            public long MarketID { get; set; }
             public string Slot { get; set; }
             public string SellItem { get; set; }
+            public string SellItem_Localised { get; set; }
             public int SellPrice { get; set; }
             public string Ship { get; set; }
-            public int ShipId { get; set; }
+            public int ShipID { get; set; }
         }
     }
 }

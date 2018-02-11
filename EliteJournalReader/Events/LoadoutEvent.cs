@@ -25,33 +25,14 @@ namespace EliteJournalReader.Events
 
         public class LoadoutEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Ship = evt.Value<string>("Ship");
-                ShipId = evt.Value<int>("ShipID");
-                ShipName = evt.Value<string>("ShipName");
-                ShipIdent = evt.Value<string>("ShipIdent");
-                Modules = evt["Modules"]?.ToObject<List<Module>>();
-            }
-
             public string Ship { get; set; }
-            public int ShipId { get; set; }
+            public int ShipID { get; set; }
             public string ShipName { get; set; }
             public string ShipIdent { get; set; }
+            public long HullValue { get; set; }
+            public long ModulesValue { get; set; }
+            public long Rebuy { get; set; }
             public List<Module> Modules { get; set; }
-        }
-
-        public class Module
-        {
-            public string Slot { get; set; }
-            public string Item { get; set; }
-            public bool On { get; set; }
-            public int Priority { get; set; }
-            public int? AmmoInClip { get; set; }
-            public int? AmmoInHopper { get; set; }
-            public string EngineerBlueprint { get; set; }
-            public int? EngineerLevel { get; set; }
         }
     }
 }

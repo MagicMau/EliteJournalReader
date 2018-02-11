@@ -16,12 +16,6 @@ namespace EliteJournalReader.Events
 
         public class WingJoinEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Others = evt["Others"]?.ToObject<string[]>();
-            }
-
             public string[] Others { get; set; }
         }
     }

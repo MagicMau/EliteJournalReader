@@ -19,19 +19,12 @@ namespace EliteJournalReader.Events
 
         public class MarketBuyEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Type = evt.Value<string>("Type");
-                Count = evt.Value<int>("Count");
-                BuyPrice = evt.Value<int>("BuyPrice");
-                TotalCost = evt.Value<int>("TotalCost");
-            }
-
+            public long MarketID { get; set; }
             public string Type { get; set; }
+            public string Type_Localised { get; set; }
             public int Count { get; set; }
             public int BuyPrice { get; set; }
-            public int TotalCost { get; set; }
+            public long TotalCost { get; set; }
         }
     }
 }

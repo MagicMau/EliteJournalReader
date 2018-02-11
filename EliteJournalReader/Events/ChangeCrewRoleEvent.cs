@@ -16,12 +16,6 @@ namespace EliteJournalReader.Events
 
         public class ChangeCrewRoleEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Role = evt.Value<string>("Role").ToEnum(RoleType.Unknown);
-            }
-
             public RoleType Role { get; set; }
         }
 

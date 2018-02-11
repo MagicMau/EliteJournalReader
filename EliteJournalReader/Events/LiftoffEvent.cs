@@ -18,17 +18,9 @@ namespace EliteJournalReader.Events
 
         public class LiftoffEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Latitude = evt.Value<double>("Latitude");
-                Longitude = evt.Value<double>("Longitude");
-                IsPlayerControlled = evt.Value<bool>("PlayerControlled");
-            }
-
             public double Latitude { get; set; }
             public double Longitude { get; set; }
-            public bool IsPlayerControlled { get; set; }
+            public bool PlayerControlled { get; set; }
         }
     }
 }

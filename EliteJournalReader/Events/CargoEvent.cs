@@ -16,27 +16,7 @@ namespace EliteJournalReader.Events
 
         public class CargoEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-
-                var inventory = evt["Inventory"];
-                if (inventory != null)
-                {
-                    if (inventory.Type == JTokenType.Object)
-                        Inventory = inventory.ToObject<Dictionary<string, int>>();
-                    else if (inventory.Type == JTokenType.Array)
-                    {
-                        Inventory = new Dictionary<string, int>();
-                        foreach (var jo in (JArray)inventory)
-                        {
-                            Inventory[jo.Value<string>("Name")] = jo.Value<int>("Count");
-                        }
-                    }
-                }
-            }
-
-            public Dictionary<string, int> Inventory { get; set; }
+            public List<Cargo> Inventory { get; set; }
         }
     }
 }

@@ -16,13 +16,8 @@ namespace EliteJournalReader.Events
 
         public class NavBeaconScanEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                NumBodies = evt.Value<int>("NumBodies");
-            }
-            
             public int NumBodies { get; set; }
+            public long SystemAddress { get; set; }
         }
     }
 }

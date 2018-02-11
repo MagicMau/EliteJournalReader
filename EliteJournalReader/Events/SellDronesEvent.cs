@@ -19,15 +19,6 @@ namespace EliteJournalReader.Events
 
         public class SellDronesEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Type = evt.Value<string>("Type");
-                Count = evt.Value<int>("Count");
-                SellPrice = evt.Value<int>("SellPrice");
-                TotalSale = evt.Value<int>("TotalSale");
-            }
-
             public string Type { get; set; }
             public int Count { get; set; }
             public int SellPrice { get; set; }

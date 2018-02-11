@@ -31,37 +31,22 @@ namespace EliteJournalReader.Events
 
         public class DockedEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                StarSystem = evt.Value<string>("StarSystem");
-                StationName = evt.Value<string>("StationName");
-                StationType = evt.Value<string>("StationType");
-                CockpitBreach = evt.Value<bool?>("CockpitBreach");
-                Faction = evt.Value<string>("StationFaction");
-                FactionState = evt.Value<string>("FactionState");
-                Allegiance = evt.Value<string>("StationAllegiance");
-                Economy = evt.Value<string>("StationEconomy");
-                Economy_Localised = evt.Value<string>("StationEconomy_Localised");
-                Government = evt.Value<string>("StationGovernment");
-                Government_Localised = evt.Value<string>("StationGovernment_Localised");
-                DistFromStarLS = evt.Value<double?>("DistFromStarLS");
-                StationServices = evt["StationServices"]?.ToObject<string[]>();
-            }
-
             public string StarSystem { get; set; }
             public string StationName { get; set; }
+            public long SystemAddress { get; set; }
+            public long MarketID { get; set; }
             public string StationType { get; set; }
-            public bool? CockpitBreach { get; set; }
-            public string Faction { get; set; }
+            public bool CockpitBreach { get; set; } = false;
+            public string StationFaction { get; set; }
             public string FactionState { get; set; }
-            public string Allegiance { get; set; }
-            public string Economy { get; set; }
-            public string Economy_Localised { get; set; }
-            public string Government { get; set; }
-            public string Government_Localised { get; set; }
+            public string StationAllegiance { get; set; }
+            public string StationEconomy { get; set; }
+            public string StationEconomy_Localised { get; set; }
+            public string StationGovernment { get; set; }
+            public string StationGovernment_Localised { get; set; }
             public double? DistFromStarLS { get; set; }
             public string[] StationServices { get; set; }
+            public bool Wanted { get; set; } = false;
         }
     }
 }

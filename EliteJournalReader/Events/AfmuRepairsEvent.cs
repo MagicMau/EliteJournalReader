@@ -20,14 +20,6 @@ namespace EliteJournalReader.Events
 
         public class AfmuRepairsEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Module = evt.Value<string>("Module");
-                FullyRepaired = evt.Value<bool>("FullyRepaired");
-                Health = evt.Value<double>("Health");
-            }
-
             public string Module { get; set; }
             public bool FullyRepaired { get; set; }
             public double Health { get; set; }

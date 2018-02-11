@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,6 @@ namespace EliteJournalReader
     public struct SystemPosition
     {
         public double X, Y, Z;
-
-        public SystemPosition(JArray array)
-        {
-            X = Math.Round(array[0].Value<double>(), 3);
-            Y = Math.Round(array[1].Value<double>(), 3);
-            Z = Math.Round(array[2].Value<double>(), 3);
-        }
 
         public bool IsZero()
         {
@@ -48,6 +42,33 @@ namespace EliteJournalReader
         public override string ToString()
         {
             return System.FormattableString.Invariant($"{X}, {Y}, {Z}");
+        }
+    }
+
+    public class SystemPositionConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof(SystemPosition);
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var pos = (SystemPosition)existingValue;
+            if (JToken.ReadFrom(reader) is JArray jarr)
+            {
+                double[] array = jarr.ToObject<double[]>();
+                pos.X = Math.Round(array[0], 3);
+                pos.Y = Math.Round(array[1], 3);
+                pos.Z = Math.Round(array[2], 3);
+            }
+            return pos;
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            var pos = (SystemPosition)value;
+            new JArray(pos.X, pos.Y, pos.Z).WriteTo(writer);
         }
     }
 }

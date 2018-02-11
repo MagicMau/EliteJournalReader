@@ -22,18 +22,6 @@ namespace EliteJournalReader.Events
 
         public class ScreenshotEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Filename = evt.Value<string>("Filename");
-                Width = evt.Value<int>("Width");
-                Height = evt.Value<int>("Height");
-                System = evt.Value<string>("System");
-                Body = evt.Value<string>("Body");
-                Latitude = evt.Value<double?>("Latitude");
-                Longitude = evt.Value<double?>("Longitude");
-            }
-
             public string Filename { get; set; }
             public int Width { get; set; }
             public int Height { get; set; }
@@ -41,6 +29,8 @@ namespace EliteJournalReader.Events
             public string Body { get; set; }
             public double? Latitude { get; set; }
             public double? Longitude { get; set; }
+            public double? Altitude { get; set; }
+            public int Heading { get; set; }
         }
     }
 }

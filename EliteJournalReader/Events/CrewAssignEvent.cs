@@ -17,13 +17,6 @@ namespace EliteJournalReader.Events
 
         public class CrewAssignEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Name = evt.Value<string>("Name");
-                Role = evt.Value<string>("Role");
-            }
-
             public string Name { get; set; }
             public string Role { get; set; }
         }

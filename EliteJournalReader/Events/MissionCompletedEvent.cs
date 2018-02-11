@@ -32,23 +32,6 @@ namespace EliteJournalReader.Events
                 public int Count;
             }
 
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Name = evt.Value<string>("Name");
-                Faction = evt.Value<string>("Faction");
-                Commodity = evt.Value<string>("Commodity");
-                Count = evt.Value<int?>("Count");
-                Target = evt.Value<string>("Target");
-                TargetType = evt.Value<string>("TargetType");
-                TargetFaction = evt.Value<string>("TargetFaction");
-                Reward = evt.Value<int?>("Reward") ?? 0;
-                Donation = evt.Value<int?>("Donation");
-                PermitsAwarded = evt["PermitsAwarded"]?.ToObject<string[]>();
-                CommodityRewards = evt["CommodityReward"]?.ToObject<CommodityReward[]>();
-                MissionId = evt.Value<int>("MissionID");
-            }
-
             public string Name { get; set; }
             public string Faction { get; set; }
             public string Commodity { get; set; }
@@ -60,7 +43,7 @@ namespace EliteJournalReader.Events
             public int? Donation { get; set; }
             public string[] PermitsAwarded { get; set; }
             public CommodityReward[] CommodityRewards { get; set; }
-            public int MissionId { get; set; }
+            public long MissionID { get; set; }
         }
     }
 }

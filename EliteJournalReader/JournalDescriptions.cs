@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace EliteJournalReader
 {
+
+    public enum ScanType
+    {
+        Unknown,
+        Basic,
+        Detailed,
+        NavBeacon,
+        NavBeaconDetail
+    }
+
     public enum StarType
     {
         Unknown,
@@ -80,6 +90,35 @@ namespace EliteJournalReader
         RoguePlanet,
         Nebula,
         StellarRemnantNebula
+    }
+
+    public enum StarLuminosity
+    {
+        None,
+        I,
+        Ia0,
+        Ia,
+        Ib,
+        Iab,
+        II,
+        IIa,
+        IIab,
+        IIb,
+        III,
+        IIIa,
+        IIIab,
+        IIIb,
+        IV,
+        IVa,
+        IVab,
+        IVb,
+        V,
+        Va,
+        Vab,
+        Vb,
+        Vz,
+        VI,
+        VII
     }
 
 
@@ -287,5 +326,187 @@ namespace EliteJournalReader
         Wing,
         Friend,
         VoiceChat
+    }
+
+    public enum DockingDeniedReason
+    {
+        Unknown,
+        NoSpace,
+        TooLarge,
+        Hostile,
+        Offences,
+        Distance,
+        ActiveFighter,
+        NoReason
+    }
+
+    public enum ModuleAttribute
+    {
+        Size,
+        Class,
+        Mass,
+        Integrity,
+        PowerDraw,
+        BootTime,
+        ShieldBankSpinUp,
+        ShieldBankDuration,
+        ShieldBankReinforcement,
+        ShieldBankHeat,
+        DamagePerSecond,
+        Damage,
+        DistributorDraw,
+        ThermalLoad,
+        ArmourPenetration,
+        MaximumRange,
+        ShotSpeed,
+        RateOfFire,
+        BurstRateOfFire,
+        BurstSize,
+        AmmoClipSize,
+        AmmoMaximum,
+        RoundsPerShot,
+        ReloadTime,
+        BreachDamage,
+        MinBreachChance,
+        MaxBreachChance,
+        Jitter,
+        WeaponMode,
+        DamageType,
+        ShieldGenMinimumMass,
+        ShieldGenOptimalMass,
+        ShieldGenMaximumMass,
+        ShieldGenMinStrength,
+        ShieldGenStrength,
+        ShieldGenMaxStrength,
+        RegenRate,
+        BrokenRegenRate,
+        EnergyPerRegen,
+        FSDOptimalMass,
+        FSDHeatRate,
+        MaxFuelPerJump,
+        EngineMinimumMass,
+        EngineOptimalMass,
+        MaximumMass,
+        EngineMinPerformance,
+        EngineOptPerformance,
+        EngineMaxPerformance,
+        EngineHeatRate,
+        PowerCapacity,
+        HeatEfficiency,
+        WeaponsCapacity,
+        WeaponsRecharge,
+        EnginesCapacity,
+        EnginesRecharge,
+        SystemsCapacity,
+        SystemsRecharge,
+        DefenceModifierHealthMultiplier,
+        DefenceModifierHealthAddition,
+        DefenceModifierShieldMultiplier,
+        DefenceModifierShieldAddition,
+        KineticResistance,
+        ThermicResistance,
+        ExplosiveResistance,
+        CausticResistance,
+        FSDInterdictorRange,
+        FSDInterdictorFacingLimit,
+        ScannerRange,
+        DiscoveryScannerRange,
+        DiscoveryScannerPassiveRange,
+        MaxAngle,
+        ScannerTimeToScan,
+        ChaffJamDuration,
+        ECMRange,
+        ECMTimeToCharge,
+        ECMActivePowerConsumption,
+        ECMHeat,
+        ECMCooldown,
+        HeatSinkDuration,
+        ThermalDrain,
+        NumBuggySlots,
+        CargoCapacity,
+        MaxActiveDrones,
+        DroneTargetRange,
+        DroneLifeTime,
+        DroneSpeed,
+        DroneMultiTargetSpeed,
+        DroneFuelCapacity,
+        DroneRepairCapacity,
+        DroneHackingTime,
+        DroneMinJettisonedCargo,
+        DroneMaxJettisonedCargo,
+        FuelScoopRate,
+        FuelCapacity,
+        OxygenTimeCapacity,
+        RefineryBins,
+        AFMRepairCapacity,
+        AFMRepairConsumption,
+        AFMRepairPerAmmo,
+        MaxRange,
+        SensorTargetScanAngle,
+        Range,
+        VehicleCargoCapacity,
+        VehicleHullMass,
+        VehicleFuelCapacity,
+        VehicleArmourHealth,
+        VehicleShieldHealth,
+        FighterMaxSpeed,
+        FighterBoostSpeed,
+        FighterPitchRate,
+        FighterDPS,
+        FighterYawRate,
+        FighterRollRate,
+        CabinCapacity,
+        CabinClass,
+        DisruptionBarrierRange,
+        DisruptionBarrierChargeDuration,
+        DisruptionBarrierActivePower,
+        DisruptionBarrierCooldown,
+        WingDamageReduction,
+        WingMinDuration,
+        WingMaxDuration,
+        ShieldSacrificeAmountRemoved,
+        ShieldSacrificeAmountGiven,
+        FSDJumpRangeBoost,
+        FSDFuelUseIncrease,
+        BoostSpeedMultiplier,
+        BoostAugmenterPowerUse,
+        ModuleDefenceAbsorption,
+        FalloffRange,
+        DSS_RangeMult,
+        DSS_AngleMult,
+        DSS_RateMult
+    }
+
+    public enum ReputationStatus
+    {
+        Hostile = -2,
+        Unfriendly = 1,
+        Neutral = 0,
+        Cordial = 1,
+        Friendly = 2,
+        Allied = 3
+    }
+
+    public enum FriendStatus
+    {
+        Unknown,
+        Requested,
+        Declined,
+        Added,
+        Lost,
+        Offline,
+        Online
+    }
+
+    public enum DroneType
+    {
+        Unknown,
+        Hatchbreaker,
+        FuelTransfer,
+        Collection,
+        Prospector,
+        Repair,
+        Research,
+        Decontamination
     }
 }

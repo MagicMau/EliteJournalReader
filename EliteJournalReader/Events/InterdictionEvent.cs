@@ -21,17 +21,6 @@ namespace EliteJournalReader.Events
 
         public class InterdictionEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Success = evt.Value<bool>("Success");
-                Interdicted = evt.Value<string>("Interdicted");
-                IsPlayer = evt.Value<bool>("IsPlayer");
-                CombatRank = (CombatRank)(evt.Value<int?>("CombatRank") ?? 0);
-                Faction = evt.Value<string>("Faction");
-                Power = evt.Value<string>("Power");
-            }
-
             public bool Success { get; set; }
             public string Interdicted { get; set; }
             public bool IsPlayer { get; set; }

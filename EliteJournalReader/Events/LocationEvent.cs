@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using EliteJournalReader.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace EliteJournalReader.Events
 {
@@ -35,57 +36,40 @@ namespace EliteJournalReader.Events
 
         public class LocationEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                StarSystem = evt.Value<string>("StarSystem");
-                StarPos = new SystemPosition(evt.Value<JArray>("StarPos"));
-                Body = evt.Value<string>("Body");
-                BodyType = evt.Value<string>("BodyType").ToEnum(BodyType.Unknown);
-                Docked = evt.Value<bool?>("Docked") ?? false;
-                Latitude = evt.Value<double?>("Latitude");
-                Longitude = evt.Value<double?>("Longitude");
-                StationName = evt.Value<string>("StationName");
-                StationType = evt.Value<string>("StationType");
-                Faction = evt.Value<string>("Faction");
-                FactionState = evt.Value<string>("FactionState");
-                Allegiance = evt.Value<string>("SystemAllegiance");
-                Economy = evt.Value<string>("SystemEconomy");
-                Economy_Localised = evt.Value<string>("SystemEconomy_Localised");
-                Government = evt.Value<string>("SystemGovernment");
-                Government_Localised = evt.Value<string>("SystemGovernment_Localised");
-                Security = evt.Value<string>("SystemSecurity");
-                Security_Localised = evt.Value<string>("SystemSecurity_Localised");
-                Powers = evt["Powers"]?.ToObject<string[]>();
-                string power = evt.Value<string>("Power");
-                if (!string.IsNullOrEmpty(power))
-                    Powers = new string[] { power };
-                PowerplayState = evt.Value<string>("PowerplayState").ToEnum(PowerplayState.Unknown);
-                Factions = evt["Factions"]?.ToObject<List<Faction>>();
-                Population = evt.Value<long?>("Population");
-            }
 
             public string StarSystem { get; set; }
+            public long SystemAddress { get; set; }
+
+            [JsonConverter(typeof(SystemPositionConverter))]
             public SystemPosition StarPos { get; set; }
+
             public string Body { get; set; }
+            public long BodyID { get; set; }
+
+            [JsonConverter(typeof(StringEnumConverter))]
             public BodyType BodyType { get; set; }
+
             public bool Docked { get; set; }
             public double? Latitude { get; set; }
             public double? Longitude { get; set; }
             public string StationName { get; set; }
             public string StationType { get; set; }
-            public string Faction { get; set; }
+            public long? MarketID { get; set; }
+            public string SystemFaction { get; set; }
             public string FactionState { get; set; }
-            public string Allegiance { get; set; }
-            public string Economy { get; set; }
-            public string Economy_Localised { get; set; }
-            public string Government { get; set; }
-            public string Government_Localised { get; set; }
-            public string Security { get; set; }
-            public string Security_Localised { get; set; }
+            public string SystemAllegiance { get; set; }
+            public string SystemEconomy { get; set; }
+            public string SystemEconomy_Localised { get; set; }
+            public string SystemGovernment { get; set; }
+            public string SystemGovernment_Localised { get; set; }
+            public string SystemSecurity { get; set; }
+            public string SystemSecurity_Localised { get; set; }
             public long? Population { get; set; }
             public string[] Powers { get; set; }
+
+            [JsonConverter(typeof(StringEnumConverter))]
             public PowerplayState PowerplayState { get; set; }
+
             public List<Faction> Factions { get; set; }
         }
     }

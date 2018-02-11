@@ -17,17 +17,17 @@ namespace EliteJournalReader.Events
 
         public class RedeemVoucherEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
+            public struct FactionAmount
             {
-                base.Initialize(evt);
-                Type = evt.Value<string>("Type");
-                Amount = evt.Value<int>("Amount");
-                BrokerPercentage = evt.Value<double?>("BrokerPercentage");
+                public string Faction;
+                public int Amount;
             }
 
             public string Type { get; set; }
             public int Amount { get; set; }
+            public string Faction { get; set; }
             public double? BrokerPercentage { get; set; }
+            public List<FactionAmount> Factions { get; set; }
         }
     }
 }

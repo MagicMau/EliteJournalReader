@@ -17,13 +17,6 @@ namespace EliteJournalReader.Events
 
         public class BuyExplorationDataEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                System = evt.Value<string>("System");
-                Cost = evt.Value<int>("Cost");
-            }
-
             public string System { get; set; }
             public int Cost { get; set; }
         }

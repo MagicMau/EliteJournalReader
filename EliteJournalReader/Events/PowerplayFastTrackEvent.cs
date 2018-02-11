@@ -17,13 +17,6 @@ namespace EliteJournalReader.Events
 
         public class PowerplayFastTrackEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Power = evt.Value<string>("Power");
-                Cost = evt.Value<int>("Cost");
-            }
-
             public string Power { get; set; }
             public int Cost { get; set; }
         }

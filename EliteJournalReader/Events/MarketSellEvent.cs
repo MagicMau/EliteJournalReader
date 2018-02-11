@@ -23,27 +23,16 @@ namespace EliteJournalReader.Events
 
         public class MarketSellEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Type = evt.Value<string>("Type");
-                Count = evt.Value<int>("Count");
-                SellPrice = evt.Value<int>("SellPrice");
-                TotalSale = evt.Value<int>("TotalSale");
-                AvgPricePaid = evt.Value<int>("AvgPricePaid");
-                IllegalGoods = evt.Value<bool?>("IllegalGoods");
-                StolenGoods = evt.Value<bool?>("StolenGoods");
-                BlackMarket = evt.Value<bool?>("BlackMarket");
-            }
-
+            public long MarketID { get; set; }
             public string Type { get; set; }
+            public string Type_Localised { get; set; }
             public int Count { get; set; }
             public int SellPrice { get; set; }
-            public int TotalSale { get; set; }
-            public int AvgPricePaid { get; set; }
-            public bool? IllegalGoods { get; set; }
-            public bool? StolenGoods { get; set; }
-            public bool? BlackMarket { get; set; }
+            public long TotalSale { get; set; }
+            public double AvgPricePaid { get; set; }
+            public bool IllegalGoods { get; set; } = false;
+            public bool StolenGoods { get; set; } = false;
+            public bool BlackMarket { get; set; } = false;
         }
     }
 }

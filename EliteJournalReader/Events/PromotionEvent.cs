@@ -19,17 +19,6 @@ namespace EliteJournalReader.Events
 
         public class PromotionEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Combat = (CombatRank?)evt.Value<int?>("Combat");
-                Trade = (TradeRank?)evt.Value<int?>("Trade");
-                Explore = (ExplorationRank?)evt.Value<int?>("Explore");
-                CQC = (CQCRank?)evt.Value<int?>("CQC");
-                Federation = (FederationRank?)evt.Value<int?>("Federation");
-                Empire = (EmpireRank?)evt.Value<int?>("Empire");
-            }
-
             public CombatRank? Combat { get; set; }
             public TradeRank? Trade { get; set; }
             public ExplorationRank? Explore { get; set; }

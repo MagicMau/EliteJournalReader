@@ -22,12 +22,6 @@ namespace EliteJournalReader.Events
 
         public class MusicEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                MusicTrack = evt.Value<string>("MusicTrack");
-            }
-
             public string MusicTrack { get; set; }
         }
     }

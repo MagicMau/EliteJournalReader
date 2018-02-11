@@ -18,16 +18,8 @@ namespace EliteJournalReader.Events
 
         public class EjectCargoEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Type = evt.Value<string>("Type");
-                Count = evt.Value<int>("Count");
-                Abandoned = evt.Value<bool>("Abandoned");
-                PowerplayOrigin = evt.Value<string>("PowerplayOrigin");
-            }
-
             public string Type { get; set; }
+            public string Type_Localised { get; set; }
             public int Count { get; set; }
             public bool Abandoned { get; set; }
             public string PowerplayOrigin { get; set; }

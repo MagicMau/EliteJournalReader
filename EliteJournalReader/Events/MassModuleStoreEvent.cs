@@ -7,15 +7,15 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
-    //When Written: when fetching a previously stored module
+    //When written: when putting multiple modules into storage
     //Parameters:
-    //•	Slot
+    //•	MarketID
     //•	Ship
-    //•	ShipID
-    //•	StoredItem
-    //•	EngineerModifications: name of modification blueprint, if any
-    //•	ReplacementItem (if a core module)
-    //•	Cost (if any)
+    //•	ShipId
+    //•	Items: Array of records
+    //o   Slot
+    //o   Name
+    //o   EngineerModifications(only present if modified)
     public class MassModuleStoreEvent : JournalEvent<MassModuleStoreEvent.MassModuleStoreEventArgs>
     {
         public MassModuleStoreEvent() : base("MassModuleStore") { }
@@ -27,14 +27,6 @@ namespace EliteJournalReader.Events
                 public string Slot;
                 public string Name;
                 public string EngineerModifications;
-            }
-
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Ship = evt.Value<string>("Ship");
-                ShipId = evt.Value<int>("ShipId");
-                Items = evt["Items"].ToObject<ModuleItems[]>();
             }
 
             public string Ship { get; set; }

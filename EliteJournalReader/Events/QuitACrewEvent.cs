@@ -16,12 +16,6 @@ namespace EliteJournalReader.Events
 
         public class QuitACrewEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Captain = evt.Value<string>("Captain");
-            }
-
             public string Captain { get; set; }
         }
     }

@@ -17,14 +17,8 @@ namespace EliteJournalReader.Events
 
         public class CollectCargoEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Type = evt.Value<string>("Type");
-                Stolen = evt.Value<bool>("Stolen");
-            }
-
             public string Type { get; set; }
+            public string Type_Localised { get; set; }
             public bool Stolen { get; set; }
         }
     }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
@@ -17,14 +19,9 @@ namespace EliteJournalReader.Events
 
         public class FriendsEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Status = evt.Value<string>("Status");
-                Name = evt.Value<string>("Name");
-            }
+            [JsonConverter(typeof(StringEnumConverter))]
+            public FriendStatus Status { get; set; }
 
-            public string Status { get; set; }
             public string Name { get; set; }
         }
     }

@@ -16,15 +16,9 @@ namespace EliteJournalReader.Events
 
         public class MissionFailedEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Name = evt.Value<string>("Name");
-                MissionId = evt.Value<int>("MissionID");
-            }
-
             public string Name { get; set; }
-            public int MissionId { get; set; }
+            public long MissionID { get; set; }
+            public int Fine { get; set; }
         }
     }
 }

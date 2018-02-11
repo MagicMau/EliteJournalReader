@@ -18,14 +18,7 @@ namespace EliteJournalReader.Events
 
         public class SearchAndRescueEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Name = evt.Value<string>("Name");
-                Count = evt.Value<int>("Count");
-                Reward = evt.Value<int>("Reward");
-            }
-
+            public long MarketID { get; set; }
             public string Name { get; set; }            
             public int Count { get; set; }
             public int Reward { get; set; }

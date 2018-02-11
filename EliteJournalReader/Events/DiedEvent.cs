@@ -28,16 +28,10 @@ namespace EliteJournalReader.Events
                 public string Rank;
             }
 
-            public override void Initialize(JObject evt)
+            public override void PostProcess(JObject evt)
             {
-                base.Initialize(evt);
-
                 string killerName = evt.Value<string>("KillerName");
-                if (string.IsNullOrEmpty(killerName))
-                {
-                    Killers = evt["Killers"]?.ToObject<Killer[]>();
-                }
-                else
+                if (!string.IsNullOrEmpty(killerName))
                 {
                     // it was an individual
                     Killers = new Killer[1]

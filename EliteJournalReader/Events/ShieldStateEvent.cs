@@ -16,12 +16,6 @@ namespace EliteJournalReader.Events
 
         public class ShieldStateEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                ShieldsUp = evt.Value<bool>("ShieldsUp");
-            }
-
             public bool ShieldsUp { get; set; }
         }
     }

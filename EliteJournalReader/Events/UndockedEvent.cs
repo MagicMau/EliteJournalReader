@@ -16,13 +16,9 @@ namespace EliteJournalReader.Events
 
         public class UndockedEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                StationName = evt.Value<string>("StationName");
-            }
-
             public string StationName { get; set; }
+            public string StationType { get; set; }
+            public long MarketID { get; set; }
         }
     }
 }

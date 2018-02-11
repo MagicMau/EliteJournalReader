@@ -20,14 +20,6 @@ namespace EliteJournalReader.Events
 
         public class RepairDroneEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                HullRepaired = evt.Value<double?>("HullRepaired");
-                CockpitRepaired = evt.Value<double?>("CockpitRepaired");
-                CorrosionRepaired = evt.Value<double?>("CorrosionRepaired");
-            }
-
             public double? HullRepaired { get; set; }
             public double? CockpitRepaired { get; set; }
             public double? CorrosionRepaired { get; set; }

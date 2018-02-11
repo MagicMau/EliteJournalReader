@@ -22,22 +22,13 @@ namespace EliteJournalReader.Events
 
         public class EngineerContributionEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Engineer = evt.Value<string>("Engineer");
-                Type = evt.Value<string>("Type");
-                Commodity = evt.Value<string>("Commodity");
-                Material = evt.Value<string>("Material");
-                Faction = evt.Value<string>("Faction");
-                Quantity = evt.Value<int>("Quantity");
-                TotalQuantity = evt.Value<int>("TotalQuantity");
-            }
-
             public string Engineer { get; set; }
+            public long EngineerID { get; set; }
             public string Type { get; set; }
             public string Commodity { get; set; }
+            public string Commodity_Localised { get; set; }
             public string Material { get; set; }
+            public string Material_Localised { get; set; }
             public string Faction { get; set; }
             public int Quantity { get; set; }
             public int TotalQuantity { get; set; }

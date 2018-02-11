@@ -7,12 +7,12 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
-    //When written: player is awarded a bounty for a kill
+    //    When written: player is awarded a bounty for a kill
     //Parameters: 
-    //•	Faction: the faction awarding the bounty
-    //•	Reward: the reward value
+    //•	Rewards: an array of Faction names and the Reward values, as the target can have multiple bounties payable by different factions
     //•	VictimFaction: the victim’s faction
-    //•	SharedWithOthers: whether shared with other players
+    //•	TotalReward
+    //•	SharedWithOthers: if credit for the kill is shared with other players, this has the number of other players involved
     public class BountyEvent : JournalEvent<BountyEvent.BountyEventArgs>
     {
         public BountyEvent() : base("Bounty") { }
@@ -25,19 +25,10 @@ namespace EliteJournalReader.Events
                 public int Reward;
             }
 
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Rewards = evt["Rewards"]?.ToObject<FactionReward[]>();
-                VictimFaction = evt.Value<string>("VictimFaction");
-                TotalReward = evt.Value<int>("TotalReward");
-                SharedWithOthers = evt.Value<bool?>("SharedWithOthers");
-            }
-
             public FactionReward[] Rewards { get; set; }
             public string VictimFaction { get; set; }
             public int TotalReward { get; set; }
-            public bool? SharedWithOthers { get; set; }
+            public int SharedWithOthers { get; set; } = 0;
         }
     }
 }

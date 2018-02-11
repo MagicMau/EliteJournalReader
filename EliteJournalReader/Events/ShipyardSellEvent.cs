@@ -19,15 +19,7 @@ namespace EliteJournalReader.Events
 
         public class ShipyardSellEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                ShipType = evt.Value<string>("ShipType");
-                SellShipId = evt.Value<int>("SellShipID");
-                ShipPrice = evt.Value<int>("ShipPrice");
-                System = evt.Value<string>("System");
-            }
-
+            public long MarketID { get; set; }
             public string ShipType { get; set; }
             public int SellShipId { get; set; }
             public int ShipPrice { get; set; }

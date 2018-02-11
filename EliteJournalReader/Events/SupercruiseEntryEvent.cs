@@ -16,12 +16,6 @@ namespace EliteJournalReader.Events
 
         public class SupercruiseEntryEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                StarSystem = evt.Value<string>("StarSystem");
-            }
-
             public string StarSystem { get; set; }
         }
     }

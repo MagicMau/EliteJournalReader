@@ -16,13 +16,6 @@ namespace EliteJournalReader.Events
 
         public class PayLegacyFinesEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Amount = evt.Value<int>("Amount");
-                BrokerPercentage = evt.Value<double?>("BrokerPercentage");
-            }
-
             public int Amount { get; set; }
             public double? BrokerPercentage { get; set; }
         }

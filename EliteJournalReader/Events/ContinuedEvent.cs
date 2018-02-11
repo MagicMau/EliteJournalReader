@@ -29,12 +29,6 @@ namespace EliteJournalReader.Events
 
         public class ContinuedEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Part = evt.Value<int>("Part");
-            }
-
             public int Part { get; set; }
         }
     }

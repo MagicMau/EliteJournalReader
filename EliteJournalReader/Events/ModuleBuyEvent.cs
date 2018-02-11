@@ -22,24 +22,15 @@ namespace EliteJournalReader.Events
 
         public class ModuleBuyEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Slot = evt.Value<string>("Slot");
-                BuyItem = evt.Value<string>("BuyItem");
-                BuyPrice = evt.Value<int>("BuyPrice");
-                Ship = evt.Value<string>("Ship");
-                ShipId = evt.Value<int>("ShipId");
-                SellItem = evt.Value<string>("SellItem");
-                SellPrice = evt.Value<int?>("SellPrice");
-            }
-
+            public long MarketID { get; set; }
             public string Slot { get; set; }
             public string BuyItem { get; set; }
+            public string BuyItem_Localised { get; set; }
             public int BuyPrice { get; set; }
             public string Ship { get; set; }
-            public int ShipId { get; set; }
+            public int ShipID { get; set; }
             public string SellItem { get; set; }
+            public string SellItem_Localised { get; set; }
             public int? SellPrice { get; set; }
         }
     }
