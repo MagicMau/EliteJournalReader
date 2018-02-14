@@ -37,8 +37,7 @@ namespace EliteJournalFeedTester
 
             watcher.GetEvent<RankEvent>()?.AddHandler((s, e) => Console.WriteLine("Combat rank is {0}, Exploration rank is {1}", e.Combat.ToString(), e.Explore.ToString()));
 
-            watcher.StartWatching();
-
+            watcher.StartWatching().Wait();
 
             Console.ReadLine();
 

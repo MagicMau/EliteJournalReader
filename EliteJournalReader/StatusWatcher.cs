@@ -27,7 +27,7 @@ namespace EliteJournalReader
         /// <summary>
         ///     The default filter
         /// </summary>
-        private const string DefaultFilter = @"status.json";
+        private const string DefaultFilter = @"Status.json";
 
         /// <summary>
         /// Token to signal that we are no longer watching
@@ -39,8 +39,14 @@ namespace EliteJournalReader
         /// </summary>
         public StatusWatcher(string path)
         {
+            Initialize(path);
+        }
+
+        protected void Initialize(string path)
+        {
             Filter = DefaultFilter;
-            NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime | NotifyFilters.Size;
+            NotifyFilter = NotifyFilters.CreationTime | NotifyFilters.LastWrite;
+
             try
             {
                 Path = System.IO.Path.GetFullPath(path);
@@ -52,57 +58,10 @@ namespace EliteJournalReader
         }
 
         /// <summary>
-        ///     Determines whether the Path contains netLog files.
+        /// For unit tests only
         /// </summary>
-        /// <returns><c>true</c> if the Path contains netLog files; otherwise, <c>false</c>.</returns>
-        public bool IsValidPath()
+        protected StatusWatcher()
         {
-            return IsValidPath(Path);
-        }
-
-        /// <summary>
-        ///     Determines whether the specified path contains netLog files.
-        /// </summary>
-        /// <param name="path">The path.</param>
-        /// <returns><c>true</c> if the specified path contains netLog files; otherwise, <c>false</c>.</returns>
-        public bool IsValidPath(string path)
-        {
-            var filesFound = false;
-            try
-            {
-                filesFound = Directory.GetFiles(path, Filter).Any();
-            }
-            catch (UnauthorizedAccessException)
-            {
-            }
-            catch (ArgumentNullException)
-            {
-            }
-            catch (DirectoryNotFoundException)
-            {
-            }
-            catch (PathTooLongException)
-            {
-            }
-            catch (ArgumentException)
-            {
-            }
-            catch (IOException)
-            {
-            }
-            return filesFound;
-        }
-
-        private DateTime GetFileCreationDate(string path)
-        {
-            try
-            {
-                return File.GetCreationTime(path);
-            }
-            catch
-            {
-                return DateTime.MinValue;
-            }
         }
 
         /// <summary>
@@ -116,7 +75,7 @@ namespace EliteJournalReader
         ///     The directory specified in <see cref="P:System.IO.FileSystemWatcher.Path" />
         ///     could not be found.
         /// </exception>
-        public void StartWatching()
+        public virtual void StartWatching()
         {
             if (EnableRaisingEvents)
             {
@@ -124,11 +83,10 @@ namespace EliteJournalReader
                 return;
             }
 
-            if (!IsValidPath())
+            if (!Directory.Exists(Path))
             {
-                //throw new InvalidOperationException(
-                //    string.Format("Directory {0} does not contain journal files?!", this.Path));
-                return; // fail silently
+                Trace.TraceError($"Cannot watch non-existing folder {Path}.");
+                return;
             }
 
             if (cancellationTokenSource != null)
@@ -137,21 +95,26 @@ namespace EliteJournalReader
             cancellationTokenSource = new CancellationTokenSource();
 
             Created += UpdateStatus;
+            Changed += UpdateStatus;
+            Renamed += UpdateStatus;
 
             EnableRaisingEvents = true;
         }
 
-        public void StopWatching()
+        public virtual void StopWatching()
         {
-            Created -= UpdateStatus;
+            if (EnableRaisingEvents)
+            {
+                Created -= UpdateStatus;
 
-            if (cancellationTokenSource != null)
-                cancellationTokenSource.Cancel();
+                if (cancellationTokenSource != null)
+                    cancellationTokenSource.Cancel();
 
-            EnableRaisingEvents = false;
+                EnableRaisingEvents = false;
+            }
         }
 
-        private void UpdateStatus(object sender, FileSystemEventArgs e)
+        protected void UpdateStatus(object sender, FileSystemEventArgs e)
         {
             UpdateStatus(e.FullPath, 0);
         }
@@ -167,7 +130,7 @@ namespace EliteJournalReader
                     if (evt == null)
                         throw new ArgumentNullException($"Unexpected empty status.json file");
 
-                    StatusUpdated?.Invoke(this, evt);
+                    FireStatusUpdatedEvent(evt);
                 }
             }
             catch (IOException ioe)
@@ -183,8 +146,9 @@ namespace EliteJournalReader
             {
                 Trace.TraceError($"Error while reading from status.json: {ex.Message}\n{ex.StackTrace}");
             }
-
         }
+
+        protected void FireStatusUpdatedEvent(StatusFileEvent evt) => StatusUpdated?.Invoke(this, evt);
     }
-    
+
 }

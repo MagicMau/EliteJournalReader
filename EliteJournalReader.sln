@@ -1,11 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.25428.1
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EliteJournalReader", "EliteJournalReader\EliteJournalReader.csproj", "{7790285B-E2EE-440B-8EA6-D27BBE6006D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EliteJournalFeedTester", "EliteJournalFeedTester\EliteJournalFeedTester.csproj", "{C2055E40-60FF-4B3A-873A-97DFCA9FC7B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EliteJournalReader.Tests", "EliteJournalReader.Tests\EliteJournalReader.Tests.csproj", "{5176BBCE-C284-4AB6-A8C6-C3EA30D94058}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5C61A369-00DE-4605-814D-97C2AA8684D3}"
+	ProjectSection(SolutionItems) = preProject
+		ReadMe.md = ReadMe.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +28,15 @@ Global
 		{C2055E40-60FF-4B3A-873A-97DFCA9FC7B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2055E40-60FF-4B3A-873A-97DFCA9FC7B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2055E40-60FF-4B3A-873A-97DFCA9FC7B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5176BBCE-C284-4AB6-A8C6-C3EA30D94058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5176BBCE-C284-4AB6-A8C6-C3EA30D94058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5176BBCE-C284-4AB6-A8C6-C3EA30D94058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5176BBCE-C284-4AB6-A8C6-C3EA30D94058}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A052EDAB-5219-4283-A67C-735E69D7CEC8}
 	EndGlobalSection
 EndGlobal
