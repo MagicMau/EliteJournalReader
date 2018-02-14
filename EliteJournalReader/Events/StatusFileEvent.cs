@@ -8,6 +8,7 @@ namespace EliteJournalReader.Events
 {
     public class StatusFileEvent
     {
+        public DateTime Timestamp { get; set; }
         public StatusFlags Flags { get; set; }
         public int[] Pips { get; set; }
         public int Firegroup { get; set; }

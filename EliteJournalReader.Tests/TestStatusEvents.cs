@@ -62,8 +62,39 @@ namespace EliteJournalReader.Tests
             var hodor = new AutoResetEvent(false);
 
             StatusFileEvent evt = null;
+            int counter = 0;
             watcher.StatusUpdated += (s, e) =>
             {
+                counter++;
+                evt = e;
+                hodor.Set();
+            };
+            watcher.StartWatching(tempFolder);
+
+            while (!hodor.WaitOne(100))
+            {
+                WriteStatusFile(new StatusFileEvent { Timestamp = DateTime.UtcNow, Longitude = 14, Latitude = 7, Pips = new[] { 2, 4, 2 } });
+                Thread.Sleep(1000); // wait a bit
+            }
+
+            Assert.IsNotNull(evt);
+            Assert.AreEqual(14, evt.Longitude);
+            Assert.AreEqual(7, evt.Latitude);
+
+            Thread.Sleep(1000); // wait a bit more for all the notifications to be handled
+            Assert.AreEqual(1, counter); // update only triggered once
+        }
+
+        [TestMethod]
+        public void Test_Parse_Multiple_Updates_Of_StatusJson()
+        {
+            var hodor = new AutoResetEvent(false);
+
+            StatusFileEvent evt = null;
+            int counter = 0;
+            watcher.StatusUpdated += (s, e) =>
+            {
+                counter++;
                 if (e.Longitude >= 15 && evt == null)
                 {
                     evt = e;
@@ -83,6 +114,7 @@ namespace EliteJournalReader.Tests
             Assert.IsNotNull(evt);
             Assert.AreEqual(15, evt.Longitude);
             Assert.AreEqual(7, evt.Latitude);
+            Assert.AreEqual(1, counter); // update only triggered once
         }
 
         private void WriteStatusFile(StatusFileEvent evt)
@@ -103,8 +135,7 @@ namespace EliteJournalReader.Tests
                 ["Heading"] = evt.Heading
             };
 
-            using (var fileStream = new FileStream(file, FileMode.Create, FileAccess.Write))
-            using (var streamWriter = new StreamWriter(fileStream))
+            using (var streamWriter = new StreamWriter(new FileStream(file, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read)))
             using (var writer = new JsonTextWriter(streamWriter))
             {
                 jo.WriteTo(writer);

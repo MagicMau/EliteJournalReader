@@ -119,6 +119,7 @@ namespace EliteJournalReader
             UpdateStatus(e.FullPath, 0);
         }
 
+        private DateTime lastTimestamp = DateTime.MinValue;
         private void UpdateStatus(string fullPath, int attempt)
         {
             try
@@ -130,7 +131,12 @@ namespace EliteJournalReader
                     if (evt == null)
                         throw new ArgumentNullException($"Unexpected empty status.json file");
 
-                    FireStatusUpdatedEvent(evt);
+                    // only fire the event if it's new data
+                    if (evt.Timestamp > lastTimestamp)
+                    {
+                        lastTimestamp = evt.Timestamp;
+                        FireStatusUpdatedEvent(evt);
+                    }
                 }
             }
             catch (IOException ioe)
