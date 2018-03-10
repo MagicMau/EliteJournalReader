@@ -25,6 +25,7 @@ namespace EliteJournalReader.Events
     //•	SystemGovernment
     //•	SystemSecurity
     //•	Population
+    //•	Wanted
     //•	Factions: an array of info for the local minor factions
     //    o Name
     //    o FactionState
@@ -60,6 +61,7 @@ namespace EliteJournalReader.Events
             public string SystemSecurity { get; set; }
             public string SystemSecurity_Localised { get; set; }
             public long Population { get; set; }
+            public bool Wanted { get; set; }
             public string[] Powers { get; set; }
 
             [JsonConverter(typeof(StringEnumConverter))]

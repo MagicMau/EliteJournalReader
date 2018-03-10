@@ -17,6 +17,7 @@ namespace EliteJournalReader.Events
         public class CrewMemberJoinsEventArgs : JournalEventArgs
         {
             public string Crew { get; set; }
+            public int CrewID { get; set; }
         }
     }
 }

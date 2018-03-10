@@ -27,7 +27,7 @@ namespace EliteJournalReader
         /// <summary>
         ///     The default filter
         /// </summary>
-        private const string DefaultFilter = @"Status.json";
+        private const string DefaultFilter = @"Status*.json";
 
         /// <summary>
         /// Token to signal that we are no longer watching
@@ -94,9 +94,12 @@ namespace EliteJournalReader
 
             cancellationTokenSource = new CancellationTokenSource();
 
-            Created += UpdateStatus;
-            Changed += UpdateStatus;
-            Renamed += UpdateStatus;
+            Changed += (s, e) => UpdateStatus(s, e);
+
+            // start with reading any existing status
+            string statusJsonPath = System.IO.Path.Combine(Path, "Status.json");
+            if (File.Exists(statusJsonPath))
+                UpdateStatus(statusJsonPath, 0);
 
             EnableRaisingEvents = true;
         }
@@ -124,6 +127,7 @@ namespace EliteJournalReader
         {
             try
             {
+                Thread.Sleep(50); // give it a wee bit
                 using (StreamReader streamReader = new StreamReader(new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                 using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
                 {
@@ -139,20 +143,24 @@ namespace EliteJournalReader
                     }
                 }
             }
-            catch (IOException ioe)
-            {
-                // it could be that we are trying to read at the exact same time the 
-                // game is writing a new status.json. To handle this case, we simply give it another shot.
-                if (attempt < 5)
-                    UpdateStatus(fullPath, attempt++);
-                else
-                    Trace.TraceError($"IO Error while reading from status.json: {ioe.Message}\n{ioe.StackTrace}");
-            }
+            catch (IOException ioe) { HandleUpdateStatusException(ioe, attempt, fullPath); }
+            catch (JsonException je) { HandleUpdateStatusException(je, attempt, fullPath); }
             catch (Exception ex)
             {
                 Trace.TraceError($"Error while reading from status.json: {ex.Message}\n{ex.StackTrace}");
             }
         }
+
+        private void HandleUpdateStatusException(Exception ex, int attempt, string fullPath)
+        {
+            // it could be that we are trying to read at the exact same time the 
+            // game is writing a new status.json. To handle this case, we simply give it another shot.
+            if (attempt < 5)
+                UpdateStatus(fullPath, attempt + 1);
+            else
+                Trace.TraceError($"IO Error while reading from status.json: {ex.Message}\n{ex.StackTrace}");
+        }
+
 
         protected void FireStatusUpdatedEvent(StatusFileEvent evt) => StatusUpdated?.Invoke(this, evt);
     }

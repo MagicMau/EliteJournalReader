@@ -36,7 +36,11 @@ namespace EliteJournalReader.Events
                 public int TransferCost;
                 public int TransferTime;
                 public string EngineerModifications;
+                public int Level;
+                public double Quality;
+                public int BuyPrice;
                 public bool InTransit;
+                public bool Hot;
             }
 
             public long MarketID { get; set; }

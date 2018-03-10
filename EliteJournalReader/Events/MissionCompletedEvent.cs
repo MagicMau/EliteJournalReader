@@ -11,6 +11,7 @@ namespace EliteJournalReader.Events
     //Parameters:
     //•	Name: mission type
     //•	Faction: faction name
+    //•	MissionID
     //Optional parameters (depending on mission type)
     //•	Commodity
     //•	Count
@@ -20,16 +21,54 @@ namespace EliteJournalReader.Events
     //•	Reward: value of reward
     //•	Donation: donation offered (for altruism missions)
     //•	PermitsAwarded:[] (names of any permits awarded, as a JSON array)
+    //•	MaterialsReward:[] (name, category and count)
+    //•	FactionEffects: array of records
+    //    o   Faction
+    //    o   Effects: array of Effect and Trend value pairs
+    //    o   Influence: array of SystemAddress and Trend value pairs
+    //    o   Reputation: Trend value
+
     public class MissionCompletedEvent : JournalEvent<MissionCompletedEvent.MissionCompletedEventArgs>
     {
         public MissionCompletedEvent() : base("MissionCompleted") { }
 
         public class MissionCompletedEventArgs : JournalEventArgs
         {
-            public struct CommodityReward
+            public struct CommodityRewardItem
             {
                 public string Name;
+                public string Name_Localised;
                 public int Count;
+            }
+
+            public struct MaterialRewardItem
+            {
+                public string Name;
+                public string Name_Localised;
+                public string Category;
+                public string Category_Localised;
+                public int Count;
+            }
+
+            public struct FactionEffectsDesc
+            {
+                public string Faction;
+                public FactionEffect[] Effects;
+                public FactionInfluenceEffect[] Influence;
+                public string Reputation;
+            }
+
+            public struct FactionEffect
+            {
+                public string Effect;
+                public string Effect_Localised;
+                public string Trend;
+            }
+
+            public struct FactionInfluenceEffect
+            {
+                public long System;
+                public string Trend;
             }
 
             public string Name { get; set; }
@@ -42,7 +81,10 @@ namespace EliteJournalReader.Events
             public int Reward { get; set; }
             public int? Donation { get; set; }
             public string[] PermitsAwarded { get; set; }
-            public CommodityReward[] CommodityRewards { get; set; }
+            public CommodityRewardItem[] CommodityReward { get; set; }
+            public MaterialRewardItem[] MaterialRewared { get; set; }
+            public FactionEffectsDesc FactionEffects { get; set; }
+
             public long MissionID { get; set; }
         }
     }

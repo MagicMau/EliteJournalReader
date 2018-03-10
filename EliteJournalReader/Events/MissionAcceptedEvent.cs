@@ -13,6 +13,11 @@ namespace EliteJournalReader.Events
     //Parameters:
     //•	Name: name of mission
     //•	Faction: faction offering mission
+    //•	MissionID
+    //•	Influence: effect on influence(None/Low/Med/High)
+    //•	Reputation: effect on reputation(None/Low/Med/High)
+    //•	Reward: expected cash reward
+    //•	Wing: bool
     //Optional Parameters (depending on mission type)
     //•	Commodity: commodity type
     //•	Count: number required / to deliver
@@ -34,6 +39,9 @@ namespace EliteJournalReader.Events
 
             [JsonConverter(typeof(StringEnumConverter))]
             public ReputationLevel Reputation { get; set; }
+
+            public int Reward { get; set; }
+            public bool Wing { get; set; }
 
             public string Commodity { get; set; }
             public string Commodity_Localised { get; set; }

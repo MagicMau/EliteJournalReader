@@ -69,6 +69,7 @@
     <Compile Include="Events\AfmuRepairsEvent.cs" />
     <Compile Include="Events\ApproachBodyEvent.cs" />
     <Compile Include="Events\ApproachSettlementEvent.cs" />
+    <Compile Include="Events\CargoDepotEvent.cs" />
     <Compile Include="Events\CommanderEvent.cs" />
     <Compile Include="Events\CrewLaunchFighterEvent.cs" />
     <Compile Include="Events\CrewMemberRoleChangeEvent.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Events\EngineerLegacyConvertEvent.cs" />
     <Compile Include="Events\FighterDestroyedEvent.cs" />
     <Compile Include="Events\FighterRebuiltEvent.cs" />
+    <Compile Include="Events\MissionsEvent.cs" />
     <Compile Include="Events\LaunchDroneEvent.cs" />
     <Compile Include="Events\LeaveBodyEvent.cs" />
     <Compile Include="Events\MarketEvent.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Events\NpcCrewPaidWageEvent.cs" />
     <Compile Include="Events\NpcCrewRankEvent.cs" />
     <Compile Include="Events\OutfittingEvent.cs" />
+    <Compile Include="Events\PowerplayEvent.cs" />
     <Compile Include="Events\RepairDroneEvent.cs" />
     <Compile Include="Events\MissionRedirectedEvent.cs" />
     <Compile Include="Events\ReputationEvent.cs" />
@@ -244,6 +247,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Material.cs" />
+    <Compile Include="Mission.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Passenger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -254,7 +258,6 @@
     <Compile Include="SystemPosition.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Events\ScanEvent.cs.bak" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

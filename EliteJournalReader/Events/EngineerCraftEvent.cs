@@ -25,6 +25,7 @@ namespace EliteJournalReader.Events
             public long BlueprintID { get; set; }
             public int Level { get; set; }
             public double Quality { get; set; }
+            public string ApplyExperimentalEffect { get; set; }
             public List<Material> Ingredients { get; set; }
             public List<EngineeringModifiers> Modifiers { get; set; }
         }

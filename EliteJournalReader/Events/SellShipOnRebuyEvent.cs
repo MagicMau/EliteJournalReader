@@ -20,6 +20,7 @@ namespace EliteJournalReader.Events
         public class SellShipOnRebuyEventArgs : JournalEventArgs
         {
             public string ShipType { get; set; }
+            public string ShipType_Localised { get; set; }
             public int SellShipId { get; set; }
             public int ShipPrice { get; set; }
             public string System { get; set; }

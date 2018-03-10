@@ -14,6 +14,7 @@ namespace EliteJournalReader.Events
         //When written: at startup, when loading from main menu into game
         //Parameters:
         //•	Commander: commander name
+        //•	Horizons: bool
         //•	Ship: current ship type
         //•	ShipID: ship id number
         //•	StartLanded: true (only present if landed)
@@ -32,6 +33,7 @@ namespace EliteJournalReader.Events
         public class LoadGameEventArgs : JournalEventArgs
         {
             public string Commander { get; set; }
+            public bool Horizons { get; set; }
             public string Ship { get; set; }
             public int ShipID { get; set; }
             public bool StartLanded { get; set; } = false;

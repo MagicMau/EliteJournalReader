@@ -27,6 +27,9 @@ namespace EliteJournalReader.Events
                 public string Slot;
                 public string Name;
                 public string EngineerModifications;
+                public int Level { get; set; }
+                public double Quality { get; set; }
+                public bool Hot { get; set; }
             }
 
             public string Ship { get; set; }

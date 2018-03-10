@@ -11,6 +11,7 @@ namespace EliteJournalReader.Events
 {
     //When Written: detailed discovery scan of a star, planet or moon
     //Parameters(star)
+    //•	ScanType
     //•	Bodyname: name of body
     //•	DistanceFromArrivalLS
     //•	StarType: Stellar classification (for a star)
@@ -25,6 +26,7 @@ namespace EliteJournalReader.Events
     //
     //Parameters(Planet/Moon) 
     //•	Bodyname: name of body
+    //•	Parents: Array of BodyType:BodyID pairs
     //•	DistanceFromArrivalLS
     //•	* TidalLock: 1 if tidally locked
     //•	* TerraformState: Terraformable, Terraforming, Terraformed, or null
@@ -38,7 +40,10 @@ namespace EliteJournalReader.Events
     //•	* SurfacePressure
     //•	* Landable: true (if landable)
     //•	* Materials: JSON object with material names and percentage occurrence
-    //•	RotationPeriod (seconds)
+    //•	* Composition: structure containing info on solid composition
+    //    o Ice
+    //    o Rock
+    //    o Metal
     //•	* Rings [ array of info ] - if rings present
     //•	* ReserveLevel: (Pristine/Major/Common/Low/Depleted) – if rings present
     //If rotating:
@@ -63,6 +68,9 @@ namespace EliteJournalReader.Events
     //A basic scan on a planet will include body name, planet class, orbital data, rotation period, mass, 
     //radius, surface gravity; but will exclude tidal lock, terraform state, atmosphere, volcanism, surface pressure and temperature, 
     //available materials, and details of rings. The info for a star will be largely the same whether a basic scanner or detailed scanner is used.
+    //
+    //The "Parents" property provides the body's hierarchical position within the system: in the example below, 
+    //"Procyon B 3 a" is a moon of a planet (body 11), which is orbiting a star (body 2), which is has a parent body that's a Barycentre
     //
     //Entries in the list above marked with an asterisk are only included for a detailed scan
     //
@@ -188,6 +196,8 @@ namespace EliteJournalReader.Events
             public long BodyID { get; set; }
             public double DistanceFromArrivalLs { get; set; }
 
+            [JsonConverter(typeof(BodyParentConverter))]
+            public List<BodyParent> Parents { get; set; }
 
             public double? SemiMajorAxis { get; set; }
             public double? Eccentricity { get; set; }
@@ -201,7 +211,6 @@ namespace EliteJournalReader.Events
             [JsonConverter(typeof(StringEnumConverter))]
             public ReserveLevel? ReserveLevel { get; set; }
 
-
             [JsonConverter(typeof(StringEnumConverter))]
             public StarType StarType { get; set; }
 
@@ -212,7 +221,6 @@ namespace EliteJournalReader.Events
             public double? OrbitalPeriod { get; set; }
             public double? RotationPeriod { get; set; }
             public double? AxialTilt { get; set; }
-
 
             [JsonConverter(typeof(StringEnumConverter))]
             public TerraformState TerraformState { get; set; }
@@ -254,5 +262,44 @@ namespace EliteJournalReader.Events
         public double MassMT;
         public double InnerRad;
         public double OuterRad;
+    }
+
+    public struct BodyParent
+    {
+        public string Type;
+        public long BodyID;
+    }
+
+
+
+    public class BodyParentConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof(BodyParent);
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            if (JToken.ReadFrom(reader) is JObject obj)
+            {
+                var prop = obj.Properties().FirstOrDefault();
+                if (prop != null)
+                {
+                    var bp = new BodyParent
+                    {
+                        Type = prop.Name,
+                        BodyID = prop.Value.Value<long>()
+                    };
+                    return bp;
+                }
+            }
+            return new BodyParent { Type = "UNKNOWN", BodyID = 0 };
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

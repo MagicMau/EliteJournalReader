@@ -10,6 +10,7 @@ namespace EliteJournalReader
         public string BlueprintName { get; set; }
         public int Level { get; set; }
         public double Quality { get; set; }
-        public List<EngineeringModifiers> Modifiers { get; set; }
+        public string ExperimentalEffect { get; set; }
+        public List<EngineeringModifiers> Modifications { get; set; }
     }
 }

@@ -37,8 +37,10 @@ namespace EliteJournalReader.Events
             {
                 public int ShipID;
                 public string ShipType;
+                public string ShipType_Localised;
                 public string Name;
                 public int Value;
+                public bool Hot;
                 public string StarSystem;
                 public long ShipMarketID;
                 public int TransferPrice;

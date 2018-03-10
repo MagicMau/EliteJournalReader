@@ -218,7 +218,8 @@ namespace EliteJournalReader
             Changed += JournalWatcher_Changed;
 
             EnableRaisingEvents = true;
-            CheckForJournalUpdateAsync(LatestJournalFile);
+            if (!string.IsNullOrEmpty(LatestJournalFile))
+                CheckForJournalUpdateAsync(LatestJournalFile);
         }
 
         private async void JournalWatcher_Changed(object sender, FileSystemEventArgs e)

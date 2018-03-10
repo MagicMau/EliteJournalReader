@@ -29,6 +29,9 @@ namespace EliteJournalReader.Events
             public string RetrievedItem { get; set; }
             public string RetrievedItem_Localised { get; set; }
             public string EngineerModifications { get; set; }
+            public int Level { get; set; }
+            public double Quality { get; set; }
+            public bool Hot { get; set; }
             public string SwapOutItem { get; set; }
             public string SwapOutItem_Localised { get; set; }
             public int Cost { get; set; }

@@ -7,9 +7,18 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
-    //When Written: when mining fragments are converted unto a unit of cargo by refinery
+    //When written: when exchanging materials at the Material trader contact
     //Parameters:
-    //•	Type: cargo type
+    //•	MarketID
+    //•	TraderType
+    //•	Paid
+    //   o   Material
+    //   o   Category
+    //   o   Quantity
+    //•	Received
+    //   o   Material
+    //   o   Category
+    //   o   Quantity
     public class MaterialTradeEvent : JournalEvent<MaterialTradeEvent.MaterialTradeEventArgs>
     {
         public MaterialTradeEvent() : base("MaterialTrade") { }
@@ -20,6 +29,8 @@ namespace EliteJournalReader.Events
             {
                 public string Material;
                 public string Material_Localised;
+                public string Category;
+                public string Category_Localised;
                 public int Quantity;
             }
 
