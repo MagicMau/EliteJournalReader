@@ -74,6 +74,7 @@
     <Compile Include="Events\CrewLaunchFighterEvent.cs" />
     <Compile Include="Events\CrewMemberRoleChangeEvent.cs" />
     <Compile Include="Events\DiscoveryScanEvent.cs" />
+    <Compile Include="Events\ModuleInfoEvent.cs" />
     <Compile Include="Events\EndCrewSessionEvent.cs" />
     <Compile Include="Events\EngineerLegacyConvertEvent.cs" />
     <Compile Include="Events\FighterDestroyedEvent.cs" />
@@ -247,6 +248,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Material.cs" />
+    <Compile Include="MessageReceivedEventArgs.cs" />
     <Compile Include="Mission.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Passenger.cs" />

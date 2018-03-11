@@ -54,7 +54,7 @@ namespace EliteJournalReader.Events
             public double? Longitude { get; set; }
             public string StationName { get; set; }
             public string StationType { get; set; }
-            public long? MarketID { get; set; }
+            public long MarketID { get; set; }
             public string SystemFaction { get; set; }
             public string FactionState { get; set; }
             public string SystemAllegiance { get; set; }

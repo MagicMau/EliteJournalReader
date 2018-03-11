@@ -21,6 +21,8 @@ namespace EliteJournalReader
     public class JournalWatcher : FileSystemWatcher
     {
         public const int UPDATE_INTERVAL_MILLISECONDS = 500;
+
+        public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         
         /// <summary>
         ///     The default filter
@@ -453,7 +455,9 @@ namespace EliteJournalReader
                 if (IsLive)
                     Trace.TraceInformation($"Journal - firing event {eventType} @ {evt["timestamp"]?.Value<string>()}\r\n\t{line}");
 #endif
-                FireEvent(eventType, evt);
+                var journalEventArgs = FireEvent(eventType, evt);
+                if (journalEventArgs != null)
+                    MessageReceived?.Invoke(this, new MessageReceivedEventArgs(journalEventArgs, eventType));
             }
             catch (Exception e)
             {
@@ -467,12 +471,14 @@ namespace EliteJournalReader
         /// </summary>
         /// <param name="eventType"></param>
         /// <param name="evt"></param>
-        private void FireEvent(string eventType, JObject evt)
+        private JournalEventArgs FireEvent(string eventType, JObject evt)
         {
             if (journalEventsByName.TryGetValue(eventType, out JournalEvent handler))
-                handler.FireEvent(this, evt);
+                return handler.FireEvent(this, evt);
             else
                 Trace.TraceWarning("No event handler registered for journal event of type: " + eventType);
+
+            return null;
         }
 
         public TJournalEvent GetEvent<TJournalEvent>() where TJournalEvent : JournalEvent

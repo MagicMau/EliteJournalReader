@@ -17,14 +17,16 @@ namespace EliteJournalReader.Events
 
         }
 
-        internal override void FireEvent(object sender, JObject evt)
+        internal override JournalEventArgs FireEvent(object sender, JObject evt)
         {
-            base.FireEvent(sender, evt);
+            var args = base.FireEvent(sender, evt);
 
             // a continued event signals that a new file is coming, so
             // let's start polling for it
             var watcher = sender as JournalWatcher;
             watcher?.StartPollingForNewJournal();
+
+            return args;
         }
 
         public class ContinuedEventArgs : JournalEventArgs

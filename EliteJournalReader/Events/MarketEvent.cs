@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
@@ -37,6 +39,50 @@ namespace EliteJournalReader.Events
             public string StationName { get; set; }
             public long MarketID { get; set; }
             public string StarSystem { get; set; }
+
+            public MarketInfo ReadMarketInfo(string journalPath)
+            {
+                string filepath = Path.Combine(journalPath, "Market.json");
+                try
+                {
+                    MarketInfo result = JToken.ReadFrom(new JsonTextReader(new StreamReader(filepath))).ToObject<MarketInfo>();
+                    return result;
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Trace.TraceError($"Error reading from {filepath}: {e.Message}");
+                    return null;
+                }
+            }
         }
+    }
+
+    public class MarketInfo
+    {
+        public DateTime Timestamp { get; set; }
+        public string Event { get; set; }
+        public long MarketID { get; set; }
+        public string StationName { get; set; }
+        public string StarSystem { get; set; }
+        public List<MarketItem> Items { get; set; }
+    }
+
+    public class MarketItem
+    {
+        public long ID { get; set; }
+        public string Name { get; set; }
+        public string Name_Localised { get; set; }
+        public string Category { get; set; }
+        public string Category_Localised { get; set; }
+        public int BuyPrice { get; set; }
+        public int SellPrice { get; set; }
+        public int MeanPrice { get; set; }
+        public int StockBracket { get; set; }
+        public int DemandBracket { get; set; }
+        public int Stock { get; set; }
+        public int Demand { get; set; }
+        public bool Consumer { get; set; }
+        public bool Producer { get; set; }
+        public bool Rare { get; set; }
     }
 }

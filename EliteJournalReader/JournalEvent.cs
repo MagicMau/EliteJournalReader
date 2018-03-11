@@ -17,7 +17,7 @@ namespace EliteJournalReader
             _eventNames = eventNames;
         }
 
-        internal abstract void FireEvent(object sender, JObject evt);
+        internal abstract JournalEventArgs FireEvent(object sender, JObject evt);
     }
 
     public abstract class JournalEvent<TJournalEventArgs> : JournalEvent
@@ -39,7 +39,7 @@ namespace EliteJournalReader
             Fired -= eventHandler;
         }
 
-        internal override void FireEvent(object sender, JObject evt)
+        internal override JournalEventArgs FireEvent(object sender, JObject evt)
         {
             var eventArgs = evt.ToObject<TJournalEventArgs>();
             eventArgs.OriginalEvent = evt;
@@ -49,6 +49,8 @@ namespace EliteJournalReader
             eventArgs.PostProcess(evt);
 
             Fired?.Invoke(sender, eventArgs);
+
+            return eventArgs;
         }
     }
 }
