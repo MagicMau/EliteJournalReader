@@ -30,11 +30,11 @@ namespace EliteJournalReader.Events
     //•	Bounty
     //•	SubSystem
     //•	SubSystemHealth
-    public class ShipTargettedEvent : JournalEvent<ShipTargettedEvent.ShipTargettedEventArgs>
+    public class ShipTargetedEvent : JournalEvent<ShipTargetedEvent.ShipTargetedEventArgs>
     {
-        public ShipTargettedEvent() : base("ShipTargetted") { }
+        public ShipTargetedEvent() : base("ShipTargeted") { }
 
-        public class ShipTargettedEventArgs : JournalEventArgs
+        public class ShipTargetedEventArgs : JournalEventArgs
         {
             public bool TargetLocked { get; set; }
             public string Ship { get; set; }

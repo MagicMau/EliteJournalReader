@@ -198,7 +198,7 @@ namespace EliteJournalReader
             }
 
             if (cancellationTokenSource != null)
-                cancellationTokenSource.Cancel(); // should not happen, but let's be safe, okay?
+                cancellationTokenSource.Cancel(false); // should not happen, but let's be safe, okay?
 
             cancellationTokenSource = new CancellationTokenSource();
 
@@ -283,7 +283,7 @@ namespace EliteJournalReader
             {
                 try
                 {
-                    if (!journalThread.Join(UPDATE_INTERVAL_MILLISECONDS * 4))
+                    if (!journalThread.Join(30000))
                     {
                         journalThread.Abort();
                     }

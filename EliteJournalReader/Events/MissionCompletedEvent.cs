@@ -71,8 +71,9 @@ namespace EliteJournalReader.Events
                 public string Trend;
             }
 
-            public string Name { get; set; }
             public string Faction { get; set; }
+            public string Name { get; set; }
+            public long MissionID { get; set; }
             public string Commodity { get; set; }
             public int? Count { get; set; }
             public string Target { get; set; }
@@ -83,9 +84,7 @@ namespace EliteJournalReader.Events
             public string[] PermitsAwarded { get; set; }
             public CommodityRewardItem[] CommodityReward { get; set; }
             public MaterialRewardItem[] MaterialRewared { get; set; }
-            public FactionEffectsDesc FactionEffects { get; set; }
-
-            public long MissionID { get; set; }
+            public FactionEffectsDesc[] FactionEffects { get; set; }
         }
     }
 }

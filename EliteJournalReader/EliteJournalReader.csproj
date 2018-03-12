@@ -111,7 +111,7 @@
     <Compile Include="Events\SearchAndRescueEvent.cs" />
     <Compile Include="Events\SetUserShipNameEvent.cs" />
     <Compile Include="Events\SellShipOnRebuyEvent.cs" />
-    <Compile Include="Events\ShipTargettedEvent.cs" />
+    <Compile Include="Events\ShipTargetedEvent.cs" />
     <Compile Include="Events\ShipyardEvent.cs" />
     <Compile Include="Events\ShutdownEvent.cs" />
     <Compile Include="Events\SRVDestroyedEvent.cs" />
