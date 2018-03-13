@@ -189,60 +189,76 @@ namespace EliteJournalReader.Events
 
         public class ScanEventArgs : JournalEventArgs
         {
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<ScanType>))]
             public ScanType ScanType { get; set; }
 
             public string BodyName { get; set; }
+
             public long BodyID { get; set; }
+
             public double DistanceFromArrivalLs { get; set; }
 
             [JsonConverter(typeof(BodyParentConverter))]
             public List<BodyParent> Parents { get; set; }
 
             public double? SemiMajorAxis { get; set; }
+
             public double? Eccentricity { get; set; }
+
             public double? Periapsis { get; set; }
+
             public double? OrbitalInclination { get; set; }
+
             public double? Age_MY { get; set; }
+
             public double? MassEM { get; set; }
 
             public List<PlanetRing> Rings { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
-            public ReserveLevel? ReserveLevel { get; set; }
+            [JsonConverter(typeof(ExtendedStringEnumConverter<ReserveLevel>))]
+            public ReserveLevel ReserveLevel { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<StarType>))]
             public StarType StarType { get; set; }
 
             public double? StellarMass { get; set; }
+
             public double? Radius { get; set; }
+
             public double? AbsoluteMagnitude { get; set; }
+
+            [JsonConverter(typeof(ExtendedStringEnumConverter<StarLuminosity>))]
             public StarLuminosity Luminosity { get; set; }
+
             public double? OrbitalPeriod { get; set; }
+
             public double? RotationPeriod { get; set; }
+
             public double? AxialTilt { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<TerraformState>))]
             public TerraformState TerraformState { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<PlanetClass>))]
             public PlanetClass PlanetClass { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
-            public AtmosphereClass Atmosphere { get; set; }
+            public string Atmosphere { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
-            public AtmosphereType AtmosphereType { get; set; }
+            [JsonConverter(typeof(ExtendedStringEnumConverter<AtmosphereClass>))]
+            public AtmosphereClass AtmosphereType { get; set; }
 
             public List<ScanItemComponent> AtmosphereComposition { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
-            public VolcanismClass Volcanism { get; set; }
+            public string Volcanism { get; set; }
 
             public double? SurfaceGravity { get; set; }
+
             public double? SurfaceTemperature { get; set; }
+
             public double? SurfacePressure { get; set; }
+
             public bool? Landable { get; set; }
+
             public bool? TidalLock { get; set; }
 
             public List<ScanItemComponent> Materials { get; set; }
@@ -276,25 +292,32 @@ namespace EliteJournalReader.Events
     {
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(BodyParent);
+            return objectType == typeof(IEnumerable<BodyParent>);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            if (JToken.ReadFrom(reader) is JObject obj)
+            var bps = new List<BodyParent>();
+            if (JToken.ReadFrom(reader) is JArray array)
             {
-                var prop = obj.Properties().FirstOrDefault();
-                if (prop != null)
+                foreach (JToken token in array.Children())
                 {
-                    var bp = new BodyParent
+                    if (token is JObject obj)
                     {
-                        Type = prop.Name,
-                        BodyID = prop.Value.Value<long>()
-                    };
-                    return bp;
+                        var prop = obj.Properties().FirstOrDefault();
+                        if (prop != null)
+                        {
+                            var bp = new BodyParent
+                            {
+                                Type = prop.Name,
+                                BodyID = prop.Value.Value<long>()
+                            };
+                            bps.Add(bp);
+                        }
+                    }
                 }
             }
-            return new BodyParent { Type = "UNKNOWN", BodyID = 0 };
+            return bps;
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

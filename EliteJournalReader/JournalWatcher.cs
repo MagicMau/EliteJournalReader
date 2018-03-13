@@ -461,7 +461,7 @@ namespace EliteJournalReader
             }
             catch (Exception e)
             {
-                Trace.TraceError($"Exception handling journal event:\r\n\t{line}\r\n\tException: {e.Message}");
+                Trace.TraceError($"Exception handling journal event:\r\n\t{line}\r\n\t{e.GetType().FullName}: {e.Message}");
                 OnError(new ErrorEventArgs(e));
             }
         }
