@@ -21,9 +21,9 @@ When you're done, call `StopWatching()` to stop monitoring file changes.
 
 # More information
 The full documentation on all generated events can be found at:
-http://hosting.zaonce.net/community/journal/v15/Journal_Manual_v15.pdf
+http://hosting.zaonce.net/community/journal/v16/Journal_Manual_v16.pdf
 (or the same as a 
-[Word document](http://hosting.zaonce.net/community/journal/v15/Journal_Manual_v15.doc))
+[Word document](http://hosting.zaonce.net/community/journal/v16/Journal_Manual_v16.doc))
 
 # Disclaimer
 This site was created using assets and imagery from Elite: Dangerous, 
