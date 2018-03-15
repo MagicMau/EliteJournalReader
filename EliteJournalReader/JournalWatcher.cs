@@ -21,6 +21,8 @@ namespace EliteJournalReader
     public class JournalWatcher : FileSystemWatcher
     {
         public const int UPDATE_INTERVAL_MILLISECONDS = 500;
+
+        public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         
         /// <summary>
         ///     The default filter
@@ -64,7 +66,7 @@ namespace EliteJournalReader
         /// </summary>
         private static Dictionary<Type, JournalEvent> journalEvents = new Dictionary<Type, JournalEvent>();
 
-        public bool IsLive { get; private set; }
+        public bool IsLive { get; protected set; }
 
         /// <summary>
         /// Use reflection to generate a list of event handlers. This allows for a dynamic list of handler classes, one for each type
@@ -107,46 +109,9 @@ namespace EliteJournalReader
             }
         }
 
-        /// <summary>
-        ///     Determines whether the Path contains netLog files.
-        /// </summary>
-        /// <returns><c>true</c> if the Path contains netLog files; otherwise, <c>false</c>.</returns>
-        public bool IsValidPath()
+        protected JournalWatcher()
         {
-            return IsValidPath(Path);
-        }
-
-        /// <summary>
-        ///     Determines whether the specified path contains netLog files.
-        /// </summary>
-        /// <param name="path">The path.</param>
-        /// <returns><c>true</c> if the specified path contains netLog files; otherwise, <c>false</c>.</returns>
-        public bool IsValidPath(string path)
-        {
-            var filesFound = false;
-            try
-            {
-                filesFound = Directory.GetFiles(path, Filter).Any();
-            }
-            catch (UnauthorizedAccessException)
-            {
-            }
-            catch (ArgumentNullException)
-            {
-            }
-            catch (DirectoryNotFoundException)
-            {
-            }
-            catch (PathTooLongException)
-            {
-            }
-            catch (ArgumentException)
-            {
-            }
-            catch (IOException)
-            {
-            }
-            return filesFound;
+            // to be used for unit tests when we're not actually checking file systems
         }
 
         private readonly Regex journalFileRegex = new Regex(@"^(?<path>.*)\\Journal(Beta)?\.(?<timestamp>\d+)\.(?<part>\d+)\.log$", RegexOptions.Compiled);
@@ -218,7 +183,7 @@ namespace EliteJournalReader
         ///     The directory specified in <see cref="P:System.IO.FileSystemWatcher.Path" />
         ///     could not be found.
         /// </exception>
-        public async Task StartWatching()
+        public virtual async Task StartWatching()
         {
             if (EnableRaisingEvents)
             {
@@ -226,15 +191,14 @@ namespace EliteJournalReader
                 return;
             }
 
-            if (!IsValidPath())
+            if (!Directory.Exists(Path))
             {
-                //throw new InvalidOperationException(
-                //    string.Format("Directory {0} does not contain journal files?!", this.Path));
-                return; // fail silently
+                Trace.TraceError($"Cannot watch non-existing folder {Path}.");
+                return;
             }
 
             if (cancellationTokenSource != null)
-                cancellationTokenSource.Cancel(); // should not happen, but let's be safe, okay?
+                cancellationTokenSource.Cancel(false); // should not happen, but let's be safe, okay?
 
             cancellationTokenSource = new CancellationTokenSource();
 
@@ -256,7 +220,8 @@ namespace EliteJournalReader
             Changed += JournalWatcher_Changed;
 
             EnableRaisingEvents = true;
-            CheckForJournalUpdateAsync(LatestJournalFile);
+            if (!string.IsNullOrEmpty(LatestJournalFile))
+                CheckForJournalUpdateAsync(LatestJournalFile);
         }
 
         private async void JournalWatcher_Changed(object sender, FileSystemEventArgs e)
@@ -299,8 +264,10 @@ namespace EliteJournalReader
             });
         }
 
-        public void StopWatching()
+        public virtual void StopWatching()
         {
+            EnableRaisingEvents = false;
+
             if (cancellationTokenSource != null)
                 cancellationTokenSource.Cancel();
 
@@ -316,7 +283,7 @@ namespace EliteJournalReader
             {
                 try
                 {
-                    if (!journalThread.Join(UPDATE_INTERVAL_MILLISECONDS * 4))
+                    if (!journalThread.Join(30000))
                     {
                         journalThread.Abort();
                     }
@@ -475,7 +442,7 @@ namespace EliteJournalReader
         /// Parses a line of JSON from the journal and fire a .NET event handler.
         /// </summary>
         /// <param name="line"></param>
-        private void Parse(string line)
+        protected void Parse(string line)
         {
             if (string.IsNullOrEmpty(line))
                 return;
@@ -488,11 +455,13 @@ namespace EliteJournalReader
                 if (IsLive)
                     Trace.TraceInformation($"Journal - firing event {eventType} @ {evt["timestamp"]?.Value<string>()}\r\n\t{line}");
 #endif
-                FireEvent(eventType, evt);
+                var journalEventArgs = FireEvent(eventType, evt);
+                if (journalEventArgs != null)
+                    MessageReceived?.Invoke(this, new MessageReceivedEventArgs(journalEventArgs, eventType));
             }
             catch (Exception e)
             {
-                Trace.TraceError($"Exception handling journal event:\r\n\t{line}\r\n\tException: {e.Message}");
+                Trace.TraceError($"Exception handling journal event:\r\n\t{line}\r\n\t{e.GetType().FullName}: {e.Message}");
                 OnError(new ErrorEventArgs(e));
             }
         }
@@ -502,12 +471,14 @@ namespace EliteJournalReader
         /// </summary>
         /// <param name="eventType"></param>
         /// <param name="evt"></param>
-        private void FireEvent(string eventType, JObject evt)
+        private JournalEventArgs FireEvent(string eventType, JObject evt)
         {
             if (journalEventsByName.TryGetValue(eventType, out JournalEvent handler))
-                handler.FireEvent(this, evt);
+                return handler.FireEvent(this, evt);
             else
                 Trace.TraceWarning("No event handler registered for journal event of type: " + eventType);
+
+            return null;
         }
 
         public TJournalEvent GetEvent<TJournalEvent>() where TJournalEvent : JournalEvent

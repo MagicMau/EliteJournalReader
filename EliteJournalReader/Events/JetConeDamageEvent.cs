@@ -16,13 +16,8 @@ namespace EliteJournalReader.Events
 
         public class JetConeDamageEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Module = evt.Value<string>("Module");
-            }
-
             public string Module { get; set; }
+            public string Module_Localised { get; set; }
         }
     }
 }

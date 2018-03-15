@@ -18,14 +18,6 @@ namespace EliteJournalReader.Events
 
         public class CapShipBondEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                AwardingFaction = evt.Value<string>("AwardingFaction");
-                VictimFaction = evt.Value<string>("VictimFaction");
-                Reward = evt.Value<int>("Reward");
-            }
-
             public string AwardingFaction { get; set; }
             public string VictimFaction { get; set; }
             public int Reward { get; set; }

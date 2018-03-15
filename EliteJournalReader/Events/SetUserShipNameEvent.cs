@@ -19,17 +19,8 @@ namespace EliteJournalReader.Events
 
         public class SetUserShipNameEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Ship = evt.Value<string>("Ship");
-                ShipId = evt.Value<int>("ShipID");
-                UserShipName = evt.Value<string>("UserShipName");
-                UserShipId = evt.Value<string>("UserShipId");
-            }
-
             public string Ship { get; set; }
-            public int ShipId { get; set; }
+            public int ShipID { get; set; }
             public string UserShipName { get; set; }
             public string UserShipId { get; set; }
         }

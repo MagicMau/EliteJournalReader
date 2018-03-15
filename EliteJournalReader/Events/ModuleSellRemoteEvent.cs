@@ -19,19 +19,9 @@ namespace EliteJournalReader.Events
 
         public class ModuleSellRemoteEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                StorageSlot = evt.Value<string>("StorageSlot");
-                ServerId = evt.Value<string>("ServerId");
-                SellItem = evt.Value<string>("SellItem");
-                SellPrice = evt.Value<int>("SellPrice");
-                Ship = evt.Value<string>("Ship");
-                ShipId = evt.Value<int>("ShipId");
-            }
-
             public string StorageSlot { get; set; }
             public string SellItem { get; set; }
+            public string SellItem_Localised { get; set; }
             public int SellPrice { get; set; }
             public string Ship { get; set; }
             public int ShipId { get; set; }

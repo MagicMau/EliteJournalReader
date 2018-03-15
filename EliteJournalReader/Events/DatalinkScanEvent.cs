@@ -16,12 +16,6 @@ namespace EliteJournalReader.Events
 
         public class DatalinkScanEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Message = evt.Value<string>("Message");
-            }
-
             public string Message { get; set; }
         }
     }

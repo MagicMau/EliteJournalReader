@@ -17,15 +17,8 @@ namespace EliteJournalReader.Events
 
         public class RefuelPartialEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Cost = evt.Value<int>("Cost");
-                Amount = evt.Value<int>("Amount");
-            }
-
             public int Cost { get; set; }
-            public int Amount { get; set; }
+            public double Amount { get; set; }
         }
     }
 }

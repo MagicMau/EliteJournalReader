@@ -17,29 +17,8 @@ namespace EliteJournalReader.Events
 
         public class SynthesisEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Name = evt.Value<string>("Name");
-
-                var mats = evt["Materials"];
-                if (mats != null)
-                {
-                    if (mats.Type == JTokenType.Object)
-                        Materials = mats.ToObject<Dictionary<string, int>>();
-                    else if (mats.Type == JTokenType.Array)
-                    {
-                        Materials = new Dictionary<string, int>();
-                        foreach (var jo in (JArray)mats)
-                        {
-                            Materials[jo.Value<string>("Name")] = jo.Value<int>("Count");
-                        }
-                    }
-                }
-            }
-
             public string Name { get; set; }
-            public Dictionary<string, int> Materials { get; set; }
+            public List<Material> Materials { get; set; }
         }
     }
 }

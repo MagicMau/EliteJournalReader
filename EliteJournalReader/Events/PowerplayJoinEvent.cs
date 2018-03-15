@@ -16,12 +16,6 @@ namespace EliteJournalReader.Events
 
         public class PowerplayJoinEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Power = evt.Value<string>("Power");
-            }
-
             public string Power { get; set; }
         }
     }

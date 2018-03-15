@@ -16,12 +16,6 @@ namespace EliteJournalReader.Events
 
         public class VehicleSwitchEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                To = evt.Value<string>("To").ToEnum(Vehicle.Unknown);
-            }
-
             public Vehicle To { get; set; }
         }
     }

@@ -19,34 +19,15 @@ namespace EliteJournalReader.Events
 
         public class EngineerCraftEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Engineer = evt.Value<string>("Engineer");
-                Blueprint = evt.Value<string>("Blueprint");
-                Level = evt.Value<int>("Level");
-
-                var ingredients = evt["Ingredients"];
-                if (ingredients != null)
-                {
-                    if (ingredients.Type == JTokenType.Object)
-                        Ingredients = ingredients.ToObject<Dictionary<string, int>>();
-                    else if (ingredients.Type == JTokenType.Array)
-                    {
-                        Ingredients = new Dictionary<string, int>();
-                        foreach (var jo in (JArray)ingredients)
-                        {
-                            Ingredients[jo.Value<string>("Name")] = jo.Value<int>("Count");
-                        }
-                    }
-                }
-
-            }
-
             public string Engineer { get; set; }
+            public long EngineerID { get; set; }
             public string Blueprint { get; set; }
+            public long BlueprintID { get; set; }
             public int Level { get; set; }
-            public Dictionary<string, int> Ingredients { get; set; }
+            public double Quality { get; set; }
+            public string ApplyExperimentalEffect { get; set; }
+            public List<Material> Ingredients { get; set; }
+            public List<EngineeringModifiers> Modifiers { get; set; }
         }
     }
 }

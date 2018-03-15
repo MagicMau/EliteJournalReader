@@ -17,13 +17,6 @@ namespace EliteJournalReader.Events
 
         public class PVPKillEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Victim = evt.Value<string>("Victim");
-                CombatRank = (CombatRank)(evt.Value<int?>("CombatRank") ?? 0);
-            }
-
             public string Victim { get; set; }
             public CombatRank CombatRank { get; set; }
         }

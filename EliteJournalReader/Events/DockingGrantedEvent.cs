@@ -17,14 +17,9 @@ namespace EliteJournalReader.Events
 
         public class DockingGrantedEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                StationName = evt.Value<string>("StationName");
-                LandingPad = evt.Value<int>("LandingPad");
-            }
-
             public string StationName { get; set; }
+            public string StationType { get; set; }
+            public long MarketID { get; set; }
             public int LandingPad { get; set; }
         }
     }

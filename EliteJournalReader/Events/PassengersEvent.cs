@@ -21,23 +21,7 @@ namespace EliteJournalReader.Events
 
         public class PassengersEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-
-                Manifest = evt["Manifest"]?.ToObject<Passenger[]>();
-            }
-
             public Passenger[] Manifest { get; set; }
-        }
-
-        public struct Passenger
-        {
-            public int MissionID;
-            public string Type;
-            public string VIP;
-            public bool Wanted;
-            public int Count;
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
@@ -17,16 +19,11 @@ namespace EliteJournalReader.Events
 
         public class SupercruiseExitEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                StarSystem = evt.Value<string>("StarSystem");
-                Body = evt.Value<string>("Body");
-                BodyType = evt.Value<string>("BodyType").ToEnum(BodyType.Unknown);
-            }
-
             public string StarSystem { get; set; }
             public string Body { get; set; }
+            public long BodyID { get; set; }
+
+            [JsonConverter(typeof(StringEnumConverter))]
             public BodyType BodyType { get; set; }
         }
     }

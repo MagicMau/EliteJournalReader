@@ -17,13 +17,7 @@ namespace EliteJournalReader.Events
 
         public class CommunityGoalJoinEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Name = evt.Value<string>("Name");
-                System = evt.Value<string>("System");
-            }
-
+            public long CGID { get; set; }
             public string Name { get; set; }
             public string System { get; set; }
         }

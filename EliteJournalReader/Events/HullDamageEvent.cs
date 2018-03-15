@@ -16,14 +16,6 @@ namespace EliteJournalReader.Events
 
         public class HullDamageEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Health = evt.Value<double>("Health");
-                PlayerPilot = evt.Value<bool>("PlayerPilot");
-                Fighter = evt.Value<bool>("Fighter");
-            }
-
             public double Health { get; set; }
             public bool PlayerPilot { get; set; }
             public bool Fighter { get; set; }

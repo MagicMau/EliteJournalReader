@@ -62,17 +62,43 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cargo.cs" />
+    <Compile Include="EngineeredModule.cs" />
+    <Compile Include="EngineeringModifiers.cs" />
     <Compile Include="EnumHelpers.cs" />
     <Compile Include="Events\AfmuRepairsEvent.cs" />
+    <Compile Include="Events\ApproachBodyEvent.cs" />
     <Compile Include="Events\ApproachSettlementEvent.cs" />
+    <Compile Include="Events\CargoDepotEvent.cs" />
+    <Compile Include="Events\CommanderEvent.cs" />
+    <Compile Include="Events\CrewLaunchFighterEvent.cs" />
+    <Compile Include="Events\CrewMemberRoleChangeEvent.cs" />
+    <Compile Include="Events\DiscoveryScanEvent.cs" />
+    <Compile Include="Events\ModuleInfoEvent.cs" />
+    <Compile Include="Events\EndCrewSessionEvent.cs" />
+    <Compile Include="Events\EngineerLegacyConvertEvent.cs" />
+    <Compile Include="Events\FighterDestroyedEvent.cs" />
+    <Compile Include="Events\FighterRebuiltEvent.cs" />
+    <Compile Include="Events\MissionsEvent.cs" />
+    <Compile Include="Events\LaunchDroneEvent.cs" />
+    <Compile Include="Events\LeaveBodyEvent.cs" />
+    <Compile Include="Events\MarketEvent.cs" />
+    <Compile Include="Events\MarketRefinedEvent.cs" />
+    <Compile Include="Events\MaterialTradeEvent.cs" />
+    <Compile Include="Events\ModulesInfoEvent.cs" />
     <Compile Include="Events\NavBeaconScanEvent.cs" />
     <Compile Include="Events\CommunityGoalEvent.cs" />
     <Compile Include="Events\CommunityGoalDiscardEvent.cs" />
     <Compile Include="Events\EngineerContributionEvent.cs" />
     <Compile Include="Events\FriendsEvent.cs" />
     <Compile Include="Events\MusicEvent.cs" />
+    <Compile Include="Events\NpcCrewPaidWageEvent.cs" />
+    <Compile Include="Events\NpcCrewRankEvent.cs" />
+    <Compile Include="Events\OutfittingEvent.cs" />
+    <Compile Include="Events\PowerplayEvent.cs" />
     <Compile Include="Events\RepairDroneEvent.cs" />
     <Compile Include="Events\MissionRedirectedEvent.cs" />
+    <Compile Include="Events\ReputationEvent.cs" />
     <Compile Include="Events\ScannedEvent.cs" />
     <Compile Include="Events\PassengersEvent.cs" />
     <Compile Include="Events\CargoEvent.cs" />
@@ -85,6 +111,10 @@
     <Compile Include="Events\SearchAndRescueEvent.cs" />
     <Compile Include="Events\SetUserShipNameEvent.cs" />
     <Compile Include="Events\SellShipOnRebuyEvent.cs" />
+    <Compile Include="Events\ShipTargetedEvent.cs" />
+    <Compile Include="Events\ShipyardEvent.cs" />
+    <Compile Include="Events\ShutdownEvent.cs" />
+    <Compile Include="Events\SRVDestroyedEvent.cs" />
     <Compile Include="Events\StartJumpEvent.cs" />
     <Compile Include="Events\MaterialsEvent.cs" />
     <Compile Include="Events\LoadoutEvent.cs" />
@@ -107,13 +137,19 @@
     <Compile Include="Events\PVPKillEvent.cs" />
     <Compile Include="Events\RepairAllEvent.cs" />
     <Compile Include="Events\ScientificResearchEvent.cs" />
+    <Compile Include="Events\StatisticsEvent.cs" />
+    <Compile Include="Events\StatusFileEvent.cs" />
+    <Compile Include="Events\StoredModulesEvent.cs" />
+    <Compile Include="Events\StoredShipsEvent.cs" />
+    <Compile Include="Events\SystemsShutdownEvent.cs" />
+    <Compile Include="Events\TechnologyBrokerEvent.cs" />
+    <Compile Include="Events\UnderAttackEvent.cs" />
     <Compile Include="Events\USSDropEvent.cs" />
     <Compile Include="Events\DockingDeniedEvent.cs" />
     <Compile Include="Events\DockingGrantedEvent.cs" />
     <Compile Include="Events\DockingRequestedEvent.cs" />
     <Compile Include="Events\DockingTimeoutEvent.cs" />
     <Compile Include="Events\EjectCargoEvent.cs" />
-    <Compile Include="Events\EngineerApplyEvent.cs" />
     <Compile Include="Events\EngineerCraftEvent.cs" />
     <Compile Include="Events\EngineerProgressEvent.cs" />
     <Compile Include="Events\DockFighterEvent.cs" />
@@ -204,16 +240,24 @@
     <Compile Include="Events\ProgressEvent.cs" />
     <Compile Include="Events\LoadGameEvent.cs" />
     <Compile Include="Events\FileheaderEvent.cs" />
+    <Compile Include="Faction.cs" />
     <Compile Include="JournalDescriptions.cs" />
     <Compile Include="JournalEvent.cs" />
     <Compile Include="JournalEventArgs.cs" />
     <Compile Include="JournalWatcher.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Models\Faction.cs" />
-    <Compile Include="SystemPosition.cs" />
+    <Compile Include="Material.cs" />
+    <Compile Include="MessageReceivedEventArgs.cs" />
+    <Compile Include="Mission.cs" />
+    <Compile Include="Module.cs" />
+    <Compile Include="Passenger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ranks.cs" />
+    <Compile Include="StatusWatcher.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SystemPosition.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -18,14 +18,7 @@ namespace EliteJournalReader.Events
 
         public class ScientificResearchEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Name = evt.Value<string>("Name");
-                Category = evt.Value<string>("Category");
-                Count = evt.Value<int>("Count");
-            }
-
+            public long MarketID { get; set; }
             public string Name { get; set; }
             public string Category { get; set; }
             public int Count { get; set; }

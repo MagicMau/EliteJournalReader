@@ -17,13 +17,6 @@ namespace EliteJournalReader.Events
 
         public class USSDropEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                USSType = evt.Value<string>("USSType");
-                USSThreat = evt.Value<int>("USSThreat");
-            }
-
             public string USSType { get; set; }
             public int USSThreat { get; set; }
         }

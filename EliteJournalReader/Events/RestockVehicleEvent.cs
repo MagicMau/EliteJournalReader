@@ -19,15 +19,6 @@ namespace EliteJournalReader.Events
 
         public class RestockVehicleEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Type = evt.Value<string>("Type");
-                Loadout = evt.Value<string>("Loadout");
-                Cost = evt.Value<int>("Cost");
-                Count = evt.Value<int>("Count");
-            }
-
             public string Type { get; set; }
             public string Loadout { get; set; }
             public int Cost { get; set; }

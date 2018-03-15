@@ -16,12 +16,6 @@ namespace EliteJournalReader.Events
 
         public class RebootRepairEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Modules = evt["Modules"]?.ToObject<string[]>();
-            }
-
             public string[] Modules { get; set; }
         }
     }

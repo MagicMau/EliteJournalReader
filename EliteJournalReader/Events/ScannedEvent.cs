@@ -17,12 +17,6 @@ namespace EliteJournalReader.Events
 
         public class ScannedEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                ScanType = evt.Value<string>("ScanType");
-            }
-
             public string ScanType { get; set; }
         }
     }

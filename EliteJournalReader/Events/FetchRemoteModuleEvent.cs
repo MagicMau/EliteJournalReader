@@ -22,25 +22,14 @@ namespace EliteJournalReader.Events
 
         public class FetchRemoteModuleEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                StorageSlot = evt.Value<string>("StorageSlot");
-                StoredItem = evt.Value<string>("StoredItem_Localised") ?? evt.Value<string>("StoredItem");
-                ServerId = evt.Value<string>("ServerId");
-                TransferCost = evt.Value<int>("TransferCost");
-                Ship = evt.Value<string>("Ship");
-                ShipId = evt.Value<int>("ShipId");
-                TransferTime = evt.Value<int>("TransferTime");
-            }
-
             public string StorageSlot { get; set; }
             public string Ship { get; set; }
             public int ShipId { get; set; }
             public string StoredItem { get; set; }
+            public string StoredItem_Localised { get; set; }
             public string ServerId { get; set; }
-            public int TransferCost { get; set; }
-            public int TransferTime { get; set; }
+            public long TransferCost { get; set; }
+            public long TransferTime { get; set; }
         }
     }
 }

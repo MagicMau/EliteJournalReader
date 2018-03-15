@@ -13,25 +13,18 @@ namespace EliteJournalReader.Events
     //•	Discovered: JSON array of discovered bodies
     //•	BaseValue: value of systems
     //•	Bonus: bonus for first discoveries
+    //•	TotalEarnings: total credits received(including for example the 200% bonus if rank 5 with Li Yong Rui)
     public class SellExplorationDataEvent : JournalEvent<SellExplorationDataEvent.SellExplorationDataEventArgs>
     {
         public SellExplorationDataEvent() : base("SellExplorationData") { }
 
         public class SellExplorationDataEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Systems = evt["Systems"]?.ToObject<string[]>();
-                Discovered = evt["Discovered"]?.ToObject<string[]>();
-                BaseValue = evt.Value<int>("BaseValue");
-                Bonus = evt.Value<int>("Bonus");
-            }
-
             public string[] Systems { get; set; }
             public string[] Discovered { get; set; }
-            public int BaseValue { get; set; }
-            public int Bonus { get; set; }
+            public long BaseValue { get; set; }
+            public long Bonus { get; set; }
+            public long TotalEarnings { get; set; }
         }
     }
 }

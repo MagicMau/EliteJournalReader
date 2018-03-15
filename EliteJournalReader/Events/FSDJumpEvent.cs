@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using EliteJournalReader.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace EliteJournalReader.Events
 {
@@ -24,6 +25,7 @@ namespace EliteJournalReader.Events
     //•	SystemGovernment
     //•	SystemSecurity
     //•	Population
+    //•	Wanted
     //•	Factions: an array of info for the local minor factions
     //    o Name
     //    o FactionState
@@ -38,53 +40,33 @@ namespace EliteJournalReader.Events
 
         public class FSDJumpEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                StarSystem = evt.Value<string>("StarSystem");
-                StarPos = new SystemPosition(evt.Value<JArray>("StarPos"));
-                Body = evt.Value<string>("Body");
-                JumpDist = evt.Value<double>("JumpDist");
-                FuelUsed = evt.Value<double>("FuelUsed");
-                FuelLevel = evt.Value<double>("FuelLevel");
-                BoostUsed = evt.Value<bool>("BoostUsed");
-                Faction = evt.Value<string>("SystemFaction");
-                FactionState = evt.Value<string>("FactionState");
-                Allegiance = evt.Value<string>("SystemAllegiance");
-                Economy = evt.Value<string>("SystemEconomy");
-                Economy_Localised = evt.Value<string>("SystemEconomy_Localised");
-                Government = evt.Value<string>("SystemGovernment");
-                Government_Localised = evt.Value<string>("SystemGovernment_Localised");
-                Security = evt.Value<string>("SystemSecurity");
-                Security_Localised = evt.Value<string>("SystemSecurity_Localised");
-                Population = evt.Value<long?>("Population");
-                Powers = evt["Powers"]?.ToObject<string[]>();
-                string power = evt.Value<string>("Power");
-                if (!string.IsNullOrEmpty(power))
-                    Powers = new string[] { power };
-                PowerplayState = evt.Value<string>("PowerplayState").ToEnum(PowerplayState.Unknown);
-                Factions = evt["Factions"]?.ToObject<List<Faction>>();
-            }
-
             public string StarSystem { get; set; }
+            public long SystemAddress { get; set; }
+
+            [JsonConverter(typeof(SystemPositionConverter))]
             public SystemPosition StarPos { get; set; }
+
             public string Body { get; set; }
             public double JumpDist { get; set; }
             public double FuelUsed { get; set; }
             public double FuelLevel { get; set; }
             public bool BoostUsed { get; set; }
-            public string Faction { get; set; }
+            public string SystemFaction { get; set; }
             public string FactionState { get; set; }
-            public string Allegiance { get; set; }
-            public string Economy { get; set; }
-            public string Economy_Localised { get; set; }
-            public string Government { get; set; }
-            public string Government_Localised { get; set; }
-            public string Security { get; set; }
-            public string Security_Localised { get; set; }
-            public long? Population { get; set; }
+            public string SystemAllegiance { get; set; }
+            public string SystemEconomy { get; set; }
+            public string SystemEconomy_Localised { get; set; }
+            public string SystemGovernment { get; set; }
+            public string SystemGovernment_Localised { get; set; }
+            public string SystemSecurity { get; set; }
+            public string SystemSecurity_Localised { get; set; }
+            public long Population { get; set; }
+            public bool Wanted { get; set; }
             public string[] Powers { get; set; }
+
+            [JsonConverter(typeof(StringEnumConverter))]
             public PowerplayState PowerplayState { get; set; }
+
             public List<Faction> Factions { get; set; }
         }
     }

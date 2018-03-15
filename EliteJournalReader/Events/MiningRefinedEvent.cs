@@ -16,12 +16,6 @@ namespace EliteJournalReader.Events
 
         public class MiningRefinedEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Type = evt.Value<string>("Type");
-            }
-
             public string Type { get; set; }
         }
     }

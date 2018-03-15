@@ -17,13 +17,6 @@ namespace EliteJournalReader.Events
 
         public class NewCommanderEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Name = evt.Value<string>("Name");
-                Package = evt.Value<string>("Package");
-            }
-
             public string Name { get; set; }
             public string Package { get; set; }
         }

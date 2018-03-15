@@ -17,13 +17,6 @@ namespace EliteJournalReader.Events
 
         public class EscapeInterdictionEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Interdictor = evt.Value<string>("Interdictor");
-                IsPlayer = evt.Value<bool>("IsPlayer");
-            }
-
             public string Interdictor { get; set; }
             public bool IsPlayer { get; set; }
         }

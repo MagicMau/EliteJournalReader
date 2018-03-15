@@ -21,28 +21,12 @@ namespace EliteJournalReader.Events
 
         public class DockingDeniedEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                StationName = evt.Value<string>("StationName");
-                Reason = evt.Value<string>("Reason").ToEnum(DockingDeniedReason.Unknown);
-            }
-
             public string StationName { get; set; }
+            public string StationType { get; set; }
+            public long MarketID { get; set; }
 
+            [JsonConverter(typeof(StringEnumConverter))]
             public DockingDeniedReason Reason { get; set; }
         }
-    }
-
-    public enum DockingDeniedReason
-    {
-        Unknown,
-        NoSpace,
-        TooLarge,
-        Hostile,
-        Offences,
-        Distance,
-        ActiveFighter,
-        NoReason
     }
 }

@@ -10,19 +10,15 @@ namespace EliteJournalReader.Events
     //When written: When you force another player to leave your ship's crew
     //Parameters:
     //•	Crew: player's commander name
+    //•	OnCrime: (bool) true if player is automatically kicked for committing a crime in a lawful session
     public class KickCrewMemberEvent : JournalEvent<KickCrewMemberEvent.KickCrewMemberEventArgs>
     {
         public KickCrewMemberEvent() : base("KickCrewMember") { }
 
         public class KickCrewMemberEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Crew = evt.Value<string>("Crew");
-            }
-
             public string Crew { get; set; }
+            public bool OnCrime { get; set; }
         }
     }
 }

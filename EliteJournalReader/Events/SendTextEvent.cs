@@ -17,14 +17,6 @@ namespace EliteJournalReader.Events
 
         public class SendTextEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                To = evt.Value<string>("To");
-                Message = evt.Value<string>("Message");
-                Channel = evt.Value<string>("Channel");
-            }
-
             public string To { get; set; }
             public string Message { get; set; }
             public string Channel { get; set; }

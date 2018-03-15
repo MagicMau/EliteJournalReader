@@ -13,14 +13,6 @@ namespace EliteJournalReader.Events
 
         public class MaterialDiscoveredEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Category = evt.Value<string>("Category");
-                Name = evt.Value<string>("Name");
-                DiscoveryNumber = evt.Value<int>("DiscoveryNumber");
-            }
-
             public string Category { get; set; }
             public string Name { get; set; }
             public int DiscoveryNumber { get; set; }

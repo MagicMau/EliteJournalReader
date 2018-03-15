@@ -6,7 +6,7 @@ namespace EliteJournalReader
 {
     public class JournalEventArgs : EventArgs
     {
-        public JObject OriginalEvent { get; private set; }
+        public JObject OriginalEvent { get; set; }
 
         public DateTime Timestamp { get; set; }
 
@@ -14,11 +14,6 @@ namespace EliteJournalReader
         {
         }
 
-        public virtual void Initialize(JObject evt)
-        {
-            OriginalEvent = evt;
-            Timestamp = DateTime.Parse(evt.Value<string>("timestamp"),
-                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
-        }
+        public virtual void PostProcess(JObject evt) { }
     }
 }

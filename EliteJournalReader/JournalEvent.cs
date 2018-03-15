@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace EliteJournalReader
 {
@@ -16,7 +17,7 @@ namespace EliteJournalReader
             _eventNames = eventNames;
         }
 
-        internal abstract void FireEvent(object sender, JObject evt);
+        internal abstract JournalEventArgs FireEvent(object sender, JObject evt);
     }
 
     public abstract class JournalEvent<TJournalEventArgs> : JournalEvent
@@ -38,11 +39,18 @@ namespace EliteJournalReader
             Fired -= eventHandler;
         }
 
-        internal override void FireEvent(object sender, JObject evt)
+        internal override JournalEventArgs FireEvent(object sender, JObject evt)
         {
-            var eventArgs = new TJournalEventArgs();
-            eventArgs.Initialize(evt);
+            var eventArgs = evt.ToObject<TJournalEventArgs>();
+            eventArgs.OriginalEvent = evt;
+            eventArgs.Timestamp = DateTime.Parse(evt.Value<string>("timestamp"),
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
+
+            eventArgs.PostProcess(evt);
+
             Fired?.Invoke(sender, eventArgs);
+
+            return eventArgs;
         }
     }
 }

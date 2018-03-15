@@ -18,26 +18,10 @@ namespace EliteJournalReader.Events
 
         public class EngineerProgressEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Engineer = evt.Value<string>("Engineer");
-                Rank = evt.Value<int?>("Rank");
-                Progress = evt.Value<string>("Progress").ToEnum(EngineerProgressStage.Unknown);
-            }
-
             public string Engineer { get; set; }
+            public long EngineerID { get; set; }
             public int? Rank { get; set; }
-            public EngineerProgressStage Progress { get; set; }
+            public string Progress { get; set; }
         }
-    }
-
-    public enum EngineerProgressStage
-    {
-        Unknown,
-        Invited,
-        Acquainted,
-        Unlocked,
-        Barred
     }
 }

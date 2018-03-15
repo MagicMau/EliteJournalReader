@@ -16,13 +16,8 @@ namespace EliteJournalReader.Events
 
         public class ApproachSettlementEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Name = evt.Value<string>("Name");
-            }
-
             public string Name { get; set; }
+            public long MarketID { get; set; }
         }
     }
 }

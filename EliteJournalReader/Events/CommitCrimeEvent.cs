@@ -21,16 +21,7 @@ namespace EliteJournalReader.Events
 
         public class CommitCrimeEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                CrimeType = evt.Value<string>("CrimeType").ToEnum(CrimeType.Unknown);
-                Faction = evt.Value<string>("Faction");
-                Fine = evt.Value<int?>("Fine");
-                Bounty = evt.Value<int?>("Bounty");
-            }
-
-            public CrimeType CrimeType { get; set; }
+            public string CrimeType { get; set; }
             public string Faction { get; set; }
             public string Victim { get; set; }
             public int? Fine { get; set; }

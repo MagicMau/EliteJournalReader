@@ -17,14 +17,8 @@ namespace EliteJournalReader.Events
 
         public class RepairEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Item = evt.Value<string>("Item");
-                Cost = evt.Value<int>("Cost");
-            }
-
             public string Item { get; set; }
+            public string Item_Localised { get; set; }
             public int Cost { get; set; }
         }
     }

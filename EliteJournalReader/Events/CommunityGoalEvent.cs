@@ -51,15 +51,16 @@ namespace EliteJournalReader.Events
                 public bool? PlayerInTopRank;
                 public string TierReached;
                 public long? Bonus;
+                public Tier TopTier;
             }
 
-            public override void Initialize(JObject evt)
+            public struct Tier
             {
-                base.Initialize(evt);
-                CurrentGoals = evt["CurrentGoals"]?.ToObject<CurrentGoal[]>();
+                public string Name;
+                public string Bonus;
             }
-
-            public CurrentGoal[] CurrentGoals { get; set; }
+            
+            public List<CurrentGoal> CurrentGoals { get; set; }
         }
     }
 }

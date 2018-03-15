@@ -16,12 +16,6 @@ namespace EliteJournalReader.Events
 
         public class LaunchSRVEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Loadout = evt.Value<string>("Loadout");
-            }
-
             public string Loadout { get; set; }
         }
     }

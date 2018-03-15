@@ -18,14 +18,6 @@ namespace EliteJournalReader.Events
 
         public class ResurrectEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                Option = evt.Value<string>("Option");
-                Cost = evt.Value<int>("Cost");
-                Bankrupt = evt.Value<bool>("Bankrupt");
-            }
-
             public string Option { get; set; }
             public int Cost { get; set; }
             public bool Bankrupt { get; set; }

@@ -21,23 +21,15 @@ namespace EliteJournalReader.Events
 
         public class ModuleSwapEventArgs : JournalEventArgs
         {
-            public override void Initialize(JObject evt)
-            {
-                base.Initialize(evt);
-                FromSlot = evt.Value<string>("FromSlot");
-                ToSlot = evt.Value<string>("ToSlot");
-                FromItem = evt.Value<string>("FromItem");
-                ToItem = evt.Value<string>("ToItem");
-                Ship = evt.Value<string>("Ship");
-                ShipId = evt.Value<int>("ShipId");
-            }
-
+            public long MarketID { get; set; }
             public string FromSlot { get; set; }
             public string ToSlot { get; set; }
             public string FromItem { get; set; }
+            public string FromItem_Localised { get; set; }
             public string ToItem { get; set; }
+            public string ToItem_Localised { get; set; }
             public string Ship { get; set; }
-            public int ShipId { get; set; }
+            public int ShipID { get; set; }
         }
     }
 }

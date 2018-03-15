@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace EliteJournalReader
     public enum CombatRank
     {
         Harmless = 0,
-        MostlyHarmless,
+        [Description("Mostly Harmless")] MostlyHarmless,
         Novice,
         Competent,
         Expert,
@@ -22,7 +23,7 @@ namespace EliteJournalReader
     public enum TradeRank
     {
         Penniless = 0,
-        MostlyPenniless,
+        [Description("Mostly Penniless")] MostlyPenniless,
         Peddler,
         Dealer,
         Merchant,
@@ -35,7 +36,7 @@ namespace EliteJournalReader
     public enum ExplorationRank
     {
         Aimless = 0,
-        MostlyAimless,
+        [Description("Mostly Aimless")] MostlyAimless,
         Scout,
         Surveyor,
         Explorer,
