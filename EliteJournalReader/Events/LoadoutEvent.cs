@@ -29,9 +29,9 @@ namespace EliteJournalReader.Events
             public int ShipID { get; set; }
             public string ShipName { get; set; }
             public string ShipIdent { get; set; }
-            public long HullValue { get; set; }
-            public long ModulesValue { get; set; }
-            public long Rebuy { get; set; }
+            public int HullValue { get; set; }
+            public int ModulesValue { get; set; }
+            public int Rebuy { get; set; }
             public List<Module> Modules { get; set; }
         }
     }
