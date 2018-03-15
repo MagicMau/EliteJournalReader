@@ -21,7 +21,7 @@ namespace EliteJournalReader.Events
 
         public class CommitCrimeEventArgs : JournalEventArgs
         {
-            public CrimeType CrimeType { get; set; }
+            public string CrimeType { get; set; }
             public string Faction { get; set; }
             public string Victim { get; set; }
             public int? Fine { get; set; }

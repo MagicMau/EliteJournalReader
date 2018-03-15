@@ -247,29 +247,6 @@ namespace EliteJournalReader
         Oxygen
     }
 
-    public enum CrimeType
-    {
-        Unknown,
-        Assault,
-        Murder,
-        Piracy,
-        Interdiction,
-        IllegalCargo,
-        DisobeyPolice,
-        FireInNoFireZone,
-        FireInStation,
-        DumpingDangerous,
-        DumpingNearStation,
-        DockingMinor_BlockingAirlock,
-        DockingMajor_BlockingAirlock,
-        DockingMinor_BlockingLandingPad,
-        DockingMajor_BlockingLandingPad,
-        DockingMinor_Trespass,
-        DockingMajor_Trespass,
-        CollidedAtSpeedInNoFireZone,
-        CollidedAtSpeedInNoFireZone_HullDamage
-    }
-
     public enum BodyType
     {
         Unknown,
