@@ -94,7 +94,7 @@ namespace EliteJournalReader
 
             cancellationTokenSource = new CancellationTokenSource();
 
-            Changed += (s, e) => UpdateStatus(s, e);
+            Changed += UpdateStatus;
 
             // start with reading any existing status
             string statusJsonPath = System.IO.Path.Combine(Path, "Status.json");
@@ -106,14 +106,22 @@ namespace EliteJournalReader
 
         public virtual void StopWatching()
         {
-            if (EnableRaisingEvents)
+            try
             {
-                Created -= UpdateStatus;
+                if (EnableRaisingEvents)
+                {
+                    Changed -= UpdateStatus;
 
-                if (cancellationTokenSource != null)
-                    cancellationTokenSource.Cancel();
+                    if (cancellationTokenSource != null)
+                        cancellationTokenSource.Cancel();
 
-                EnableRaisingEvents = false;
+                    EnableRaisingEvents = false;
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError($"Error while stopping Status watcher: {e.Message}");
+                Trace.TraceInformation(e.StackTrace);
             }
         }
 
@@ -143,15 +151,15 @@ namespace EliteJournalReader
                     }
                 }
             }
-            catch (IOException ioe) { HandleUpdateStatusException(ioe, attempt, fullPath); }
-            catch (JsonException je) { HandleUpdateStatusException(je, attempt, fullPath); }
+            catch (IOException ioe) { HandleUpdateStatusException(ioe, fullPath, attempt); }
+            catch (JsonException je) { HandleUpdateStatusException(je, fullPath, attempt); }
             catch (Exception ex)
             {
                 Trace.TraceError($"Error while reading from status.json: {ex.Message}\n{ex.StackTrace}");
             }
         }
 
-        private void HandleUpdateStatusException(Exception ex, int attempt, string fullPath)
+        private void HandleUpdateStatusException(Exception ex, string fullPath, int attempt)
         {
             // it could be that we are trying to read at the exact same time the 
             // game is writing a new status.json. To handle this case, we simply give it another shot.

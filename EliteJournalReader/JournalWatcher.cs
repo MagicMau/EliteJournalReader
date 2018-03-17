@@ -266,13 +266,21 @@ namespace EliteJournalReader
 
         public virtual void StopWatching()
         {
-            EnableRaisingEvents = false;
+            try
+            {
+                EnableRaisingEvents = false;
 
-            if (cancellationTokenSource != null)
-                cancellationTokenSource.Cancel();
+                if (cancellationTokenSource != null)
+                    cancellationTokenSource.Cancel();
 
-            if (journalThread != null)
-                journalThread.Join();
+                if (journalThread != null)
+                    journalThread.Join();
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError($"Error while stopping Journal watcher: {e.Message}");
+                Trace.TraceInformation(e.StackTrace);
+            }
         }
 
 
