@@ -28,11 +28,6 @@ namespace EliteJournalReader
         ///     The default filter
         /// </summary>
         private const string DefaultFilter = @"Journal*.*.log";
-        
-        /// <summary>
-        ///     The last offset used when reading the netLog file.
-        /// </summary>
-        private long lastOffset;
 
         /// <summary>
         ///     The latest log file
@@ -122,13 +117,14 @@ namespace EliteJournalReader
         /// rebuilding a status object before going "live".
         /// </summary>
         /// <returns></returns>
-        private bool ProcessPreviousJournals()
+        private long ProcessPreviousJournals()
         {
+            long offset = -1;
             try
             {
                 var journals = Directory.GetFiles(Path, DefaultFilter).OrderByDescending(f => GetFileCreationDate(f));
                 if (!journals.Any())
-                    return true; // there's nothing
+                    return 0; // there's nothing
 
                 // return the list until we find one with a part number 01.
                 int partNr = 1;
@@ -144,20 +140,19 @@ namespace EliteJournalReader
                     string journalFile = System.IO.Path.Combine(Path, filename);
                     using (StreamReader reader = new StreamReader(new FileStream(journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                     {
-                        lastOffset = 0;
                         LatestJournalFile = filename;
                         Trace.TraceInformation($"Journal: now reading previous entries from {LatestJournalFile}.");
-                        ParseData(reader);
+                        offset = ParseData(reader, 0);
                     }
                 }
             }
             catch (Exception e)
             {
                 Trace.TraceError($"Error while parsing previous data from {LatestJournalFile}: " + e.Message);
-                return false;
+                return -1;
             }
 
-            return true;
+            return offset;
         }
 
         private DateTime GetFileCreationDate(string path)
@@ -202,26 +197,32 @@ namespace EliteJournalReader
 
             cancellationTokenSource = new CancellationTokenSource();
 
+            long offset = 0;
+
             // before we start watching, rerun all events up until now (including any previous parts of this game session)
             await Task.Run(() =>
             {
-                if (ProcessPreviousJournals())
+                offset = ProcessPreviousJournals();
+
+                // because we might just have read an old log file, make sure we don't miss the new one when it arrives
+                StartPollingForNewJournal();
+                Created += async (sender, args) => await UpdateLatestJournalFile();
+                Changed += JournalWatcher_Changed;
+
+                if (offset >= 0)
                 {
                     // finally send an event that we've gone live
                     IsLive = true;
                     FireEvent("MagicMau.IsLiveEvent", new JObject(new JProperty("timestamp", DateTime.Now)));
+
+                    if (!string.IsNullOrEmpty(LatestJournalFile))
+                        CheckForJournalUpdateAsync(LatestJournalFile, offset);
                 }
+
+                EnableRaisingEvents = true;
             });
 
-            // because we might just have read an old log file, make sure we don't miss the new one when it arrives
-            StartPollingForNewJournal();
-
-            Created += async (sender, args) => await UpdateLatestJournalFile();
-            Changed += JournalWatcher_Changed;
-
-            EnableRaisingEvents = true;
-            if (!string.IsNullOrEmpty(LatestJournalFile))
-                CheckForJournalUpdateAsync(LatestJournalFile);
+            
         }
 
         private async void JournalWatcher_Changed(object sender, FileSystemEventArgs e)
@@ -284,7 +285,7 @@ namespace EliteJournalReader
         }
 
 
-        private void CheckForJournalUpdateAsync(string filename)
+        private void CheckForJournalUpdateAsync(string filename, long startOffset)
         {
             journalThreadId++;
             if (journalThread != null && journalThread.IsAlive)
@@ -306,11 +307,18 @@ namespace EliteJournalReader
                 }
             }
 
-            journalThread = new Thread(ido =>
+            journalThread = new Thread(state =>
             {
                 // keep a current ID for this thread. If the ID changes, we are watching a different file, and this thread can exit.
-                int id = (int)ido;
-                var journalFile = System.IO.Path.Combine(Path, filename);
+                Tuple<int, long, string> tuple = (Tuple<int, long, string>)state;
+                int id = tuple.Item1;
+                long offset = tuple.Item2;
+                string journalFile = System.IO.Path.Combine(Path, tuple.Item3);
+
+#if DEBUG
+                Trace.TraceInformation($"Journal: now starting journal thread {id} for {journalFile} from offset {offset}.");
+#endif
+
                 try
                 {
                     using (StreamReader reader = new StreamReader(new FileStream(journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
@@ -323,19 +331,21 @@ namespace EliteJournalReader
                                 return;
 
                             // if the file size has not changed, idle
-                            if (reader.BaseStream.Length == lastOffset)
+                            if (reader.BaseStream.Length <= offset)
                                 continue;
 
                             // we found new data, so this is definitely not a stale file
                             isPollingForNewFile = false;
 
                             // parse the data we just read
-                            ParseData(reader);
+                            offset = ParseData(reader, offset);
                         }
                     }
                 }
-                catch
+                catch (Exception e)
                 {
+                    Trace.TraceError($"Something went wrong in the journal reader thread {id}: {e.Message}");
+                    Trace.TraceInformation(e.StackTrace);
                     // Something went wrong, let's check log files again
                     LatestJournalFile = null;
                 }
@@ -347,21 +357,27 @@ namespace EliteJournalReader
                     Pause();
                     UpdateLatestJournalFile().Wait(cancellationTokenSource.Token);
                 }
+
+
+#if DEBUG
+                Trace.TraceInformation($"Journal: end of journal thread for {journalFile}.");
+#endif
+
             })
             {
                 Name = "Journal Watcher",
                 IsBackground = true
             };
-            journalThread.Start(journalThreadId);
+            journalThread.Start(Tuple.Create(journalThreadId, startOffset, filename));
 
         }
 
-        private void ParseData(StreamReader reader)
+        private long ParseData(StreamReader reader, long offset)
         {
             try
             {
                 // seek to the last max offset
-                reader.BaseStream.Seek(lastOffset, SeekOrigin.Begin);
+                reader.BaseStream.Seek(offset, SeekOrigin.Begin);
 
                 // read new data
                 var newData = reader.ReadToEnd();
@@ -382,7 +398,7 @@ namespace EliteJournalReader
                 try
                 {
                     // update the last max offset
-                    lastOffset = reader.BaseStream.Position;
+                    offset = reader.BaseStream.Position;
                 }
                 catch (Exception e)
                 {
@@ -391,6 +407,7 @@ namespace EliteJournalReader
                     StartPollingForNewJournal();
                 }
             }
+            return offset;
         }
 
         private bool Pause()
@@ -434,12 +451,11 @@ namespace EliteJournalReader
             bool isChanged = latestJournal != null && LatestJournalFile != latestJournal;
             if (isChanged)
             {
-                lastOffset = 0;
                 LatestJournalFile = latestJournal;
                 isPollingForNewFile = false;
                 Trace.TraceInformation($"Journal: now reading from {LatestJournalFile}.");
 
-                CheckForJournalUpdateAsync(latestJournal);
+                CheckForJournalUpdateAsync(latestJournal, 0);
             }
 
 
