@@ -1,6 +1,6 @@
 ﻿namespace EliteJournalReader
 {
-    public class Cargo
+    public class Commodity
     {
         public string Name { get; set; }
         public string Name_Localised { get; set; }

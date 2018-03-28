@@ -24,6 +24,7 @@ namespace EliteJournalReader.Events
     //•	FactionState
     //•	SystemAllegiance
     //•	SystemEconomy
+    //•	SystemSecondEconomy
     //•	SystemGovernment
     //•	SystemSecurity
     //•	Factions: an array with info on local minor factions (similar to FSDJump)
@@ -60,6 +61,8 @@ namespace EliteJournalReader.Events
             public string SystemAllegiance { get; set; }
             public string SystemEconomy { get; set; }
             public string SystemEconomy_Localised { get; set; }
+            public string SystemSecondEconomy { get; set; }
+            public string SystemSecondEconomy_Localised { get; set; }
             public string SystemGovernment { get; set; }
             public string SystemGovernment_Localised { get; set; }
             public string SystemSecurity { get; set; }

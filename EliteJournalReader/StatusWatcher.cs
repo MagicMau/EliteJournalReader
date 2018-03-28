@@ -166,7 +166,10 @@ namespace EliteJournalReader
             if (attempt < 5)
                 UpdateStatus(fullPath, attempt + 1);
             else
-                Trace.TraceError($"IO Error while reading from status.json: {ex.Message}\n{ex.StackTrace}");
+            {
+                Trace.TraceWarning($"{ex.GetType().Name} while reading from status.json: {ex.Message}");
+                Trace.TraceInformation(ex.StackTrace);
+            }
         }
 
 

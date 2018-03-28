@@ -7,27 +7,24 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
-    //When Written: when paying fines
+    //When written: when paying off bounties
     //Parameters:
-    //•	Amount
-    //•	BrokerPercentage (present if paid via a Broker)
+    //•	Amount: (total amount paid, including any broker fee)
+    //•	BrokerPercentage(present if paid via a Broker)
     //•	AllFines: bool
-    //•	Faction: (if paying off an individual faction's fines)
+    //•	Faction
     //•	ShipID
-
-    public class PayFinesEvent : JournalEvent<PayFinesEvent.PayFinesEventArgs>
+    public class PayBountiesEvent : JournalEvent<PayBountiesEvent.PayBountiesEventArgs>
     {
-        public PayFinesEvent() : base("PayFines") { }
+        public PayBountiesEvent() : base("PayBounties") { }
 
-        public class PayFinesEventArgs : JournalEventArgs
+        public class PayBountiesEventArgs : JournalEventArgs
         {
             public int Amount { get; set; }
             public double? BrokerPercentage { get; set; }
-            public bool AllFines { get; set; }
             public string Faction { get; set; }
             public string Faction_Localised { get; set; }
             public int ShipID { get; set; }
-
         }
     }
 }

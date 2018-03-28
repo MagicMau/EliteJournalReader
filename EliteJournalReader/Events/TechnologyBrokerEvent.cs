@@ -7,21 +7,30 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
-    //  When written: when using the Technology Broker to unlock new purchasable technology
+    //When written: when using the Technology Broker to unlock new purchasable technology
     //Parameters:
-    //•	ItemUnlocked: the name of the new item unlocked(available in Outfitting)
-    //•	Ingredients: array of objects
-    //o   Name: name of item
+    //•	BrokerType
+    //•	MarketID
+    //•	ItemsUnlocked: the name(s) of the new item unlocked(available in Outfitting)
+    //•	Commodities:
+    //o Name: name of item
     //o   Count: number of items used
+    //•	Materials:
+    //o Name
+    //o Count
+    //o Category
     public class TechnologyBrokerEvent : JournalEvent<TechnologyBrokerEvent.TechnologyBrokerEventArgs>
     {
         public TechnologyBrokerEvent() : base("TechnologyBroker") { }
 
         public class TechnologyBrokerEventArgs : JournalEventArgs
         {
+            public string BrokerType { get; set; }
+            public long MarketID { get; set; }
             public string ItemUnlocked { get; set; }
             public string ItemUnlocked_Localised { get; set; }
-            public List<Material> Ingredients { get; set; }
+            public List<Commodity> Commodities { get; set; }
+            public List<Material> Materials { get; set; }
         }
     }
 }

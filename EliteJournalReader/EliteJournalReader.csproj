@@ -62,7 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cargo.cs" />
+    <Compile Include="Commodity.cs" />
     <Compile Include="EngineeredModule.cs" />
     <Compile Include="EngineeringModifiers.cs" />
     <Compile Include="EnumHelpers.cs" />
@@ -95,6 +95,7 @@
     <Compile Include="Events\NpcCrewPaidWageEvent.cs" />
     <Compile Include="Events\NpcCrewRankEvent.cs" />
     <Compile Include="Events\OutfittingEvent.cs" />
+    <Compile Include="Events\PayBountiesEvent.cs" />
     <Compile Include="Events\PowerplayEvent.cs" />
     <Compile Include="Events\RepairDroneEvent.cs" />
     <Compile Include="Events\MissionRedirectedEvent.cs" />

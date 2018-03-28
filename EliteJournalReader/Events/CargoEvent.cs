@@ -16,7 +16,7 @@ namespace EliteJournalReader.Events
 
         public class CargoEventArgs : JournalEventArgs
         {
-            public List<Cargo> Inventory { get; set; }
+            public List<Commodity> Inventory { get; set; }
         }
     }
 }
