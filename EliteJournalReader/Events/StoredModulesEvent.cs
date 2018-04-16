@@ -31,6 +31,7 @@ namespace EliteJournalReader.Events
             {
                 public string Name;
                 public string StarSystem;
+                public string StationName;
                 public long MarketID;
                 public string StorageSlot;
                 public int TransferCost;
@@ -38,6 +39,7 @@ namespace EliteJournalReader.Events
                 public string EngineerModifications;
                 public int Level;
                 public double Quality;
+                public string ExperimentalEffect;
                 public int BuyPrice;
                 public bool InTransit;
                 public bool Hot;
