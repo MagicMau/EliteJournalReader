@@ -496,7 +496,7 @@ namespace EliteJournalReader
     public enum ReputationStatus
     {
         Hostile = -2,
-        Unfriendly = 1,
+        Unfriendly = -1,
         Neutral = 0,
         Cordial = 1,
         Friendly = 2,
