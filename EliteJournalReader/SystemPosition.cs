@@ -10,7 +10,7 @@ namespace EliteJournalReader
 {
     public struct SystemPosition
     {
-        public double X, Y, Z;
+        public decimal X, Y, Z;
 
         public bool IsZero()
         {
@@ -31,10 +31,19 @@ namespace EliteJournalReader
 
         public override int GetHashCode()
         {
-            return (int)((X * 10000 + Y * 10000 + Z * 10000) % int.MaxValue);
+            //https://stackoverflow.com/a/892640/3131828
+            unchecked
+            {
+                int h = 23;
+                h *= 31 + X.GetHashCode();
+                h *= 31 + Y.GetHashCode();
+                h *= 31 + Z.GetHashCode();
+
+                return h;
+            }
         }
 
-        public double[] ToArray()
+        public decimal[] ToArray()
         {
             return new[] { X, Y, Z };
         }
@@ -57,7 +66,7 @@ namespace EliteJournalReader
             var pos = (SystemPosition)existingValue;
             if (JToken.ReadFrom(reader) is JArray jarr)
             {
-                double[] array = jarr.ToObject<double[]>();
+                decimal[] array = jarr.ToObject<decimal[]>();
                 pos.X = Math.Round(array[0], 3);
                 pos.Y = Math.Round(array[1], 3);
                 pos.Z = Math.Round(array[2], 3);
