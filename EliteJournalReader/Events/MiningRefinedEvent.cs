@@ -17,6 +17,7 @@ namespace EliteJournalReader.Events
         public class MiningRefinedEventArgs : JournalEventArgs
         {
             public string Type { get; set; }
+            public string Type_Localised { get; set; }
         }
     }
 }

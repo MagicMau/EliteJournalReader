@@ -19,6 +19,7 @@ namespace EliteJournalReader.Events
         {
             public string Category { get; set; }
             public string Name { get; set; }
+            public string Name_Localised { get; set; }
             public int Count { get; set; }
         }
     }

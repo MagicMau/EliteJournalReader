@@ -75,6 +75,7 @@ namespace EliteJournalReader.Events
             public string Name { get; set; }
             public long MissionID { get; set; }
             public string Commodity { get; set; }
+            public string Commodity_Localised { get; set; }
             public int? Count { get; set; }
             public string Target { get; set; }
             public string TargetType { get; set; }
