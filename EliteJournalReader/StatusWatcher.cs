@@ -94,6 +94,7 @@ namespace EliteJournalReader
 
             cancellationTokenSource = new CancellationTokenSource();
 
+            Changed -= UpdateStatus;
             Changed += UpdateStatus;
 
             // start with reading any existing status
