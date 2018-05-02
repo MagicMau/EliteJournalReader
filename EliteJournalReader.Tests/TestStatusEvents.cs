@@ -41,6 +41,7 @@ namespace EliteJournalReader.Tests
         [TestCleanup]
         public void CleanUp()
         {
+            watcher.StopWatching();
             watcher = null;
         }
 
@@ -88,13 +89,13 @@ namespace EliteJournalReader.Tests
         [TestMethod]
         public void Test_Parse_Multiple_Updates_Of_StatusJson()
         {
+            // only open the door when the status updated event has been processed
             var hodor = new AutoResetEvent(false);
 
             StatusFileEvent evt = null;
-            int counter = 0;
+
             watcher.StatusUpdated += (s, e) =>
             {
-                counter++;
                 if (e.Longitude >= 15 && evt == null)
                 {
                     evt = e;
@@ -114,7 +115,6 @@ namespace EliteJournalReader.Tests
             Assert.IsNotNull(evt);
             Assert.AreEqual(15, evt.Longitude);
             Assert.AreEqual(7, evt.Latitude);
-            Assert.AreEqual(1, counter); // update only triggered once
         }
 
         private void WriteStatusFile(StatusFileEvent evt)
