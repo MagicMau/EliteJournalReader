@@ -41,9 +41,13 @@ namespace EliteJournalReader.Events
 
             public string Ship { get; set; }
 
+            public string Ship_Localised { get; set; }
+
             public int ScanStage { get; set; }
 
             public string PilotName { get; set; }
+
+            public string PilotName_Localised { get; set; }
 
             [JsonConverter(typeof(ExtendedStringEnumConverter<CombatRank>))]
             public CombatRank PilotRank { get; set; }
