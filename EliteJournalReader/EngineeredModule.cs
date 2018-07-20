@@ -11,6 +11,6 @@ namespace EliteJournalReader
         public int Level { get; set; }
         public double Quality { get; set; }
         public string ExperimentalEffect { get; set; }
-        public List<EngineeringModifiers> Modifications { get; set; }
+        public List<EngineeringModifiers> Modifiers { get; set; }
     }
 }
