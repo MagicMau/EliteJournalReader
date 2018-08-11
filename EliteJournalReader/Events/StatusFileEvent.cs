@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,22 +7,69 @@ using System.Threading.Tasks;
 
 namespace EliteJournalReader.Events
 {
-    public class StatusFileEvent
+    public class StatusFileEvent : EventArgs
     {
         public DateTime Timestamp { get; set; }
+
         public StatusFlags Flags { get; set; }
-        public int[] Pips { get; set; }
+
+        [JsonConverter(typeof(JsonPipsConverter))]
+        public (int System, int Engine, int Weapons) Pips { get; set; }
+
         public int Firegroup { get; set; }
+
         public StatusGuiFocus GuiFocus { get; set; }
+
         public double Latitude { get; set; }
+
         public double Longitude { get; set; }
+
         public double Altitude { get; set; }
+
         public double Heading { get; set; }
+
+
+        class JsonPipsConverter : JsonConverter
+        {
+            public override bool CanConvert(Type objectType) => true;
+            public override bool CanWrite => false;
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                (int System, int Engine, int Weapons) result;
+
+                if (reader.TokenType == JsonToken.StartArray)
+                {
+                    result.System = ReadInt(reader);
+                    result.Engine = ReadInt(reader);
+                    result.Weapons = ReadInt(reader);
+                }
+                else
+                {
+                    result = (0, 0, 0);
+                }
+                reader.Read(); // read EndArray
+                return result;
+            }
+
+            private static int ReadInt(JsonReader reader)
+            {
+                if (reader.Read() && reader.TokenType == JsonToken.Integer)
+                    return Convert.ToInt32(reader.Value);
+                return 0;
+            }
+
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 
     [Flags]
     public enum StatusFlags
     {
+        None = 0,
         Docked = 0x00000001,
         Landed = 0x00000002,
         LandingGearDown = 0x00000004,

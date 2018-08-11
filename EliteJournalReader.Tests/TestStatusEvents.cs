@@ -74,7 +74,7 @@ namespace EliteJournalReader.Tests
 
             while (!hodor.WaitOne(100))
             {
-                WriteStatusFile(new StatusFileEvent { Timestamp = DateTime.UtcNow, Longitude = 14, Latitude = 7, Pips = new[] { 2, 4, 2 } });
+                WriteStatusFile(new StatusFileEvent { Timestamp = DateTime.UtcNow, Longitude = 14, Latitude = 7, Pips = (2, 4, 2) });
                 Thread.Sleep(1000); // wait a bit
             }
 
@@ -108,7 +108,7 @@ namespace EliteJournalReader.Tests
             while (!hodor.WaitOne(100))
             {
                 Thread.Sleep(1000); // wait a bit
-                WriteStatusFile(new StatusFileEvent { Longitude = lon, Latitude = 7, Pips = new[] { 2, 4, 2 } });
+                WriteStatusFile(new StatusFileEvent { Longitude = lon, Latitude = 7, Pips = ( 2, 4, 2 ) });
                 lon = Math.Round(lon + 0.2, 6);
             }
 
@@ -126,7 +126,7 @@ namespace EliteJournalReader.Tests
                 ["timestamp"] = DateTime.Now,
                 ["event"] = "Status",
                 ["Flags"] = (int)evt.Flags,
-                ["Pips"] = JArray.FromObject(evt.Pips),
+                ["Pips"] = JArray.FromObject(new [] { evt.Pips.System, evt.Pips.Engine, evt.Pips.Weapons }),
                 ["FireGroup"] = evt.Firegroup,
                 ["GuiFocus"] = (int)evt.GuiFocus,
                 ["Latitude"] = evt.Latitude,
