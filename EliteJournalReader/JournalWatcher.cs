@@ -69,21 +69,73 @@ namespace EliteJournalReader
         /// </summary>
         static JournalWatcher()
         {
-            var allHandlerTypes = AppDomain
-                .CurrentDomain
-                .GetAssemblies()
-                .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => typeof(JournalEvent).IsAssignableFrom(type));
-            
-            var handlers = from type in allHandlerTypes
-                           where !(type.IsAbstract || type.IsGenericTypeDefinition || type.IsInterface)
-                           select (JournalEvent)Activator.CreateInstance(type);
-
-            foreach(var handler in handlers)
+            try
             {
-                journalEvents[handler.GetType()] = handler;
-                foreach (var eventName in handler.EventNames)
-                    journalEventsByName[eventName] = handler;
+
+                var allHandlerTypes = AppDomain
+                    .CurrentDomain
+                    .GetAssemblies()
+                    .SelectMany(assembly => assembly.GetTypes())
+                    .Where(type => typeof(JournalEvent).IsAssignableFrom(type));
+
+                var handlers = from type in allHandlerTypes
+                               where !(type.IsAbstract || type.IsGenericTypeDefinition || type.IsInterface)
+                               select (JournalEvent)Activator.CreateInstance(type);
+
+                foreach (var handler in handlers)
+                {
+                    try
+                    {
+                        journalEvents[handler.GetType()] = handler;
+                        foreach (var eventName in handler.EventNames)
+                            journalEventsByName[eventName] = handler;
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Trace.TraceError("Error initializing JournalWatcher: " + handler.GetType().FullName);
+                        var exception = e;
+                        while (exception != null)
+                        {
+                            System.Diagnostics.Trace.TraceError(exception.ToString());
+                            System.Diagnostics.Trace.TraceError(exception.StackTrace);
+                            exception = exception.InnerException;
+                        }
+
+                    }
+                }
+            }
+            catch (System.Reflection.ReflectionTypeLoadException ex)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.ToString());
+                    if (exSub is FileNotFoundException exFileNotFound)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+
+                string errorMessage = sb.ToString();
+                System.Diagnostics.Trace.TraceError("Error initializing JournalWatcher, loading " + ex.Message + " - " + ex.Source);
+                System.Diagnostics.Trace.TraceError(ex.ToString());
+                System.Diagnostics.Trace.TraceError(errorMessage);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Trace.TraceError("Error initializing JournalWatcher");
+                var exception = e;
+                while (exception != null)
+                {
+                    System.Diagnostics.Trace.TraceError(exception.ToString());
+                    System.Diagnostics.Trace.TraceError(exception.StackTrace);
+                    exception = exception.InnerException;
+                }
             }
         }
 

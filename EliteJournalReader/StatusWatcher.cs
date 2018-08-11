@@ -132,12 +132,12 @@ namespace EliteJournalReader
         }
 
         private DateTime lastTimestamp = DateTime.MinValue;
-        private void UpdateStatus(string fullPath, int attempt)
+        protected void UpdateStatus(string fullPath, int attempt)
         {
             try
             {
                 Thread.Sleep(50); // give it a wee bit
-                using (StreamReader streamReader = new StreamReader(new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                var streamReader = new StreamReader(new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
                 using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
                 {
                     var evt = JToken.ReadFrom(jsonTextReader).ToObject<StatusFileEvent>();

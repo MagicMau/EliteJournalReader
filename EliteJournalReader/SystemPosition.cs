@@ -17,12 +17,7 @@ namespace EliteJournalReader
             return X == 0 && Y == 0 && Z == 0;
         }
 
-        public override bool Equals(object obj)
-        {
-            if (obj is SystemPosition)
-                return Equals((SystemPosition)obj);
-            return false;
-        }
+        public override bool Equals(object obj) => obj is SystemPosition that && Equals(that);
 
         public bool Equals(SystemPosition that)
         {
@@ -51,6 +46,16 @@ namespace EliteJournalReader
         public override string ToString()
         {
             return System.FormattableString.Invariant($"{X}, {Y}, {Z}");
+        }
+
+        public static bool operator ==(SystemPosition left, SystemPosition right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(SystemPosition left, SystemPosition right)
+        {
+            return !(left == right);
         }
     }
 
