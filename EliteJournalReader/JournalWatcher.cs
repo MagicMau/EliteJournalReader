@@ -265,7 +265,7 @@ namespace EliteJournalReader
                 {
                     // finally send an event that we've gone live
                     IsLive = true;
-                    FireEvent("MagicMau.IsLiveEvent", new JObject(new JProperty("timestamp", DateTime.Now)));
+                    FireEvent("MagicMau.IsLiveEvent", new JObject(new JProperty("timestamp", DateTime.UtcNow)));
 
                     if (!string.IsNullOrEmpty(LatestJournalFile))
                         CheckForJournalUpdateAsync(LatestJournalFile, offset);
