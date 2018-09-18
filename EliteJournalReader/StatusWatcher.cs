@@ -156,7 +156,9 @@ namespace EliteJournalReader
             catch (JsonException je) { HandleUpdateStatusException(je, fullPath, attempt); }
             catch (Exception ex)
             {
-                Trace.TraceError($"Error while reading from status.json: {ex.Message}\n{ex.StackTrace}");
+#if DEBUG
+                Trace.TraceInformation($"Error while reading from status.json: {ex.Message}\n{ex.StackTrace}");
+#endif
             }
         }
 
