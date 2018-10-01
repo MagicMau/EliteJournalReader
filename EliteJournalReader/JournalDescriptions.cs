@@ -368,6 +368,7 @@ namespace EliteJournalReader
         ShieldBankDuration,
         ShieldBankReinforcement,
         ShieldBankHeat,
+        DamageFalloffRange,
         DamagePerSecond,
         Damage,
         DistributorDraw,

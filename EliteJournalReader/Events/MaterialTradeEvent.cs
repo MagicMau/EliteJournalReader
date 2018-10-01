@@ -36,8 +36,8 @@ namespace EliteJournalReader.Events
 
             public long MarketID { get; set; }
             public string TraderType { get; set; }
-            public List<MaterialTraded> Paid { get; set; }
-            public List<MaterialTraded> Received { get; set; }
+            public MaterialTraded Paid { get; set; }
+            public MaterialTraded Received { get; set; }
         }
     }
 }
