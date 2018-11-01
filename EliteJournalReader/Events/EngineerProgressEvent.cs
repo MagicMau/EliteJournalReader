@@ -22,6 +22,8 @@ namespace EliteJournalReader.Events
             public long EngineerID { get; set; }
             public int? Rank { get; set; }
             public string Progress { get; set; }
+
+            public List<EngineerProgressEventArgs> Engineers { get; set; }
         }
     }
 }

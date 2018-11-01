@@ -14,9 +14,11 @@ namespace EliteJournalReader
         public string Government_Localised { get; set; }
         public double Influence { get; set; }
         public string Allegiance { get; set; }
+        public string MyReputation { get; set; }
 
         public List<FactionStateChange> PendingStates { get; set; }
         public List<FactionStateChange> RecoveringStates { get; set; }
+        public List<FactionStateChange> ActiveStates { get; set; }
     }
 
     public class FactionStateChange

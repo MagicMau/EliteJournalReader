@@ -100,18 +100,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\EliteG19s\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Commodity.cs" />
     <Compile Include="EngineeredModule.cs" />
     <Compile Include="EngineeringModifiers.cs" />
     <Compile Include="EnumHelpers.cs" />
     <Compile Include="Events\AfmuRepairsEvent.cs" />
+    <Compile Include="Events\WonATrophyForSquadronEvent.cs" />
+    <Compile Include="Events\SquadronPromotionEvent.cs" />
+    <Compile Include="Events\SquadronDemotionEvent.cs" />
+    <Compile Include="Events\SquadronCreatedEvent.cs" />
+    <Compile Include="Events\SharedBookmarkToSquadronEvent.cs" />
+    <Compile Include="Events\LeftSquadronEvent.cs" />
+    <Compile Include="Events\KickedFromSquadronEvent.cs" />
+    <Compile Include="Events\JoinedSquadronEvent.cs" />
+    <Compile Include="Events\InvitedToSquadronEvent.cs" />
+    <Compile Include="Events\DisbandedSquadronEvent.cs" />
     <Compile Include="Events\ApproachBodyEvent.cs" />
     <Compile Include="Events\ApproachSettlementEvent.cs" />
+    <Compile Include="Events\AppliedToSquadronEvent.cs" />
+    <Compile Include="Events\AsteroidCrackedEvent.cs" />
     <Compile Include="Events\CargoDepotEvent.cs" />
     <Compile Include="Events\CommanderEvent.cs" />
     <Compile Include="Events\CrewLaunchFighterEvent.cs" />
     <Compile Include="Events\CrewMemberRoleChangeEvent.cs" />
+    <Compile Include="Events\CodexEntryEvent.cs" />
+    <Compile Include="Events\SAAScanCompleteEvent.cs" />
+    <Compile Include="Events\FSSSignalDiscoveredEvent.cs" />
+    <Compile Include="Events\FSSDiscoveryScanEvent.cs" />
     <Compile Include="Events\DiscoveryScanEvent.cs" />
+    <Compile Include="Events\FSDTargetEvent.cs" />
     <Compile Include="Events\ModuleInfoEvent.cs" />
     <Compile Include="Events\EndCrewSessionEvent.cs" />
     <Compile Include="Events\EngineerLegacyConvertEvent.cs" />

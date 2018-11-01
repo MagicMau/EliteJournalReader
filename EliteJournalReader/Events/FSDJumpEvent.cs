@@ -32,6 +32,10 @@ namespace EliteJournalReader.Events
     //    o FactionState
     //    o Government
     //    o Influence
+    //    o MyReputation
+    //    o PendingStates: array(if any) with State name and Trend value
+    //    o RecovingStates: array(if any)with State name and Trend value
+    //    o ActiveStates: array with State names and Trend value
     //If the player is pledged to a Power in Powerplay, and the star system is involved in powerplay,
     //•	Powers: a json array with the names of any powers contesting the system, or the name of the controlling power
     //•	PowerplayState: the system state – one of("InPrepareRadius", "Prepared", "Exploited", "Contested", "Controlled", "Turmoil", "HomeSystem")

@@ -154,10 +154,13 @@ namespace EliteJournalReader
             }
             catch (IOException ioe) { HandleUpdateStatusException(ioe, fullPath, attempt); }
             catch (JsonException je) { HandleUpdateStatusException(je, fullPath, attempt); }
+#if DEBUG
             catch (Exception ex)
             {
-#if DEBUG
                 Trace.TraceInformation($"Error while reading from status.json: {ex.Message}\n{ex.StackTrace}");
+#else
+            catch (Exception)
+            {
 #endif
             }
         }

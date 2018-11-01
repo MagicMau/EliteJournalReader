@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using EliteJournalReader.Events;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -275,6 +276,28 @@ namespace EliteJournalReader
             });
 
             
+        }
+
+        public CargoEvent.CargoEventArgs ReadCargoJson()
+        {
+            try
+            {
+                string cargoPath = System.IO.Path.Combine(Path, "Cargo.json");
+                if (!File.Exists(cargoPath))
+                    return null;
+
+                string json = File.ReadAllText(cargoPath);
+                var obj = JObject.Parse(json);
+                var cargo = obj.ToObject<CargoEvent.CargoEventArgs>();
+                return cargo;
+            }
+            catch (Exception e)
+            {
+                Trace.TraceWarning($"Error reading cargo.json journal file: {e.Message}");
+                Trace.TraceInformation(e.ToString());
+            }
+
+            return null;
         }
 
         private async void JournalWatcher_Changed(object sender, FileSystemEventArgs e)

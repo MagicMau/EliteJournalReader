@@ -18,6 +18,8 @@ namespace EliteJournalReader.Events
         {
             public string Name { get; set; }
             public long MarketID { get; set; }
+            public double Latitude { get; set; }
+            public double Longitude { get; set; }
         }
     }
 }

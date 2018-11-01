@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 namespace EliteJournalReader.Events
 {
     //    When written: when visiting shipyard
-
+    //
     //    Parameters:
     //•	MarketID
     //•	StationName
@@ -18,15 +18,23 @@ namespace EliteJournalReader.Events
     //o ShipType
     //o Name(if named)
     //o Value
+    //o Hot
     //•	ShipsRemote: (array of objects)
     //o ShipID
     //o ShipType
     //o Name(if named)
     //o Value
+    //o Hot
+    //
+    //If the ship is in transit:
+    //o InTransit: true
+    //
+    //If the ship is not in transit:
     //o StarSystem
     //o ShipMarketID
     //o TransferPrice
     //o TransferType
+
     public class StoredShipsEvent : JournalEvent<StoredShipsEvent.StoredShipsEventArgs>
     {
         public StoredShipsEvent() : base("StoredShips") { }
@@ -41,6 +49,7 @@ namespace EliteJournalReader.Events
                 public string Name;
                 public int Value;
                 public bool Hot;
+                public bool InTransit;
                 public string StarSystem;
                 public long ShipMarketID;
                 public int TransferPrice;

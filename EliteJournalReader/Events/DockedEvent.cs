@@ -7,25 +7,25 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
-    //When written: when landing at landing pad in a space station, outpost, or surface settlement
-    //Parameters:
+    //    When written: when landing at landing pad in a space station, outpost, or surface settlement
+    //    Parameters:
     //•	StationName: name of station
+    //•	MarketID
+    //•	SystemAddress
     //•	StationType: type of station
     //•	StarSystem: name of system
     //•	CockpitBreach:true (only if landing with breached cockpit)
     //•	StationFaction: station’s controlling faction
     //•	FactionState
     //•	StationAllegiance
-    //•	StationEconomy
-    //•	StationEconomies
+    //•	StationEconomy : (station's primary economy)
+    //•	StationEconomies: (array of name and proportion values)
     //•	StationGovernment
-    //•	DistFromLS
-    //•	StationServices
-    //    StationServices can include: 
-    //          Dock, Autodock, BlackMarket, Commodities, Contacts, Exploration, Initiatives, Missions, 
-    //          Outfitting,CrewLounge, Rearm, Refuel, Repair, Shipyard, Tuning, Workshop, MissionsGenerated, 
-    //          Facilitator, Research, FlightController, StationOperations, OnDockMission, Powerplay, SearchAndRescue,
-
+    //•	DistFromStarLS
+    //•	StationServices: (Array of strings)
+    //•	Wanted: (only if docking when wanted locally)
+    //•	ActiveFine: true (if any fine is active)
+    //The ‘anonymous docking’ protocol comes into effect if you’re either Wanted(ie have a local bounty) or have an ActiveFine
     public class DockedEvent : JournalEvent<DockedEvent.DockedEventArgs>
     {
         public DockedEvent() : base("Docked") { }
@@ -49,6 +49,7 @@ namespace EliteJournalReader.Events
             public double? DistFromStarLS { get; set; }
             public string[] StationServices { get; set; }
             public bool Wanted { get; set; } = false;
+            public bool ActiveFine { get; set; } = false;
 
             public class Economy
             {
