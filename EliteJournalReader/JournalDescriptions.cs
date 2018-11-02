@@ -491,7 +491,8 @@ namespace EliteJournalReader
         FalloffRange,
         DSS_RangeMult,
         DSS_AngleMult,
-        DSS_RateMult
+        DSS_RateMult,
+        DSS_PatchRadius
     }
 
     public enum ReputationStatus
