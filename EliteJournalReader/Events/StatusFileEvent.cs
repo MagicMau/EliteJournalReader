@@ -96,7 +96,8 @@ namespace EliteJournalReader.Events
         BeingInterdicted = 0x00800000,
         InMainShip = 0x01000000,
         InFighter = 0x02000000,
-        InSRV = 0x04000000
+        InSRV = 0x04000000,
+        HudInAnalysisMode = 0x08000000
     }
 
     public enum StatusGuiFocus
@@ -108,6 +109,10 @@ namespace EliteJournalReader.Events
         RolePanel = 4,
         StationServices = 5,
         GalaxyMap = 6,
-        SystemMap = 7
+        SystemMap = 7,
+        Orrery = 8,
+        FSSMode = 9,
+        SAAMode = 10,
+        Codex = 11
     }
 }

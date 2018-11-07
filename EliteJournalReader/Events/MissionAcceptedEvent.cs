@@ -57,6 +57,8 @@ namespace EliteJournalReader.Events
             public bool? PassengerVIPs { get; set; }
             public bool? PassengerWanted { get; set; }
             public string PassengerType { get; set; }
+            public string Donation { get; set; }
+            public int? Donated { get; set; }
 
         }
     }

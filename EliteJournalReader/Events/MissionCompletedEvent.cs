@@ -81,7 +81,8 @@ namespace EliteJournalReader.Events
             public string TargetType { get; set; }
             public string TargetFaction { get; set; }
             public int Reward { get; set; }
-            public int? Donation { get; set; }
+            public string Donation { get; set; }
+            public int? Donated { get; set; }
             public string[] PermitsAwarded { get; set; }
             public CommodityRewardItem[] CommodityReward { get; set; }
             public MaterialRewardItem[] MaterialReward { get; set; }
