@@ -18,7 +18,7 @@ namespace EliteJournalReader.Events
 
         public class StartJumpEventArgs : JournalEventArgs
         {
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<JumpType>))]
             public JumpType JumpType { get; set; }
             public string StarClass { get; set; }
             public string StarSystem { get; set; }

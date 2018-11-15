@@ -15,6 +15,9 @@ namespace EliteJournalReader
         public double Influence { get; set; }
         public string Allegiance { get; set; }
         public string MyReputation { get; set; }
+        public bool SquadronFaction { get; set; } = false;
+        public bool HappiestSystem { get; set; } = false;
+        public bool HomeSystem { get; set; } = false;
 
         public List<FactionStateChange> PendingStates { get; set; }
         public List<FactionStateChange> RecoveringStates { get; set; }

@@ -71,7 +71,7 @@ namespace EliteJournalReader.Events
             public bool Wanted { get; set; }
             public string[] Powers { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<PowerplayState>))]
             public PowerplayState PowerplayState { get; set; }
 
             public List<Faction> Factions { get; set; }

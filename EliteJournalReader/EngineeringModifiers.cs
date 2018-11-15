@@ -8,7 +8,7 @@ namespace EliteJournalReader
     [JsonConverter(typeof(EngineeringModifiersCoverter))]
     public class EngineeringModifiers
     {
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(ExtendedStringEnumConverter<ModuleAttribute>))]
         public ModuleAttribute Label { get; set; }
 
         public double Value { get; set; }

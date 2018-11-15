@@ -36,6 +36,7 @@ namespace EliteJournalReader.Events
             public string Category_Localised { get; set; }
             public string Region { get; set; }
             public string System { get; set; }
+            public long SystemAddress { get; set; }
             public bool IsNewEntry { get; set; } = false;
             public bool NewTraitsDiscovered { get; set; } = false;
             public List<string> Traits { get; set; }

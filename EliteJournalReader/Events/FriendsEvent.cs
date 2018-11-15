@@ -19,7 +19,7 @@ namespace EliteJournalReader.Events
 
         public class FriendsEventArgs : JournalEventArgs
         {
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<FriendStatus>))]
             public FriendStatus Status { get; set; }
 
             public string Name { get; set; }

@@ -24,7 +24,7 @@ namespace EliteJournalReader.Events
             public string Message { get; set; }
             public string Message_Localised { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<TextChannel>))]
             public TextChannel Channel { get; set; }
         }
     }

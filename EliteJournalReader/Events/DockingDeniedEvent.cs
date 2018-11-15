@@ -25,7 +25,7 @@ namespace EliteJournalReader.Events
             public string StationType { get; set; }
             public long MarketID { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<DockingDeniedReason>))]
             public DockingDeniedReason Reason { get; set; }
         }
     }

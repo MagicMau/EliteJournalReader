@@ -97,7 +97,8 @@ namespace EliteJournalReader.Events
         InMainShip = 0x01000000,
         InFighter = 0x02000000,
         InSRV = 0x04000000,
-        HudInAnalysisMode = 0x08000000
+        HudInAnalysisMode = 0x08000000,
+        NightVision = 0x10000000
     }
 
     public enum StatusGuiFocus

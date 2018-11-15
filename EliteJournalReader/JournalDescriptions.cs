@@ -13,6 +13,7 @@ namespace EliteJournalReader
         Unknown,
         Basic,
         Detailed,
+        AutoScan,
         NavBeacon,
         NavBeaconDetail
     }
@@ -338,8 +339,10 @@ namespace EliteJournalReader
         Unknown,
         NPC,
         Local,
+        System,
         Player,
         Wing,
+        Squadron,
         Friend,
         VoiceChat
     }

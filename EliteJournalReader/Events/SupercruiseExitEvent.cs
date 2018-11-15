@@ -23,7 +23,7 @@ namespace EliteJournalReader.Events
             public string Body { get; set; }
             public long BodyID { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<BodyType>))]
             public BodyType BodyType { get; set; }
         }
     }

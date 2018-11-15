@@ -23,6 +23,10 @@ namespace EliteJournalReader.Events
             public string SpawningState { get; set; }
             public string SpawningFaction { get; set; }
             public double TimeRemaining { get; set; }
+            public bool IsStation { get; set; } = false;
+            public int ThreatLevel { get; set; } = 0;
+            public long SystemAddress { get; set; }
+            public string USSType { get; set; }
         }
     }
 }

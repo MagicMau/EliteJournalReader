@@ -18,7 +18,7 @@ namespace EliteJournalReader.Events
 
         public class LaunchDroneEventArgs : JournalEventArgs
         {
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<DroneType>))]
             public DroneType Type { get; set; }
         }
     }

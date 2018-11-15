@@ -34,10 +34,10 @@ namespace EliteJournalReader.Events
             public string Name { get; set; }
             public string Faction { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<InfluenceLevel>))]
             public InfluenceLevel Influence { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<ReputationLevel>))]
             public ReputationLevel Reputation { get; set; }
 
             public int Reward { get; set; }

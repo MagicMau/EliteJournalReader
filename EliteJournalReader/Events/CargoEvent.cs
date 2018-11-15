@@ -18,6 +18,7 @@ namespace EliteJournalReader.Events
         {
             public List<Commodity> Inventory { get; set; }
             public int Count { get; set; }
+            public string Vessel { get; set; }
         }
     }
 }

@@ -108,6 +108,7 @@
     <Compile Include="EngineeringModifiers.cs" />
     <Compile Include="EnumHelpers.cs" />
     <Compile Include="Events\AfmuRepairsEvent.cs" />
+    <Compile Include="Events\FSSAllBodiesFoundEvent.cs" />
     <Compile Include="Events\WonATrophyForSquadronEvent.cs" />
     <Compile Include="Events\SquadronPromotionEvent.cs" />
     <Compile Include="Events\SquadronDemotionEvent.cs" />

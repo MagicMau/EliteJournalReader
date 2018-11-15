@@ -39,7 +39,7 @@ namespace EliteJournalReader.Events
             public bool StartLanded { get; set; } = false;
             public bool StartDead { get; set; } = false;
 
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<GameMode>))]
             public GameMode GameMode { get; set; }
 
             public string Group { get; set; }

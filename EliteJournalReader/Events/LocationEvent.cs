@@ -47,7 +47,7 @@ namespace EliteJournalReader.Events
             public string Body { get; set; }
             public long BodyID { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<BodyType>))]
             public BodyType BodyType { get; set; }
 
             public bool Docked { get; set; }
@@ -70,7 +70,7 @@ namespace EliteJournalReader.Events
             public long? Population { get; set; }
             public string[] Powers { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
+            [JsonConverter(typeof(ExtendedStringEnumConverter<PowerplayState>))]
             public PowerplayState PowerplayState { get; set; }
 
             public List<Faction> Factions { get; set; }

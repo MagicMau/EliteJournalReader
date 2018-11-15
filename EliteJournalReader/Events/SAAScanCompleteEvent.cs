@@ -11,8 +11,6 @@ namespace EliteJournalReader.Events
     //    Parameters:
     //•	Bodyname
     //•	BodyID
-    //•	Discoverers: (array of names)
-    //•	Mappers: (array of names)
     //•	ProbesUsed: (int)
     //•	EfficiencyTarget: (int)
 
@@ -24,8 +22,6 @@ namespace EliteJournalReader.Events
         {
             public string BodyName { get; set; }
             public int BodyID { get; set; }
-            public List<string> Discoverers { get; set; }
-            public List<string> Mappers { get; set; }
             public int ProbesUsed { get; set; }
             public int EfficiencyTarget { get; set; }
         }
