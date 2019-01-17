@@ -32,6 +32,7 @@ namespace EliteJournalReader.Events
         {
             public long MissionID { get; set; }
             public string Name { get; set; }
+            public string LocalisedName { get; set; }
             public string Faction { get; set; }
 
             [JsonConverter(typeof(ExtendedStringEnumConverter<InfluenceLevel>))]

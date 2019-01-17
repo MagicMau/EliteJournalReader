@@ -19,6 +19,10 @@ namespace EliteJournalReader.Events
         public int Firegroup { get; set; }
 
         public StatusGuiFocus GuiFocus { get; set; }
+        
+        public StatusFuel Fuel { get; set; }
+
+        public double Cargo { get; set; }
 
         public double Latitude { get; set; }
 
@@ -116,4 +120,12 @@ namespace EliteJournalReader.Events
         SAAMode = 10,
         Codex = 11
     }
+
+    public class StatusFuel
+    {
+        public double FuelMain { get; set; }
+        public double FuelReservoir { get; set; }
+    }
+
+
 }

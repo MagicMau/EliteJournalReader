@@ -21,7 +21,7 @@ namespace EliteJournalReader.Events
         {
             public string Engineer { get; set; }
             public long EngineerID { get; set; }
-            public string Blueprint { get; set; }
+            public string BlueprintName { get; set; }
             public long BlueprintID { get; set; }
             public int Level { get; set; }
             public double Quality { get; set; }
