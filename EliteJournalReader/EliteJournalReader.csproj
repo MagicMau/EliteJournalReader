@@ -100,9 +100,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\EliteG19s\SharedAssemblyInfo.cs">
-      <Link>Properties\SharedAssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="Commodity.cs" />
     <Compile Include="EngineeredModule.cs" />
     <Compile Include="EngineeringModifiers.cs" />
