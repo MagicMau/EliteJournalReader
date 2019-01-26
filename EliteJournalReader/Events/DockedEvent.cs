@@ -38,8 +38,7 @@ namespace EliteJournalReader.Events
             public long MarketID { get; set; }
             public string StationType { get; set; }
             public bool CockpitBreach { get; set; } = false;
-            public string StationFaction { get; set; }
-            public string FactionState { get; set; }
+            public Faction StationFaction { get; set; }
             public string StationAllegiance { get; set; }
             public string StationEconomy { get; set; }
             public string StationEconomy_Localised { get; set; }

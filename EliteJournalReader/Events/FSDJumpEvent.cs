@@ -56,8 +56,7 @@ namespace EliteJournalReader.Events
             public double FuelUsed { get; set; }
             public double FuelLevel { get; set; }
             public bool BoostUsed { get; set; }
-            public string SystemFaction { get; set; }
-            public string FactionState { get; set; }
+            public Faction SystemFaction { get; set; }
             public string SystemAllegiance { get; set; }
             public string SystemEconomy { get; set; }
             public string SystemEconomy_Localised { get; set; }

@@ -56,8 +56,7 @@ namespace EliteJournalReader.Events
             public string StationName { get; set; }
             public string StationType { get; set; }
             public long MarketID { get; set; }
-            public string SystemFaction { get; set; }
-            public string FactionState { get; set; }
+            public Faction SystemFaction { get; set; }
             public string SystemAllegiance { get; set; }
             public string SystemEconomy { get; set; }
             public string SystemEconomy_Localised { get; set; }
