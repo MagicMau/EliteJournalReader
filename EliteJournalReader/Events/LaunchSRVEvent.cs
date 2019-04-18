@@ -17,6 +17,7 @@ namespace EliteJournalReader.Events
         public class LaunchSRVEventArgs : JournalEventArgs
         {
             public string Loadout { get; set; }
+            public int ID { get; set; }
         }
     }
 }

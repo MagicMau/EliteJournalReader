@@ -15,6 +15,7 @@ namespace EliteJournalReader.Events
 
         public class SRVDestroyedEventArgs : JournalEventArgs
         {
+            public int ID { get; set; }
         }
     }
 }

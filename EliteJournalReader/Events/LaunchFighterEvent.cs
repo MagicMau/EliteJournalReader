@@ -19,6 +19,7 @@ namespace EliteJournalReader.Events
         {
             public string Loadout { get; set; }
             public bool PlayerControlled { get; set; }
+            public int ID { get; set; }
         }
     }
 }

@@ -15,6 +15,7 @@ namespace EliteJournalReader.Events
     //•	Bodyname: name of body
     //•	DistanceFromArrivalLS
     //•	StarType: Stellar classification (for a star)
+    //•	Subclass: Star’s heat classification 0..9
     //•	StellarMass: mass as multiple of Sol’s mass
     //•	Radius
     //•	AbsoluteMagnitude
@@ -23,6 +24,8 @@ namespace EliteJournalReader.Events
     //•	Luminosity
     //•	Age_MY: age in millions of years
     //•	* Rings: [ array ] - if present
+    //•	WasDiscovered: bool
+    //•	WasMapped: bool
     //
     //Parameters(Planet/Moon) 
     //•	Bodyname: name of body
@@ -221,6 +224,8 @@ namespace EliteJournalReader.Events
             [JsonConverter(typeof(ExtendedStringEnumConverter<StarType>))]
             public StarType StarType { get; set; }
 
+            public int Subclass { get; set; }
+
             public double? StellarMass { get; set; }
 
             public double? Radius { get; set; }
@@ -262,6 +267,9 @@ namespace EliteJournalReader.Events
             public bool? TidalLock { get; set; }
 
             public List<ScanItemComponent> Materials { get; set; }
+
+            public bool? WasDiscovered { get; set; }
+            public bool? WasMapped { get; set; }
         }
     }
 

@@ -87,8 +87,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\EliteG19s\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commodity.cs" />
+    <Compile Include="Economy.cs" />
     <Compile Include="EngineeredModule.cs" />
     <Compile Include="EngineeringModifiers.cs" />
     <Compile Include="EnumHelpers.cs" />
@@ -301,6 +302,7 @@
     <Compile Include="Events\ProgressEvent.cs" />
     <Compile Include="Events\LoadGameEvent.cs" />
     <Compile Include="Events\FileheaderEvent.cs" />
+    <Compile Include="Conflict.cs" />
     <Compile Include="Faction.cs" />
     <Compile Include="JournalDescriptions.cs" />
     <Compile Include="JournalEvent.cs" />
@@ -321,9 +323,7 @@
     <Compile Include="SystemPosition.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

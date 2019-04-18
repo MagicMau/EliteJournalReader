@@ -20,6 +20,9 @@ namespace EliteJournalReader.Events
             public long MarketID { get; set; }
             public double Latitude { get; set; }
             public double Longitude { get; set; }
+            public long SystemAddress { get; set; }
+            public string BodyName { get; set; }
+            public long BodyID { get; set; }
         }
     }
 }

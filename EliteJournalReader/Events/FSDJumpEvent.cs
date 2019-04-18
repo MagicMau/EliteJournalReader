@@ -19,7 +19,8 @@ namespace EliteJournalReader.Events
     //•	FuelLevel
     //•	BoostUsed: whether FSD boost was used
     //•	SystemFaction: system controlling faction
-    //•	FactionState
+    //    o Name
+    //    o FactionState
     //•	SystemAllegiance
     //•	SystemEconomy
     //•	SystemSecondEconomy
@@ -32,10 +33,19 @@ namespace EliteJournalReader.Events
     //    o FactionState
     //    o Government
     //    o Influence
+    //    o Happiness
     //    o MyReputation
     //    o PendingStates: array(if any) with State name and Trend value
     //    o RecovingStates: array(if any)with State name and Trend value
-    //    o ActiveStates: array with State names and Trend value
+    //    o ActiveStates: array with State names (Note active states do not have a Trend value)
+    //    o SquadronFaction:true (if player is in squadron aligned to this faction)
+    //    o HappiestSystem:true (if player squadron faction, and this is happiest system)
+    //    o HomeSystem:true(if player squadron faction, and this is home system)
+    //•	Conflicts: an array of info about local conflicts(if any)
+    //    o WarType
+    //    o Status
+    //    o Faction1: { Name, Stake, WonDays }
+    //    o Faction2: { Name, Stake, WonDays }
     //If the player is pledged to a Power in Powerplay, and the star system is involved in powerplay,
     //•	Powers: a json array with the names of any powers contesting the system, or the name of the controlling power
     //•	PowerplayState: the system state – one of("InPrepareRadius", "Prepared", "Exploited", "Contested", "Controlled", "Turmoil", "HomeSystem")
@@ -74,6 +84,8 @@ namespace EliteJournalReader.Events
             public PowerplayState PowerplayState { get; set; }
 
             public List<Faction> Factions { get; set; }
+
+            public List<Conflict> Conflicts { get; set; }
         }
     }
 }

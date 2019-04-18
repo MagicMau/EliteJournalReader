@@ -24,6 +24,8 @@ namespace EliteJournalReader.Events
 
         public double Cargo { get; set; }
 
+        public string LegalState { get; set; }
+
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
@@ -102,7 +104,8 @@ namespace EliteJournalReader.Events
         InFighter = 0x02000000,
         InSRV = 0x04000000,
         HudInAnalysisMode = 0x08000000,
-        NightVision = 0x10000000
+        NightVision = 0x10000000,
+        AltitudeFromAverageRadius = 0x20000000
     }
 
     public enum StatusGuiFocus
