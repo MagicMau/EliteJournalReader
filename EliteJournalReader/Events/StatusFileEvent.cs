@@ -34,6 +34,10 @@ namespace EliteJournalReader.Events
 
         public double Heading { get; set; }
 
+        public string BodyName { get; set; }
+           
+        public double PlanetRadius { get; set; }
+
 
         class JsonPipsConverter : JsonConverter
         {

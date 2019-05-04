@@ -67,7 +67,7 @@ namespace EliteJournalReader.Events
             public Faction StationFaction { get; set; }
             public string StationGovernment { get; set; }
             public string StationAllegiance { get; set; }
-            public string StationServices { get; set; }
+            public List<string> StationServices { get; set; }
             public List<Economy> StationEconomies { get; set; }
 
             public Faction SystemFaction { get; set; }
