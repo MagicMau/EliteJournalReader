@@ -265,7 +265,8 @@ namespace EliteJournalReader
         Unknown,
         Open,
         Solo,
-        Group
+        Group,
+        Console
     }
 
     public enum PowerplayState

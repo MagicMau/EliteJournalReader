@@ -55,12 +55,12 @@ namespace EliteJournalReader
         /// <summary>
         /// Keep a map of event names to event objects
         /// </summary>
-        private static Dictionary<string, JournalEvent> journalEventsByName = new Dictionary<string, JournalEvent>();
+        private static readonly Dictionary<string, JournalEvent> journalEventsByName = new Dictionary<string, JournalEvent>();
 
         /// <summary>
         /// Also map the event objects by their type
         /// </summary>
-        private static Dictionary<Type, JournalEvent> journalEvents = new Dictionary<Type, JournalEvent>();
+        private static readonly Dictionary<Type, JournalEvent> journalEvents = new Dictionary<Type, JournalEvent>();
 
         public bool IsLive { get; protected set; }
 
@@ -345,6 +345,7 @@ namespace EliteJournalReader
             try
             {
                 EnableRaisingEvents = false;
+                IsLive = false;
 
                 if (cancellationTokenSource != null)
                     cancellationTokenSource.Cancel();
@@ -457,12 +458,7 @@ namespace EliteJournalReader
                 // read new data
                 var newData = reader.ReadToEnd();
 
-                // split the new data into lines
-                var lines = newData.Split('\r', '\n');
-
-                // parse each line
-                foreach (var line in lines)
-                    Parse(line);
+                ParseText(newData);
             }
             catch (Exception e)
             {
@@ -483,6 +479,17 @@ namespace EliteJournalReader
                 }
             }
             return offset;
+        }
+
+        // Parses multiple lines of journal data
+        public void ParseText(string text)
+        {
+            // split the new data into lines
+            var lines = text.Split('\r', '\n');
+
+            // parse each line
+            foreach (var line in lines)
+                Parse(line);
         }
 
         private bool Pause()
@@ -550,6 +557,9 @@ namespace EliteJournalReader
             {
                 var evt = JObject.Parse(line);
                 var eventType = evt.Value<string>("event");
+                if (string.IsNullOrEmpty(eventType))
+                    return; // no event, nothing to do
+
 #if DEBUG
                 if (IsLive)
                     Trace.TraceInformation($"Journal - firing event {eventType} @ {evt["timestamp"]?.Value<string>()}\r\n\t{line}");

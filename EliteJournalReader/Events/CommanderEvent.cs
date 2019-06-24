@@ -17,6 +17,7 @@ namespace EliteJournalReader.Events
         public class CommanderEventArgs : JournalEventArgs
         {
             public string Name { get; set; }
+            public string FID { get; set; }
         }
     }
 }

@@ -110,6 +110,7 @@
     <Compile Include="Events\FSSAllBodiesFoundEvent.cs" />
     <Compile Include="Events\ReservoirReplenishedEvent.cs" />
     <Compile Include="Events\ProspectedAsteroidEvent.cs" />
+    <Compile Include="Events\MultiSellExplorationDataEvent.cs" />
     <Compile Include="Events\SquadronStartupEvent.cs" />
     <Compile Include="Events\WonATrophyForSquadronEvent.cs" />
     <Compile Include="Events\SquadronPromotionEvent.cs" />
@@ -321,6 +322,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SystemPosition.cs" />
+    <Compile Include="SystemScan.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
