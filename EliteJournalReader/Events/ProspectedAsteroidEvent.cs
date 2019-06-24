@@ -13,7 +13,7 @@ namespace EliteJournalReader.Events
 
         public class ProspectedAsteroidEventArgs : JournalEventArgs
         {
-            public List<ScanItemComponent> Materials { get; set; }
+            public ScanItemComponent[] Materials { get; set; }
             public string Content { get; set; }
             public string MotherlodeMaterial { get; set; }
             public double Percentage { get; set; }

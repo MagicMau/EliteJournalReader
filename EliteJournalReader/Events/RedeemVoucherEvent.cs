@@ -27,7 +27,7 @@ namespace EliteJournalReader.Events
             public int Amount { get; set; }
             public string Faction { get; set; }
             public double? BrokerPercentage { get; set; }
-            public List<FactionAmount> Factions { get; set; }
+            public FactionAmount[] Factions { get; set; }
         }
     }
 }

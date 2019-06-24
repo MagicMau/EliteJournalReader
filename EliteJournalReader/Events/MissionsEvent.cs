@@ -26,9 +26,10 @@ namespace EliteJournalReader.Events
 
         public class MissionsEventArgs : JournalEventArgs
         {
-            public List<Mission> Active { get; set; }
-            public List<Mission> Failed { get; set; }
-            public List<Mission> Complete { get; set; }
+            public Mission[] Active { get; set; }
+            public Mission[] Failed { get; set; }
+            public Mission[] Complete { get; set; }
+
         }
     }
 }

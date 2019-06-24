@@ -30,5 +30,7 @@ namespace EliteJournalReader
                 return h;
             }
         }
+
+        public Economy Clone() => (Economy)MemberwiseClone();
     }
 }

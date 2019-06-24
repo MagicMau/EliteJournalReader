@@ -19,9 +19,9 @@ namespace EliteJournalReader
         public bool HappiestSystem { get; set; } = false;
         public bool HomeSystem { get; set; } = false;
 
-        public List<FactionStateChange> PendingStates { get; set; }
-        public List<FactionStateChange> RecoveringStates { get; set; }
-        public List<FactionStateChange> ActiveStates { get; set; }
+        public FactionStateChange[] PendingStates { get; set; }
+        public FactionStateChange[] RecoveringStates { get; set; }
+        public FactionStateChange[] ActiveStates { get; set; }
 
         public override bool Equals(object obj) => Equals(obj as Faction);
 
@@ -61,9 +61,11 @@ namespace EliteJournalReader
                 return h;
             }
         }
+
+        public Faction Clone() => (Faction)MemberwiseClone();
     }
 
-    public class FactionStateChange
+    public struct FactionStateChange
     {
         public string State { get; set; }
         public int Trend { get; set; }

@@ -35,6 +35,14 @@ namespace EliteJournalReader
                 return h;
             }
         }
+
+        public Conflict Clone()
+        {
+            var clone = (Conflict)MemberwiseClone();
+            clone.Faction1 = Faction1?.Clone();
+            clone.Faction2 = Faction2?.Clone();
+            return clone;
+        }
     }
 
     public class ConflictFaction
@@ -63,5 +71,7 @@ namespace EliteJournalReader
                 return h;
             }
         }
+
+        public ConflictFaction Clone() => (ConflictFaction)MemberwiseClone();
     }
 }

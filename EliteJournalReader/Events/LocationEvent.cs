@@ -67,8 +67,8 @@ namespace EliteJournalReader.Events
             public Faction StationFaction { get; set; }
             public string StationGovernment { get; set; }
             public string StationAllegiance { get; set; }
-            public List<string> StationServices { get; set; }
-            public List<Economy> StationEconomies { get; set; }
+            public string[] StationServices { get; set; }
+            public IEnumerable<Economy> StationEconomies { get; set; }
 
             public Faction SystemFaction { get; set; }
             public string SystemAllegiance { get; set; }
@@ -89,8 +89,19 @@ namespace EliteJournalReader.Events
             [JsonConverter(typeof(ExtendedStringEnumConverter<PowerplayState>))]
             public PowerplayState PowerplayState { get; set; }
 
-            public List<Faction> Factions { get; set; }
-            public List<Conflict> Conflicts { get; set; }
+            public IEnumerable<Faction> Factions { get; set; }
+            public IEnumerable<Conflict> Conflicts { get; set; }
+
+            public override JournalEventArgs Clone()
+            {
+                var clone = (LocationEventArgs)base.Clone();
+                clone.StationFaction = StationFaction?.Clone();
+                clone.SystemFaction = SystemFaction?.Clone();
+                clone.StationEconomies = StationEconomies?.Select(e => e.Clone());
+                clone.Factions = Factions?.Select(f => f.Clone());
+                clone.Conflicts = Conflicts?.Select(c => c.Clone());
+                return clone;
+            }
         }
     }
 }

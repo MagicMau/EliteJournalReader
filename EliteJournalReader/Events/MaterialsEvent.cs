@@ -16,9 +16,9 @@ namespace EliteJournalReader.Events
 
         public class MaterialsEventArgs : JournalEventArgs
         {
-            public List<Material> Raw { get; set; }
-            public List<Material> Manufactured { get; set; }
-            public List<Material> Encoded { get; set; }
+            public Material[] Raw { get; set; }
+            public Material[] Manufactured { get; set; }
+            public Material[] Encoded { get; set; }
         }
     }
 }

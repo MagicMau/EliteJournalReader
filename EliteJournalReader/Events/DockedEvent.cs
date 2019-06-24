@@ -42,7 +42,7 @@ namespace EliteJournalReader.Events
             public string StationAllegiance { get; set; }
             public string StationEconomy { get; set; }
             public string StationEconomy_Localised { get; set; }
-            public List<Economy> StationEconomies { get; set; }
+            public Economy[] StationEconomies { get; set; }
             public string StationGovernment { get; set; }
             public string StationGovernment_Localised { get; set; }
             public double? DistFromStarLS { get; set; }
@@ -50,11 +50,18 @@ namespace EliteJournalReader.Events
             public bool Wanted { get; set; } = false;
             public bool ActiveFine { get; set; } = false;
 
-            public class Economy
+            public struct Economy
             {
                 public string Name { get; set; }
                 public string Name_Localised { get; set; }
                 public double Proportion { get; set; }
+            }
+
+            public override JournalEventArgs Clone()
+            {
+                var clone = (DockedEventArgs)base.Clone();
+                clone.StationFaction = StationFaction?.Clone();
+                return clone;
             }
         }
     }

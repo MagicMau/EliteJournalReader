@@ -39,7 +39,7 @@ namespace EliteJournalReader.Events
             public long SystemAddress { get; set; }
             public bool IsNewEntry { get; set; } = false;
             public bool NewTraitsDiscovered { get; set; } = false;
-            public List<string> Traits { get; set; }
+            public string[] Traits { get; set; }
         }
     }
 }

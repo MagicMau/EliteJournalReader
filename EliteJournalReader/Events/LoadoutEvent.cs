@@ -68,10 +68,17 @@ namespace EliteJournalReader.Events
             public double MaxJumpRange { get; set; }
             public int Rebuy { get; set; }
             public bool Hot { get; set; }
-            public List<Module> Modules { get; set; }
+            public IEnumerable<Module> Modules { get; set; }
+
+            public override JournalEventArgs Clone()
+            {
+                var clone = (LoadoutEventArgs)base.Clone();
+                clone.Modules = Modules?.Select(m => m.Clone());
+                return clone;
+            }
         }
 
-        public class FuelCapacity
+        public struct FuelCapacity
         {
             public double Main { get; set; }
             public double Reserve { get; set; }

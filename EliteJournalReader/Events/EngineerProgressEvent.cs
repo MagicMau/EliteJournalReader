@@ -23,7 +23,14 @@ namespace EliteJournalReader.Events
             public int? Rank { get; set; }
             public string Progress { get; set; }
 
-            public List<EngineerProgressEventArgs> Engineers { get; set; }
+            public IEnumerable<EngineerProgressEventArgs> Engineers { get; set; }
+
+            public override JournalEventArgs Clone()
+            {
+                var clone = (EngineerProgressEventArgs)base.Clone();
+                clone.Engineers = Engineers?.Select(e => e.Clone()).Cast<EngineerProgressEventArgs>();
+                return clone;
+            }
         }
     }
 }

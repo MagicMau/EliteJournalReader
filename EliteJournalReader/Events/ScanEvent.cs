@@ -202,7 +202,7 @@ namespace EliteJournalReader.Events
             public double DistanceFromArrivalLs { get; set; }
 
             [JsonConverter(typeof(BodyParentConverter))]
-            public List<BodyParent> Parents { get; set; }
+            public BodyParent[] Parents { get; set; }
 
             public double? SemiMajorAxis { get; set; }
 
@@ -216,7 +216,7 @@ namespace EliteJournalReader.Events
 
             public double? MassEM { get; set; }
 
-            public List<PlanetRing> Rings { get; set; }
+            public PlanetRing[] Rings { get; set; }
 
             [JsonConverter(typeof(ExtendedStringEnumConverter<ReserveLevel>))]
             public ReserveLevel ReserveLevel { get; set; }
@@ -252,7 +252,7 @@ namespace EliteJournalReader.Events
             [JsonConverter(typeof(ExtendedStringEnumConverter<AtmosphereClass>))]
             public AtmosphereClass AtmosphereType { get; set; }
 
-            public List<ScanItemComponent> AtmosphereComposition { get; set; }
+            public ScanItemComponent[] AtmosphereComposition { get; set; }
 
             public string Volcanism { get; set; }
 
@@ -266,7 +266,7 @@ namespace EliteJournalReader.Events
 
             public bool? TidalLock { get; set; }
 
-            public List<ScanItemComponent> Materials { get; set; }
+            public ScanItemComponent[] Materials { get; set; }
 
             public bool? WasDiscovered { get; set; }
             public bool? WasMapped { get; set; }

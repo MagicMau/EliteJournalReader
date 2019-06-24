@@ -11,5 +11,12 @@
         public int? AmmoInClip { get; set; }
         public int? AmmoInHopper { get; set; }
         public EngineeredModule Engineering { get; set; }
+
+        public Module Clone()
+        {
+            var clone = (Module)MemberwiseClone();
+            clone.Engineering = Engineering?.Clone();
+            return clone;
+        }
     }
 }

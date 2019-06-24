@@ -18,7 +18,7 @@ namespace EliteJournalReader.Events
         public class SynthesisEventArgs : JournalEventArgs
         {
             public string Name { get; set; }
-            public List<Material> Materials { get; set; }
+            public Material[] Materials { get; set; }
         }
     }
 }

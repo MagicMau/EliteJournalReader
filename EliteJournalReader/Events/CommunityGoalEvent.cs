@@ -60,7 +60,7 @@ namespace EliteJournalReader.Events
                 public string Bonus;
             }
             
-            public List<CurrentGoal> CurrentGoals { get; set; }
+            public CurrentGoal[] CurrentGoals { get; set; }
         }
     }
 }

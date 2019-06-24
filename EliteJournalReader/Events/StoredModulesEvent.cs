@@ -46,7 +46,7 @@ namespace EliteJournalReader.Events
             }
 
             public long MarketID { get; set; }
-            public List<StoredModule> Items { get; set; }
+            public StoredModule[] Items { get; set; }
         }
     }
 }

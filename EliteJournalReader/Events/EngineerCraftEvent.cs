@@ -26,8 +26,8 @@ namespace EliteJournalReader.Events
             public int Level { get; set; }
             public double Quality { get; set; }
             public string ApplyExperimentalEffect { get; set; }
-            public List<Material> Ingredients { get; set; }
-            public List<EngineeringModifiers> Modifiers { get; set; }
+            public Material[] Ingredients { get; set; }
+            public EngineeringModifiers[] Modifiers { get; set; }
         }
     }
 }

@@ -122,7 +122,7 @@ namespace EliteJournalReader.Events
             public MaterialsTrader Material_Trader_Stats { get; set; }
         }
 
-        public class BankAccount
+        public struct BankAccount
         {
             public long Current_Wealth_Spent_On_Ships { get; set; }
             public long Spent_On_Outfitting { get; set; }
@@ -133,7 +133,7 @@ namespace EliteJournalReader.Events
             public long Spent_On_Insurance { get; set; }
         }
 
-        public class Combat
+        public struct Combat
         {
             public long Bounties_Claimed { get; set; }
             public long Bounty_Hunting_Profit { get; set; }
@@ -145,7 +145,7 @@ namespace EliteJournalReader.Events
             public long Skimmers_Killed { get; set; }
         }
 
-        public class Crime
+        public struct Crime
         {
             public long Fines { get; set; }
             public long Total_Fines { get; set; }
@@ -154,7 +154,7 @@ namespace EliteJournalReader.Events
             public long Highest_Bounty { get; set; }
         }
 
-        public class Smuggling
+        public struct Smuggling
         {
             public long Black_Markets_Traded_With { get; set; }
             public long Black_Markets_Profit { get; set; }
@@ -163,7 +163,7 @@ namespace EliteJournalReader.Events
             public long Highest_Single_Transaction { get; set; }
         }
 
-        public class Trading
+        public struct Trading
         {
             public long Markets_Traded_With { get; set; }
             public long Markets_Profits { get; set; }
@@ -172,14 +172,14 @@ namespace EliteJournalReader.Events
             public long Highest_Single_Transaction { get; set; }
         }
 
-        public class Mining
+        public struct Mining
         {
             public long Mining_Profits { get; set; }
             public long Quantity_Mined { get; set; }
             public long Materials_Collected { get; set; }
         }
 
-        public class Exploration
+        public struct Exploration
         {
             public long Systems_Visited { get; set; }
             public double Fuel_Scooped { get; set; }
@@ -193,7 +193,7 @@ namespace EliteJournalReader.Events
             public long Time_Played { get; set; }
         }
 
-        public class Passengers
+        public struct Passengers
         {
             public long Passengers_Missions_Bulk { get; set; }
             public long Passengers_Missions_VIP { get; set; }
@@ -201,19 +201,19 @@ namespace EliteJournalReader.Events
             public long Passengers_Missions_Ejected { get; set; }
         }
 
-        public class SearchAndRescue
+        public struct SearchAndRescue
         {
             public long SearchRescue_Traded { get; set; }
             public long SearchRescue_Profit { get; set; }
             public long SearchResuce_Count { get; set; }
         }
 
-        public class ThargoidEncounters
+        public struct ThargoidEncounters
         {
             public long TG_Encounter_Wakes { get; set; }
         }
 
-        public class Crafting
+        public struct Crafting
         {
             public long Spent_On_Crafting { get; set; }
             public long Count_Of_Used_Engineers { get; set; }
@@ -232,7 +232,7 @@ namespace EliteJournalReader.Events
             public long Recipes_Applied_On_Previously_Modified_Modules { get; set; }
         }
 
-        public class Crew
+        public struct Crew
         {
             public long NpcCrew_TotalWages { get; set; }
             public long NpcCrew_Hired { get; set; }
@@ -240,7 +240,7 @@ namespace EliteJournalReader.Events
             public long NpcCrew_Died { get; set; }
         }
 
-        public class Multicrew
+        public struct Multicrew
         {
             public long Multicrew_Time_Total { get; set; }
             public long Multicrew_Gunner_Time_Total { get; set; }
@@ -249,7 +249,7 @@ namespace EliteJournalReader.Events
             public long Multicrew_Fines_Total { get; set; }
         }
 
-        public class CQC
+        public struct CQC
         {
             public long CQC_Credits_Earned { get; set; }
             public long CQC_Time_Played { get; set; }
@@ -258,7 +258,7 @@ namespace EliteJournalReader.Events
             public double CQC_WL { get; set; }
         }
 
-        public class MaterialsTrader
+        public struct MaterialsTrader
         {
             public long Trades_Completed { get; set; }
             public long Materials_Traded { get; set; }

@@ -29,8 +29,8 @@ namespace EliteJournalReader.Events
             public long MarketID { get; set; }
             public string ItemUnlocked { get; set; }
             public string ItemUnlocked_Localised { get; set; }
-            public List<Commodity> Commodities { get; set; }
-            public List<Material> Materials { get; set; }
+            public Commodity[] Commodities { get; set; }
+            public Material[] Materials { get; set; }
         }
     }
 }

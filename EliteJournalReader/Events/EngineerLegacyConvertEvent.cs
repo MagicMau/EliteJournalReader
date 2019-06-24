@@ -31,7 +31,7 @@ namespace EliteJournalReader.Events
             public long BlueprintID { get; set; }
             public int Level { get; set; }
             public double Quality { get; set; }
-            public List<EngineeringModifiers> Modifiers { get; set; }
+            public EngineeringModifiers[] Modifiers { get; set; }
             public bool IsPreview { get; set; }
         }
     }

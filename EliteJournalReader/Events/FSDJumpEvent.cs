@@ -83,9 +83,18 @@ namespace EliteJournalReader.Events
             [JsonConverter(typeof(ExtendedStringEnumConverter<PowerplayState>))]
             public PowerplayState PowerplayState { get; set; }
 
-            public List<Faction> Factions { get; set; }
+            public IEnumerable<Faction> Factions { get; set; }
 
-            public List<Conflict> Conflicts { get; set; }
+            public IEnumerable<Conflict> Conflicts { get; set; }
+
+            public override JournalEventArgs Clone()
+            {
+                var clone = (FSDJumpEventArgs)base.Clone();
+                clone.SystemFaction = SystemFaction?.Clone();
+                clone.Factions = Factions?.Select(f => f.Clone());
+                clone.Conflicts = Conflicts?.Select(c => c.Clone());
+                return clone;
+            }
         }
     }
 }
