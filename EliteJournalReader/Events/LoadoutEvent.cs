@@ -68,12 +68,12 @@ namespace EliteJournalReader.Events
             public double MaxJumpRange { get; set; }
             public int Rebuy { get; set; }
             public bool Hot { get; set; }
-            public IEnumerable<Module> Modules { get; set; }
+            public Module[] Modules { get; set; }
 
             public override JournalEventArgs Clone()
             {
                 var clone = (LoadoutEventArgs)base.Clone();
-                clone.Modules = Modules?.Select(m => m.Clone());
+                clone.Modules = Modules?.Select(m => m.Clone()).ToArray();
                 return clone;
             }
         }

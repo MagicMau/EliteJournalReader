@@ -83,16 +83,16 @@ namespace EliteJournalReader.Events
             [JsonConverter(typeof(ExtendedStringEnumConverter<PowerplayState>))]
             public PowerplayState PowerplayState { get; set; }
 
-            public IEnumerable<Faction> Factions { get; set; }
+            public Faction[] Factions { get; set; }
 
-            public IEnumerable<Conflict> Conflicts { get; set; }
+            public Conflict[] Conflicts { get; set; }
 
             public override JournalEventArgs Clone()
             {
                 var clone = (FSDJumpEventArgs)base.Clone();
                 clone.SystemFaction = SystemFaction?.Clone();
-                clone.Factions = Factions?.Select(f => f.Clone());
-                clone.Conflicts = Conflicts?.Select(c => c.Clone());
+                clone.Factions = Factions?.Select(f => f.Clone()).ToArray();
+                clone.Conflicts = Conflicts?.Select(c => c.Clone()).ToArray();
                 return clone;
             }
         }
