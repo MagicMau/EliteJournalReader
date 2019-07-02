@@ -325,7 +325,7 @@ namespace EliteJournalReader.Events
                     }
                 }
             }
-            return bps;
+            return bps.ToArray();
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
