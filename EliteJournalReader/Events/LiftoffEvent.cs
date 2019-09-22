@@ -20,6 +20,8 @@ namespace EliteJournalReader.Events
         {
             public double Latitude { get; set; }
             public double Longitude { get; set; }
+            public string NearestDestination { get; set; }
+            public string NearestDestination_Localised { get; set; }
             public bool PlayerControlled { get; set; }
         }
     }

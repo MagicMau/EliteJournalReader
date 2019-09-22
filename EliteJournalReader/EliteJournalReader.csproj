@@ -111,6 +111,8 @@
     <Compile Include="Events\ReservoirReplenishedEvent.cs" />
     <Compile Include="Events\ProspectedAsteroidEvent.cs" />
     <Compile Include="Events\MultiSellExplorationDataEvent.cs" />
+    <Compile Include="SAASignal.cs" />
+    <Compile Include="Events\SAASignalsFoundEvent.cs" />
     <Compile Include="Events\SquadronStartupEvent.cs" />
     <Compile Include="Events\WonATrophyForSquadronEvent.cs" />
     <Compile Include="Events\SquadronPromotionEvent.cs" />

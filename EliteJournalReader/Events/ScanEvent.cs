@@ -12,6 +12,8 @@ namespace EliteJournalReader.Events
     //When Written: detailed discovery scan of a star, planet or moon
     //Parameters(star)
     //•	ScanType
+    //•	StarSystem: name
+    //•	SystemAddress
     //•	Bodyname: name of body
     //•	DistanceFromArrivalLS
     //•	StarType: Stellar classification (for a star)
@@ -194,6 +196,10 @@ namespace EliteJournalReader.Events
         {
             [JsonConverter(typeof(ExtendedStringEnumConverter<ScanType>))]
             public ScanType ScanType { get; set; }
+
+            public string StarSystem { get; set; }
+
+            public long SystemAddress { get; set; }
 
             public string BodyName { get; set; }
 

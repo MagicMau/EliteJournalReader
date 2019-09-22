@@ -65,6 +65,7 @@ namespace EliteJournalReader.Events
             public string SubSystem { get; set; }
 
             public double SubSystemHealth { get; set; }
+            public string Power { get; set; }
         }
     }
 }

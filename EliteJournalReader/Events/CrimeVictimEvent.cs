@@ -22,7 +22,9 @@ namespace EliteJournalReader.Events
         public class CrimeVictimEventArgs : JournalEventArgs
         {
             public string Offender { get; set; }
+            public string Offender_Localised { get; set; }
             public string CrimeType { get; set; }
+            public string CrimeType_Localised { get; set; }
             public int? Fine { get; set; }
             public int? Bounty { get; set; }
         }

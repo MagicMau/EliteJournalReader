@@ -15,6 +15,8 @@ namespace EliteJournalReader.Events
     //•	Category: string (+localisation)
     //•	Region: string
     //•	System: string
+    //•	SystemAddress
+    //•	NearestDestination: name
     //•	IsNewEntry: bool
     //•	NewTraitsDiscovered: bool
     //•	Traits: [array of strings]
@@ -37,6 +39,8 @@ namespace EliteJournalReader.Events
             public string Region { get; set; }
             public string System { get; set; }
             public long SystemAddress { get; set; }
+            public string NearestDestination { get; set; }
+            public string NearestDestination_Localised { get; set; }
             public bool IsNewEntry { get; set; } = false;
             public bool NewTraitsDiscovered { get; set; } = false;
             public string[] Traits { get; set; }

@@ -77,7 +77,7 @@ namespace EliteJournalReader.Events
     }
 
     [Flags]
-    public enum StatusFlags
+    public enum StatusFlags : long
     {
         None = 0,
         Docked = 0x00000001,
@@ -109,7 +109,9 @@ namespace EliteJournalReader.Events
         InSRV = 0x04000000,
         HudInAnalysisMode = 0x08000000,
         NightVision = 0x10000000,
-        AltitudeFromAverageRadius = 0x20000000
+        AltitudeFromAverageRadius = 0x20000000,
+        FsdJump = 0x40000000,
+        SrvHighBeam = 0x80000000,
     }
 
     public enum StatusGuiFocus
