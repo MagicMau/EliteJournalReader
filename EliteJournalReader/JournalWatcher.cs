@@ -212,7 +212,9 @@ namespace EliteJournalReader
         {
             try
             {
-                return File.GetCreationTime(path);
+                var creationTime = File.GetCreationTimeUtc(path);
+                var lastWriteTime = File.GetLastWriteTimeUtc(path);
+                return creationTime < lastWriteTime ? creationTime : lastWriteTime;
             }
             catch
             {
