@@ -43,10 +43,7 @@ namespace EliteJournalReader
             return new[] { X, Y, Z };
         }
 
-        public override string ToString()
-        {
-            return System.FormattableString.Invariant($"{X}, {Y}, {Z}");
-        }
+        public override string ToString() => FormattableString.Invariant($"{X},{Y},{Z}");
 
         public static bool operator ==(SystemPosition left, SystemPosition right)
         {
