@@ -304,17 +304,14 @@ namespace EliteJournalReader.Events
 
     public class BodyParentConverter : JsonConverter
     {
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(IEnumerable<BodyParent>);
-        }
+        public override bool CanConvert(Type objectType) => objectType == typeof(IEnumerable<BodyParent>);
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var bps = new List<BodyParent>();
             if (JToken.ReadFrom(reader) is JArray array)
             {
-                foreach (JToken token in array.Children())
+                foreach (var token in array.Children())
                 {
                     if (token is JObject obj)
                     {
@@ -334,9 +331,6 @@ namespace EliteJournalReader.Events
             return bps.ToArray();
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
     }
 }

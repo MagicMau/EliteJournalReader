@@ -47,8 +47,7 @@ namespace EliteJournalReader.Events
                 else if (rep < -35) return ReputationStatus.Unfriendly;
                 else if (rep < 4) return ReputationStatus.Neutral;
                 else if (rep < 35) return ReputationStatus.Cordial;
-                else if (rep < 90) return ReputationStatus.Friendly;
-                else return ReputationStatus.Allied;
+                else return rep < 90 ? ReputationStatus.Friendly : ReputationStatus.Allied;
             }
         }
     }

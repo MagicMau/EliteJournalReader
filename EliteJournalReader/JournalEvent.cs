@@ -7,14 +7,13 @@ namespace EliteJournalReader
 {
     public abstract class JournalEvent
     {
-        private readonly string[] _eventNames;
-        public string[] EventNames { get { return _eventNames; } }
+        public string[] EventNames { get; }
 
         public string OriginalEvent { get; protected set; }
 
         protected JournalEvent(params string[] eventNames)
         {
-            _eventNames = eventNames;
+            EventNames = eventNames;
         }
 
         internal abstract JournalEventArgs FireEvent(object sender, JObject evt);
@@ -29,15 +28,9 @@ namespace EliteJournalReader
         {
         }
 
-        public void AddHandler(EventHandler<TJournalEventArgs> eventHandler)
-        {
-            Fired += eventHandler;
-        }
+        public void AddHandler(EventHandler<TJournalEventArgs> eventHandler) => Fired += eventHandler;
 
-        public void RemoveHandler(EventHandler<TJournalEventArgs> eventHandler)
-        {
-            Fired -= eventHandler;
-        }
+        public void RemoveHandler(EventHandler<TJournalEventArgs> eventHandler) => Fired -= eventHandler;
 
         internal override JournalEventArgs FireEvent(object sender, JObject evt)
         {

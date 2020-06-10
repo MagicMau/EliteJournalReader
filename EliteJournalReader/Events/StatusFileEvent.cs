@@ -62,17 +62,9 @@ namespace EliteJournalReader.Events
                 return result;
             }
 
-            private static int ReadInt(JsonReader reader)
-            {
-                if (reader.Read() && reader.TokenType == JsonToken.Integer)
-                    return Convert.ToInt32(reader.Value);
-                return 0;
-            }
+            private static int ReadInt(JsonReader reader) => reader.Read() && reader.TokenType == JsonToken.Integer ? Convert.ToInt32(reader.Value) : 0;
 
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                throw new NotImplementedException();
-            }
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
         }
     }
 

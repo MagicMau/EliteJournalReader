@@ -12,7 +12,7 @@ namespace EliteJournalReader
 {
     public static class EnumHelpers
     {
-        private static Dictionary<Type, Dictionary<string, object>> enumDescriptionCache = new Dictionary<Type, Dictionary<string, object>>();
+        private static readonly Dictionary<Type, Dictionary<string, object>> enumDescriptionCache = new Dictionary<Type, Dictionary<string, object>>();
 
         public static T ToEnum<T>(this string value, T defaultValue) where T : struct
         {
@@ -20,7 +20,7 @@ namespace EliteJournalReader
                 return defaultValue;
 
             var type = typeof(T);
-            if (!enumDescriptionCache.TryGetValue(type, out Dictionary<string, object> cache))
+            if (!enumDescriptionCache.TryGetValue(type, out var cache))
             {
                 cache = new Dictionary<string, object>();
                 var attrs = type.GetFields().SelectMany(f => f.GetCustomAttributes<DescriptionAttribute>().Select(d => new { field = f, desc = d }));
@@ -69,25 +69,22 @@ namespace EliteJournalReader
             return defaultValue;
         }
 
-        public static string StringValue(this Enum enumItem)
-        {
-            return enumItem
+        public static string StringValue(this Enum enumItem) => enumItem
             .GetType()
             .GetField(enumItem.ToString())
             .GetCustomAttributes<DescriptionAttribute>()
             .Select(a => a.Description)
             .FirstOrDefault() ?? enumItem.ToString();
-        }
     }
 
 
     public class ExtendedStringEnumConverter<T> : StringEnumConverter where T : struct
     {
-        private T defaultValue;
+        private readonly T defaultValue;
 
         public ExtendedStringEnumConverter()
         {
-            defaultValue = default(T);
+            defaultValue = default;
         }
 
         public ExtendedStringEnumConverter(T defaultValue)

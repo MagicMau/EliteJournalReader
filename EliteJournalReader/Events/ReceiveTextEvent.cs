@@ -31,9 +31,6 @@ namespace EliteJournalReader.Events
 
     public static class TextChannelExtensions
     {
-        public static bool IsPlayerChannel(this TextChannel channel)
-        {
-            return channel != TextChannel.Unknown && channel != TextChannel.NPC;
-        }
+        public static bool IsPlayerChannel(this TextChannel channel) => channel != TextChannel.Unknown && channel != TextChannel.NPC;
     }
 }

@@ -88,7 +88,7 @@ namespace EliteJournalReader
                     try
                     {
                         journalEvents[handler.GetType()] = handler;
-                        foreach (var eventName in handler.EventNames)
+                        foreach (string eventName in handler.EventNames)
                             journalEventsByName[eventName] = handler;
                     }
                     catch (Exception e)
@@ -107,8 +107,8 @@ namespace EliteJournalReader
             }
             catch (System.Reflection.ReflectionTypeLoadException ex)
             {
-                StringBuilder sb = new StringBuilder();
-                foreach (Exception exSub in ex.LoaderExceptions)
+                var sb = new StringBuilder();
+                foreach (var exSub in ex.LoaderExceptions)
                 {
                     sb.AppendLine(exSub.ToString());
                     if (exSub is FileNotFoundException exFileNotFound)
@@ -188,10 +188,10 @@ namespace EliteJournalReader
                 var previousFiles = journals.Take(partNr).Reverse();
 
                 // now process each journal
-                foreach (var filename in previousFiles)
+                foreach (string filename in previousFiles)
                 {
                     string journalFile = System.IO.Path.Combine(Path, filename);
-                    using (StreamReader reader = new StreamReader(new FileStream(journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                    using (var reader = new StreamReader(new FileStream(journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                     {
                         LatestJournalFile = filename;
                         Trace.TraceInformation($"Journal: now reading previous entries from {LatestJournalFile}.");
@@ -388,7 +388,7 @@ namespace EliteJournalReader
             journalThread = new Thread(state =>
             {
                 // keep a current ID for this thread. If the ID changes, we are watching a different file, and this thread can exit.
-                Tuple<int, long, string> tuple = (Tuple<int, long, string>)state;
+                var tuple = (Tuple<int, long, string>)state;
                 int id = tuple.Item1;
                 long offset = tuple.Item2;
                 string journalFile = System.IO.Path.Combine(Path, tuple.Item3);
@@ -399,7 +399,7 @@ namespace EliteJournalReader
 
                 try
                 {
-                    using (StreamReader reader = new StreamReader(new FileStream(journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                    using (var reader = new StreamReader(new FileStream(journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                     {
                         while (id == journalThreadId)
                         {
@@ -458,7 +458,7 @@ namespace EliteJournalReader
                 reader.BaseStream.Seek(offset, SeekOrigin.Begin);
 
                 // read new data
-                var newData = reader.ReadToEnd();
+                string newData = reader.ReadToEnd();
 
                 ParseText(newData);
             }
@@ -487,10 +487,10 @@ namespace EliteJournalReader
         public void ParseText(string text)
         {
             // split the new data into lines
-            var lines = text.Split('\r', '\n');
+            string[] lines = text.Split('\r', '\n');
 
             // parse each line
-            foreach (var line in lines)
+            foreach (string line in lines)
                 Parse(line);
         }
 
@@ -513,7 +513,7 @@ namespace EliteJournalReader
         private async Task<string> UpdateLatestJournalFile()
         {
             // filenames have format: Journal.160922194205.01.log
-            var journals = Directory.GetFiles(Path, DefaultFilter);
+            string[] journals = Directory.GetFiles(Path, DefaultFilter);
 
             // keep waiting until there is a journal, or we're being cancelled.
             while (journals.Length == 0)
@@ -530,7 +530,7 @@ namespace EliteJournalReader
             }
 
             // because the timestamp is in the filename, we can just sort by filename descending.
-            var latestJournal = Directory.GetFiles(Path, DefaultFilter).OrderByDescending(f => GetFileCreationDate(f)).FirstOrDefault();
+            string latestJournal = Directory.GetFiles(Path, DefaultFilter).OrderByDescending(f => GetFileCreationDate(f)).FirstOrDefault();
 
             bool isChanged = latestJournal != null && LatestJournalFile != latestJournal;
             if (isChanged)
@@ -558,7 +558,7 @@ namespace EliteJournalReader
             try
             {
                 var evt = JObject.Parse(line);
-                var eventType = evt.Value<string>("event");
+                string eventType = evt.Value<string>("event");
                 if (string.IsNullOrEmpty(eventType))
                     return; // no event, nothing to do
 
@@ -584,7 +584,7 @@ namespace EliteJournalReader
         /// <param name="evt"></param>
         private JournalEventArgs FireEvent(string eventType, JObject evt)
         {
-            if (journalEventsByName.TryGetValue(eventType, out JournalEvent handler))
+            if (journalEventsByName.TryGetValue(eventType, out var handler))
                 return handler.FireEvent(this, evt);
             else
                 Trace.TraceWarning("No event handler registered for journal event of type: " + eventType);
@@ -595,9 +595,7 @@ namespace EliteJournalReader
         public TJournalEvent GetEvent<TJournalEvent>() where TJournalEvent : JournalEvent
         {
             var type = typeof(TJournalEvent);
-            if (journalEvents.ContainsKey(type))
-                return journalEvents[type] as TJournalEvent;
-            return null;
+            return journalEvents.ContainsKey(type) ? journalEvents[type] as TJournalEvent : null;
         }
     }
     

@@ -12,17 +12,11 @@ namespace EliteJournalReader
     {
         public decimal X, Y, Z;
 
-        public bool IsZero()
-        {
-            return X == 0 && Y == 0 && Z == 0;
-        }
+        public bool IsZero() => X == 0 && Y == 0 && Z == 0;
 
         public override bool Equals(object obj) => obj is SystemPosition that && Equals(that);
 
-        public bool Equals(SystemPosition that)
-        {
-            return X == that.X && Y == that.Y && Z == that.Z;
-        }
+        public bool Equals(SystemPosition that) => X == that.X && Y == that.Y && Z == that.Z;
 
         public override int GetHashCode()
         {
@@ -38,30 +32,18 @@ namespace EliteJournalReader
             }
         }
 
-        public decimal[] ToArray()
-        {
-            return new[] { X, Y, Z };
-        }
+        public decimal[] ToArray() => new[] { X, Y, Z };
 
         public override string ToString() => FormattableString.Invariant($"{X},{Y},{Z}");
 
-        public static bool operator ==(SystemPosition left, SystemPosition right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(SystemPosition left, SystemPosition right) => left.Equals(right);
 
-        public static bool operator !=(SystemPosition left, SystemPosition right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(SystemPosition left, SystemPosition right) => !(left == right);
     }
 
     public class SystemPositionConverter : JsonConverter
     {
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(SystemPosition);
-        }
+        public override bool CanConvert(Type objectType) => objectType == typeof(SystemPosition);
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {

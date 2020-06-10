@@ -126,10 +126,7 @@ namespace EliteJournalReader
             }
         }
 
-        protected void UpdateStatus(object sender, FileSystemEventArgs e)
-        {
-            UpdateStatus(e.FullPath, 0);
-        }
+        protected void UpdateStatus(object sender, FileSystemEventArgs e) => UpdateStatus(e.FullPath, 0);
 
         private DateTime lastTimestamp = DateTime.MinValue;
         protected void UpdateStatus(string fullPath, int attempt)
@@ -138,7 +135,7 @@ namespace EliteJournalReader
             {
                 Thread.Sleep(50); // give it a wee bit
                 var streamReader = new StreamReader(new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
+                using (var jsonTextReader = new JsonTextReader(streamReader))
                 {
                     var evt = JToken.ReadFrom(jsonTextReader).ToObject<StatusFileEvent>();
                     if (evt == null)
