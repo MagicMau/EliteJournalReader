@@ -353,4 +353,52 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <UsingTask TaskName="VersionUpdater" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <AssemblyInfoFilePath ParameterType="System.String" Required="true" />
+      <Reset ParameterType="System.Boolean" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System.Xml" />
+      <Using Namespace="System" />
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.Text.RegularExpressions" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+Log.LogMessage(MessageImportance.High, (Reset ? "Resetting" : "Updating") + " version in " + Path.GetFullPath(AssemblyInfoFilePath));
+
+string assemblyInfo = File.ReadAllText(AssemblyInfoFilePath);
+string assemblyVersionPattern = "\\[assembly: AssemblyFileVersion\\(\"(?<1>\\d+)\\.(?<2>\\d+)(?<x>\\.(?<3>\\d+)(?<y>\\.(?<4>\\d+))?)?\"\\)\\]";
+
+var currentAssemblyVersion = Regex.Match(assemblyInfo, assemblyVersionPattern); // use the major and minor numbers from the assembly version.
+string major = currentAssemblyVersion.Groups[1].Value;
+string minor = currentAssemblyVersion.Groups[2].Value;
+
+// add a build and revision number to the installer
+// https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assemblyversionattribute?view=netframework-4.8#remarks
+// build = number of days since January 1, 2000 local time
+// revision = number of seconds since midnight local time, divided by 2
+int build = (int)(DateTime.Now - new DateTime(2000, 1, 1)).TotalDays;
+int revision = (int)((DateTime.Now - DateTime.Today).TotalSeconds / 2);
+var newAssemblyVersion = string.Format("[assembly: AssemblyFileVersion(\"{0}.{1}.{2}.{3}\")]", major, minor, build, revision);
+
+if (Reset) 
+{
+  newAssemblyVersion = string.Format("[assembly: AssemblyFileVersion(\"{0}.{1}.0\")]", major, minor);
+}
+
+var updatedAssemblyInfo = Regex.Replace(assemblyInfo, assemblyVersionPattern, newAssemblyVersion);
+
+File.WriteAllText(AssemblyInfoFilePath, updatedAssemblyInfo);
+
+]]>
+      </Code>
+    </Task>
+  </UsingTask>
+  <Target Name="BeforeBuild">
+    <VersionUpdater AssemblyInfoFilePath="Properties\AssemblyInfo.cs" />
+  </Target>
+  <Target Name="AfterBuild">
+    <VersionUpdater AssemblyInfoFilePath="Properties\AssemblyInfo.cs" Reset="True" />
+  </Target>
 </Project>

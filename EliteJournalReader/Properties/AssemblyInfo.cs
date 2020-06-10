@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -17,7 +17,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MagicMau")]
 [assembly: AssemblyProduct("EliteJournalReader")]
-[assembly: AssemblyCopyright("Copyright © Maurits Elbers (@MagicMau) 2015-2019. Elite: Dangerous and related material is © Frontier Developments plc")]
+[assembly: AssemblyCopyright("Copyright © Maurits Elbers (@MagicMau) 2015-2020. Elite: Dangerous and related material is © Frontier Developments plc")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -26,5 +26,5 @@ using System.Runtime.InteropServices;
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion("3.4.0")]
-[assembly: AssemblyFileVersion("3.4.0")]
+[assembly: AssemblyVersion("3.7.0")]
+[assembly: AssemblyFileVersion("3.7.0")]
