@@ -14,6 +14,20 @@
     <TargetFrameworkProfile />
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
+  <PropertyGroup>
+    <NuspecFile>EliteJournalReader.nuspec</NuspecFile>
+    <NuspecProperties>$(NuspecProperties);configuration=$(Configuration)</NuspecProperties>
+    <NuspecProperties>$(NuspecProperties);version=$(Version)</NuspecProperties>
+    <NuspecProperties>$(NuspecProperties);id=$(PackageId)</NuspecProperties>
+    <NuspecProperties>$(NuspecProperties);author=$(Authors)</NuspecProperties>
+    <NuspecProperties>$(NuspecProperties);PackageProjectUrl=$(PackageProjectUrl)</NuspecProperties>
+    <NuspecProperties>$(NuspecProperties);Description=$(Description)</NuspecProperties>
+    <NuspecProperties>$(NuspecProperties);PackageReleaseNotes=$(PackageReleaseNotes)</NuspecProperties>
+    <NuspecProperties>$(NuspecProperties);Copyright=$(Copyright)</NuspecProperties>
+    <NuspecProperties>$(NuspecProperties);PackageTags=$(PackageTags)</NuspecProperties>
+    <NuspecProperties>$(NuspecProperties);RepositoryType=$(RepositoryType)</NuspecProperties>
+    <NuspecProperties>$(NuspecProperties);RepositoryUrl=$(RepositoryUrl)</NuspecProperties>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -343,6 +357,8 @@
     <Compile Include="SystemScan.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="BuildNugetPackage.bat" />
+    <None Include="EliteJournalReader.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -363,8 +379,7 @@
       <Using Namespace="System" />
       <Using Namespace="System.IO" />
       <Using Namespace="System.Text.RegularExpressions" />
-      <Code Type="Fragment" Language="cs">
-        <![CDATA[
+      <Code Type="Fragment" Language="cs"><![CDATA[
 Log.LogMessage(MessageImportance.High, (Reset ? "Resetting" : "Updating") + " version in " + Path.GetFullPath(AssemblyInfoFilePath));
 
 string assemblyInfo = File.ReadAllText(AssemblyInfoFilePath);
@@ -391,8 +406,7 @@ var updatedAssemblyInfo = Regex.Replace(assemblyInfo, assemblyVersionPattern, ne
 
 File.WriteAllText(AssemblyInfoFilePath, updatedAssemblyInfo);
 
-]]>
-      </Code>
+]]></Code>
     </Task>
   </UsingTask>
   <Target Name="BeforeBuild">
