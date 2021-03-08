@@ -47,6 +47,11 @@ namespace EliteJournalReader
         private CancellationTokenSource cancellationTokenSource;
 
         /// <summary>
+        /// Token that triggers the end of the current journal watcher
+        /// </summary>
+        private CancellationTokenSource journalCancellationTokenSource;
+
+        /// <summary>
         /// Because the journal is kept open, we might not get notified through the FileWatcher
         /// So, in cases where we expect a new file might come, poll the directory to see if it does.
         /// </summary>
@@ -366,13 +371,17 @@ namespace EliteJournalReader
         private void CheckForJournalUpdateAsync(string filename, long startOffset)
         {
             journalThreadId++;
+
+            if (journalCancellationTokenSource != null)
+                journalCancellationTokenSource.Cancel();
+
             if (journalThread != null && journalThread.IsAlive)
             {
                 try
                 {
                     if (!journalThread.Join(30000))
                     {
-                        journalThread.Abort();
+                        Trace.TraceError($"Something went wrong shutting down the previous journal reader thread");
                     }
                 }
                 catch (Exception e)
@@ -385,13 +394,15 @@ namespace EliteJournalReader
                 }
             }
 
+            journalCancellationTokenSource = new CancellationTokenSource();
             journalThread = new Thread(state =>
             {
                 // keep a current ID for this thread. If the ID changes, we are watching a different file, and this thread can exit.
-                var tuple = (Tuple<int, long, string>)state;
+                var tuple = (Tuple<int, long, string, CancellationToken>)state;
                 int id = tuple.Item1;
                 long offset = tuple.Item2;
                 string journalFile = System.IO.Path.Combine(Path, tuple.Item3);
+                var cancellationToken = tuple.Item4;
 
 #if DEBUG
                 Trace.TraceInformation($"Journal: now starting journal thread {id} for {journalFile} from offset {offset}.");
@@ -401,7 +412,7 @@ namespace EliteJournalReader
                 {
                     using (var reader = new StreamReader(new FileStream(journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                     {
-                        while (id == journalThreadId)
+                        while (id == journalThreadId && !cancellationToken.IsCancellationRequested)
                         {
                             // check for updates every 0.5 seconds
                             // if we are no longer watching (this thread), stop.
@@ -428,6 +439,8 @@ namespace EliteJournalReader
                     LatestJournalFile = null;
                 }
 
+                cancellationToken.ThrowIfCancellationRequested();
+
                 if (id == journalThreadId)
                 {
                     // We're here, so something must've gone wrong
@@ -446,7 +459,7 @@ namespace EliteJournalReader
                 Name = "Journal Watcher",
                 IsBackground = true
             };
-            journalThread.Start(Tuple.Create(journalThreadId, startOffset, filename));
+            journalThread.Start(Tuple.Create(journalThreadId, startOffset, filename, journalCancellationTokenSource.Token));
 
         }
 

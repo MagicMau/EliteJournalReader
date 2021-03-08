@@ -47,19 +47,19 @@ namespace EliteJournalReader
             var eventName = evt["event"];
 
             var argsPropertyNames = argsType.GetProperties().Select(p => p.Name).ToList();
-            string[] ignoreProperties=new string[]{"event"};
+            string[] ignoreProperties = new string[] { "event" };
             foreach (var jProperty in evt.Properties())
             {
-                var jsonPropertyName = jProperty.Name;
+                string jsonPropertyName = jProperty.Name;
                 if (ignoreProperties.Contains(jsonPropertyName))
                 {
                     // ignore anything in the ignore list
                 }
-                else if (jsonPropertyName.EndsWith("_Localised",StringComparison.CurrentCultureIgnoreCase))
+                else if (jsonPropertyName.EndsWith("_Localised", StringComparison.CurrentCultureIgnoreCase))
                 {
                     // ignore localised
-                } 
-                else if (!argsPropertyNames.Any(x=>string.Compare(jsonPropertyName,x,StringComparison.InvariantCultureIgnoreCase)==0))
+                }
+                else if (!argsPropertyNames.Any(x => string.Compare(jsonPropertyName, x, StringComparison.InvariantCultureIgnoreCase) == 0))
                 {
                     // found something missing
                     Trace.TraceInformation($"EventArgs for {eventName} does not contain property {jsonPropertyName}");

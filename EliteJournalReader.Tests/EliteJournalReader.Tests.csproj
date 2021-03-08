@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;netcoreapp2.2;netcoreapp3.0;net46;net47;net471;net48;</TargetFrameworks>
-    
+    <TargetFrameworks>net46;net47;net471;net48;net50</TargetFrameworks>
+
     <Copyright>Copyright © Maurits Elbers (@MagicMau) 2015-2020. Elite: Dangerous and related material is © Frontier Developments plc</Copyright>
     <Company>MagicMau</Company>
-    
+
   </PropertyGroup>
 
   <ItemGroup>
