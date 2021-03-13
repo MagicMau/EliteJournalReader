@@ -9,8 +9,8 @@ namespace EliteJournalReader.Events
 {
     //When written: after a new ship has been purchased
     //Parameters:
-    //•	ShipType
-    //•	ShipID
+    //ï¿½	ShipType
+    //ï¿½	ShipID
     public class ShipyardNewEvent : JournalEvent<ShipyardNewEvent.ShipyardNewEventArgs>
     {
         public ShipyardNewEvent() : base("ShipyardNew") { }
@@ -20,7 +20,7 @@ namespace EliteJournalReader.Events
             public long MarketID { get; set; }
             public string ShipType { get; set; }
             public string ShipType_Localised { get; set; }
-            public int ShipId { get; set; }
+            public int NewShipId { get; set; }
         }
     }
 }
