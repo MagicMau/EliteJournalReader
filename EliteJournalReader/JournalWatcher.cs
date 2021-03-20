@@ -148,7 +148,7 @@ namespace EliteJournalReader
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
-        public JournalWatcher(string path)
+        public JournalWatcher(string path) :this()
         {
             Filter = DefaultFilter;
             NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime | NotifyFilters.Size;
@@ -165,6 +165,44 @@ namespace EliteJournalReader
         protected JournalWatcher()
         {
             // to be used for unit tests when we're not actually checking file systems
+            // add some internal event handlers
+            this.GetEvent<InternalCargoEvent>().AddHandler(InternalCargoEventHandler);
+            this.GetEvent<InternalNavRouteEvent>().AddHandler(InternalNavRouteHandler);
+
+        }
+
+        private void InternalNavRouteHandler(object sender, NavRouteEvent.NavRouteEventArgs navRouteEventArgs)
+        {
+            if (journalEventsByName.TryGetValue("_NavRoute", out var handler))
+            {
+                var routeEventArgs = ReadJObjectFromFile("navroute.json");
+
+                //cargoEvent.Invoke(this, cargoEventArgs);
+                handler.FireEvent(this, routeEventArgs);
+
+                
+            }
+        }
+
+        private void InternalCargoEventHandler(object sender, CargoEvent.CargoEventArgs journalCargoEventArgs)
+        {
+            if (journalEventsByName.TryGetValue("_Cargo", out var handler))
+            {
+                // check if its a startup cargo event by checking if we have Inventory
+                if (journalCargoEventArgs.Inventory != null )
+                {
+                    handler.FireEvent(this, journalCargoEventArgs.OriginalEvent);
+                }
+                else
+                {
+                    // no inventory so read the cargo.json file.
+                    var cargoEventArgs = ReadJObjectFromFile("cargo.json");
+
+                    //cargoEvent.Invoke(this, cargoEventArgs);
+                    handler.FireEvent(this, cargoEventArgs);
+
+                }
+            }
         }
 
         private readonly Regex journalFileRegex = new Regex(@"^(?<path>.*)\\Journal(Beta)?\.(?<timestamp>\d+)\.(?<part>\d+)\.log$", RegexOptions.Compiled);
@@ -287,16 +325,25 @@ namespace EliteJournalReader
 
         public CargoEvent.CargoEventArgs ReadCargoJson()
         {
+            var obj = ReadJObjectFromFile("cargo.json");
+            var cargo = obj.ToObject<CargoEvent.CargoEventArgs>();
+            return cargo;
+        }
+
+        
+
+        protected JObject ReadJObjectFromFile(string jsonFileName)
+        {
             try
             {
-                string cargoPath = System.IO.Path.Combine(Path, "Cargo.json");
+                string cargoPath = System.IO.Path.Combine(Path, jsonFileName);
                 if (!File.Exists(cargoPath))
                     return null;
 
                 string json = File.ReadAllText(cargoPath);
                 var obj = JObject.Parse(json);
-                var cargo = obj.ToObject<CargoEvent.CargoEventArgs>();
-                return cargo;
+
+                return obj;
             }
             catch (Exception e)
             {
@@ -306,7 +353,6 @@ namespace EliteJournalReader
 
             return null;
         }
-
         private async void JournalWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             // if we're not watching anything, let's see if there is a log available
@@ -497,14 +543,21 @@ namespace EliteJournalReader
         }
 
         // Parses multiple lines of journal data
-        public void ParseText(string text)
+        public void ParseText(string text,bool lineByLine=true)
         {
-            // split the new data into lines
-            string[] lines = text.Split('\r', '\n');
+            if (lineByLine)
+            {
+                // split the new data into lines
+                string[] lines = text.Split('\r', '\n');
 
-            // parse each line
-            foreach (string line in lines)
-                Parse(line);
+                // parse each line
+                foreach (string line in lines)
+                    Parse(line);
+            }
+            else
+            {
+                Parse(text);
+            }
         }
 
         private bool Pause()

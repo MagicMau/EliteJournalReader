@@ -1,0 +1,72 @@
+﻿{
+  "timestamp": "2021-03-19T22:39:34Z",
+  "event": "NavRoute",
+  "Route": [
+    {
+      "StarSystem": "HIP 42727",
+      "SystemAddress": 358998840026,
+      "StarPos": [ 174.25000, -56.68750, 48.75000 ],
+      "StarClass": "K"
+    },
+    {
+      "StarSystem": "Col 285 Sector MX-L a37-1",
+      "SystemAddress": 22976464178040,
+      "StarPos": [ 161.65625, -35.18750, 48.84375 ],
+      "StarClass": "TTS"
+    },
+    {
+      "StarSystem": "Rishadi",
+      "SystemAddress": 58158688914296,
+      "StarPos": [ 138.46875, -27.06250, 53.50000 ],
+      "StarClass": "TTS"
+    },
+    {
+      "StarSystem": "Chontaiko",
+      "SystemAddress": 4207222461154,
+      "StarPos": [ 123.81250, -14.06250, 66.71875 ],
+      "StarClass": "K"
+    },
+    {
+      "StarSystem": "HR 5048",
+      "SystemAddress": 2518771829107,
+      "StarPos": [ 102.15625, -4.84375, 76.68750 ],
+      "StarClass": "F"
+    },
+    {
+      "StarSystem": "Nan Hsie",
+      "SystemAddress": 6131300700898,
+      "StarPos": [ 77.12500, 3.15625, 76.75000 ],
+      "StarClass": "K"
+    },
+    {
+      "StarSystem": "Bieltani",
+      "SystemAddress": 5031789073130,
+      "StarPos": [ 58.00000, 8.40625, 95.31250 ],
+      "StarClass": "G"
+    },
+    {
+      "StarSystem": "Kasya",
+      "SystemAddress": 5031721997034,
+      "StarPos": [ 43.09375, 27.34375, 107.62500 ],
+      "StarClass": "K"
+    },
+    {
+      "StarSystem": "Scorpii Sector ZE-A d111",
+      "SystemAddress": 3824425109875,
+      "StarPos": [ 22.06250, 41.25000, 107.62500 ],
+      "StarClass": "F"
+    },
+    {
+      "StarSystem": "Wu Ku",
+      "SystemAddress": 4481899107050,
+      "StarPos": [ 11.18750, 64.37500, 114.71875 ],
+      "StarClass": "K"
+    },
+    {
+      "StarSystem": "Miromi",
+      "SystemAddress": 2869977949657,
+      "StarPos": [ -3.43750, 59.65625, 115.28125 ],
+      "StarClass": "M"
+    }
+  ]
+}
