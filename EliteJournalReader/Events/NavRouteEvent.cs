@@ -12,7 +12,7 @@ namespace EliteJournalReader.Events
 
     public class NavRouteEvent : JournalEvent<NavRouteEvent.NavRouteEventArgs>
     {
-        public NavRouteEvent() : base("_NavRoute") { }
+        public NavRouteEvent() : base("NavRoute") { }
 
         public class NavRouteEventArgs :JournalEventArgs
         {
@@ -31,10 +31,6 @@ namespace EliteJournalReader.Events
         }
     }
 
-    internal class InternalNavRouteEvent : JournalEvent<NavRouteEvent.NavRouteEventArgs>
-    {
-        public InternalNavRouteEvent() : base("NavRoute") { }
-
-    }
+    
 
 }

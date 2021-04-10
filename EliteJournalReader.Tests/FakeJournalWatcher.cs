@@ -9,13 +9,19 @@ namespace EliteJournalReader.Tests
 {
     internal class FakeJournalWatcher : JournalWatcher
     {
-        internal FakeJournalWatcher()
+        internal FakeJournalWatcher(bool isLive=true)
         {
+            this.IsLive = isLive;
+        }
+
+        internal FakeJournalWatcher(string path,bool isLive=true) : base(path)
+        {
+            this.IsLive = isLive;
         }
 
         public override Task StartWatching()
         {
-            IsLive = true;
+            // assume IsLive was set on construction
             return Task.CompletedTask;
         }
 

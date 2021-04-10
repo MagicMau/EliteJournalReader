@@ -16,10 +16,12 @@ namespace EliteJournalReader.Tests
         {
             CargoEvent.CargoEventArgs args = null;
             // create journal watcher - checking local directory
-            JournalWatcher jw = new JournalWatcher(".");
+            FakeJournalWatcher jw = new FakeJournalWatcher(".");
 
             // create inline eventHandler for CargoEvent, which remembers last eventArgs passed
-            jw.GetEvent<CargoEvent>().AddHandler((s, e) => { args = e; });
+            jw.GetEvent<CargoEvent>().AddHandler((s, e) => {
+                if (s==jw && e.Inventory != null) { args = e; }
+            });
 
             // insert a journal cargoevent with inventory
             jw.ParseText(
@@ -33,15 +35,43 @@ namespace EliteJournalReader.Tests
         }
 
         [TestMethod]
-        public void Test1_WithOutInventory()
+        public void Test1_WithOutInventoryPreviousJournal()
         {
             CargoEvent.CargoEventArgs args = null;
 
             // create journal watcher - checking local directory
-            JournalWatcher jw = new JournalWatcher(".");
+            FakeJournalWatcher jw = new FakeJournalWatcher(".",isLive:false);
 
             // create inline eventHandler for CargoEvent, which remembers last eventArgs passed
-            jw.GetEvent<CargoEvent>().AddHandler((s, e) => { args = e; });
+            // check sender is jw because tests run in  parallel might receive each others events
+            jw.GetEvent<CargoEvent>().AddHandler((s, e) => {
+                if (s==jw && e.Inventory != null) { args = e; }
+            });
+
+            // insert a journal cargoevent with NO inventory, we are not live so cargo.json will not be read
+            jw.ParseText(
+                @"{ ""timestamp"":""2020-06-29T21:09:59Z"", ""event"":""Cargo"", ""Vessel"":""Ship"", ""Count"":27 }");
+
+            // check args contain cargo from cargo.json file.
+
+            Assert.IsNull(args);
+
+        }
+
+        
+        [TestMethod]
+        public void Test1_WithOutInventoryLive()
+        {
+            CargoEvent.CargoEventArgs args = null;
+
+            // create journal watcher - checking local directory
+            FakeJournalWatcher jw = new FakeJournalWatcher(".",isLive:true);
+            
+            // create inline eventHandler for CargoEvent, which remembers last eventArgs passed
+            // check sender is jw because tests run in parallel might receive each others events
+            jw.GetEvent<CargoEvent>().AddHandler((s, e) => {
+                if (e.Inventory != null) { args = e; }
+            });
 
             // insert a journal cargoevent with NO inventory, forcing the watcher to load the cargo.json file
             jw.ParseText(
@@ -50,11 +80,10 @@ namespace EliteJournalReader.Tests
             // check args contain cargo from cargo.json file.
 
             Assert.IsNotNull(args);
+            Assert.IsNotNull(args.Inventory);
             Assert.IsNotNull(args.Inventory.FirstOrDefault(x =>
                 string.Compare(x.Name, "progenitorcells", StringComparison.CurrentCultureIgnoreCase) == 0));
         }
-
-        
 
 
     }

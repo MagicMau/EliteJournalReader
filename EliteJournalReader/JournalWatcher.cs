@@ -30,6 +30,12 @@ namespace EliteJournalReader
         /// </summary>
         private const string DefaultFilter = @"Journal*.*.log";
 
+        private const string ModulesinfoJsonFilename = "modulesinfo.json";
+        private const string MarketJsonFilename = "market.json";
+        private const string ShipyardJsonFilename = "shipyard.json";
+        private const string NavRouteJsonFilename = "navroute.json";
+        private const string CargoJsonFileName = "cargo.json";
+
         /// <summary>
         ///     The latest log file
         /// </summary>
@@ -166,44 +172,37 @@ namespace EliteJournalReader
         {
             // to be used for unit tests when we're not actually checking file systems
             // add some internal event handlers
-            this.GetEvent<InternalCargoEvent>().AddHandler(InternalCargoEventHandler);
-            this.GetEvent<InternalNavRouteEvent>().AddHandler(InternalNavRouteHandler);
-
+            this.GetEvent<CargoEvent>().AddHandler(InternalCargoEventHandler);
+            this.GetEvent<NavRouteEvent>().AddHandler(InternalNavRouteHandler);
+            this.GetEvent<ShipyardEvent>().AddHandler(InternalShipyardEventHandler);
+            this.GetEvent<MarketEvent>().AddHandler(InternalMarketEventHandler);
+            this.GetEvent<ModuleInfoEvent>().AddHandler(InternalModuleInfoEventHandler);
+            
         }
 
-        private void InternalNavRouteHandler(object sender, NavRouteEvent.NavRouteEventArgs navRouteEventArgs)
+        private void ProcessSecondaryFile<TEventArgs>(TEventArgs journalMarketEventArgs, string eventName, string jsonFilename,Func<TEventArgs,object> property)
         {
-            if (journalEventsByName.TryGetValue("_NavRoute", out var handler))
+            if (this.IsLive && property(journalMarketEventArgs) == null &&
+                journalEventsByName.TryGetValue(eventName, out var handler))
             {
-                var routeEventArgs = ReadJObjectFromFile("navroute.json");
+                var shipyardEventArgs = ReadJObjectFromFile(jsonFilename);
 
                 //cargoEvent.Invoke(this, cargoEventArgs);
-                handler.FireEvent(this, routeEventArgs);
+                handler.FireEvent(this, shipyardEventArgs);
 
-                
             }
         }
 
-        private void InternalCargoEventHandler(object sender, CargoEvent.CargoEventArgs journalCargoEventArgs)
-        {
-            if (journalEventsByName.TryGetValue("_Cargo", out var handler))
-            {
-                // check if its a startup cargo event by checking if we have Inventory
-                if (journalCargoEventArgs.Inventory != null )
-                {
-                    handler.FireEvent(this, journalCargoEventArgs.OriginalEvent);
-                }
-                else
-                {
-                    // no inventory so read the cargo.json file.
-                    var cargoEventArgs = ReadJObjectFromFile("cargo.json");
+        private void InternalModuleInfoEventHandler(object sender, ModuleInfoEvent.ModuleInfoEventArgs journalModuleInfoEventArgs) => ProcessSecondaryFile<ModuleInfoEvent.ModuleInfoEventArgs>(journalModuleInfoEventArgs, "ModuleInfo", ModulesinfoJsonFilename,(a)=>a.Modules);
 
-                    //cargoEvent.Invoke(this, cargoEventArgs);
-                    handler.FireEvent(this, cargoEventArgs);
+        private void InternalMarketEventHandler(object sender, MarketEvent.MarketEventArgs journalMarketEventArgs) => ProcessSecondaryFile<MarketEvent.MarketEventArgs>(journalMarketEventArgs, "Market", MarketJsonFilename,(a)=>a.Items);
 
-                }
-            }
-        }
+
+        private void InternalShipyardEventHandler(object sender, ShipyardEvent.ShipyardEventArgs journalShipyardEventArgs) => ProcessSecondaryFile<ShipyardEvent.ShipyardEventArgs>(journalShipyardEventArgs, "Shipyard", ShipyardJsonFilename,(a)=>a.PriceList);
+
+        private void InternalNavRouteHandler(object sender, NavRouteEvent.NavRouteEventArgs navRouteEventArgs) => ProcessSecondaryFile<NavRouteEvent.NavRouteEventArgs>(navRouteEventArgs, "NavRoute", NavRouteJsonFilename,(a)=>a.Route);
+
+        private void InternalCargoEventHandler(object sender, CargoEvent.CargoEventArgs journalCargoEventArgs) => ProcessSecondaryFile<CargoEvent.CargoEventArgs >(journalCargoEventArgs, "Cargo", CargoJsonFileName,(a)=>a.Inventory);
 
         private readonly Regex journalFileRegex = new Regex(@"^(?<path>.*)\\Journal(Beta)?\.(?<timestamp>\d+)\.(?<part>\d+)\.log$", RegexOptions.Compiled);
 
@@ -323,11 +322,21 @@ namespace EliteJournalReader
             
         }
 
-        public CargoEvent.CargoEventArgs ReadCargoJson()
+        public MarketEvent.MarketEventArgs ReadMarketDataJson() => ReadJsonFile<MarketEvent.MarketEventArgs>(MarketJsonFilename);
+
+        public CargoEvent.CargoEventArgs ReadCargoJson() => ReadJsonFile<CargoEvent.CargoEventArgs>(CargoJsonFileName);
+
+        public ModuleInfoEvent.ModuleInfoEventArgs ReadModuleInfoJson() => ReadJsonFile<ModuleInfoEvent.ModuleInfoEventArgs>(ModulesinfoJsonFilename);
+
+        public ShipyardEvent.ShipyardEventArgs ReadShipyardJson() => ReadJsonFile<ShipyardEvent.ShipyardEventArgs>(ShipyardJsonFilename);
+
+        public NavRouteEvent.NavRouteEventArgs ReadNavRouteJson() => ReadJsonFile<NavRouteEvent.NavRouteEventArgs>(NavRouteJsonFilename);
+
+        private TEventArgs ReadJsonFile<TEventArgs>(string jsonFileName)
         {
-            var obj = ReadJObjectFromFile("cargo.json");
-            var cargo = obj.ToObject<CargoEvent.CargoEventArgs>();
-            return cargo;
+            var obj = ReadJObjectFromFile(jsonFileName);
+            var args = obj.ToObject<TEventArgs>();
+            return args;
         }
 
         
@@ -347,7 +356,7 @@ namespace EliteJournalReader
             }
             catch (Exception e)
             {
-                Trace.TraceWarning($"Error reading cargo.json journal file: {e.Message}");
+                Trace.TraceWarning($"Error reading {jsonFileName} journal file: {e.Message}");
                 Trace.TraceInformation(e.ToString());
             }
 
@@ -663,6 +672,7 @@ namespace EliteJournalReader
             var type = typeof(TJournalEvent);
             return journalEvents.ContainsKey(type) ? journalEvents[type] as TJournalEvent : null;
         }
+
     }
     
 }

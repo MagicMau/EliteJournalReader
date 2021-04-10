@@ -12,12 +12,12 @@ namespace EliteJournalReader.Events
     //When written: when accessing the commodity market in a station
     //A separate file market.json is written to the same folder as the journal, containing full market price info
     //Parameters:
-    //•	MarketID
-    //•	StationName
-    //•	StarSystem
+    //â€¢	MarketID
+    //â€¢	StationName
+    //â€¢	StarSystem
 
     //The separate file also contains:
-    //•	Items: array of objects
+    //â€¢	Items: array of objects
     //o   id
     //o   Name
     //o   BuyPrice
@@ -39,7 +39,13 @@ namespace EliteJournalReader.Events
             public string StationName { get; set; }
             public long MarketID { get; set; }
             public string StarSystem { get; set; }
-
+            // Added List of MarketItems
+            public List<MarketItem> Items { get; set; }
+            
+            //TODO: what to do here ?
+            // 1) Leave it alone and accept duplication of functionality
+            // 2) declare obsolete, and hope other consumers pick up on the change.
+            
             public MarketInfo ReadMarketInfo(string journalPath)
             {
                 string filepath = Path.Combine(journalPath, "Market.json");

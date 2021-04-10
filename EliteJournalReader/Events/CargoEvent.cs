@@ -13,7 +13,7 @@ namespace EliteJournalReader.Events
     //�	Inventory: array of cargo, with Name and Count for each
     public class CargoEvent : JournalEvent<CargoEvent.CargoEventArgs>
     {
-        public CargoEvent() : base("_Cargo") { }
+        public CargoEvent() : base("Cargo") { }
 
         public class CargoEventArgs : JournalEventArgs
         {
@@ -23,11 +23,7 @@ namespace EliteJournalReader.Events
         }
     }
 
-    internal class InternalCargoEvent : JournalEvent<CargoEvent.CargoEventArgs>
-    {
-        public InternalCargoEvent() : base("Cargo") { }
-
-    }
+   
 
 
 }

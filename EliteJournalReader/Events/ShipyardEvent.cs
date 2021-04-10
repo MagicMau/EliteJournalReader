@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,12 @@ namespace EliteJournalReader.Events
 {
     //    When written: when accessing shipyard in a station
     //Parameters:
-    //•	MarketID
-    //•	StationName
-    //•	StarSystem
+    //ï¿½	MarketID
+    //ï¿½	StationName
+    //ï¿½	StarSystem
 
     //The full price list is written to a separate file, in the same folder as the journal, Shipyard.json
-    //•	Pricelist: array of objects
+    //ï¿½	Pricelist: array of objects
     //o   ShipType
     //o   ShipPrice
     public class ShipyardEvent : JournalEvent<ShipyardEvent.ShipyardEventArgs>
@@ -26,6 +27,16 @@ namespace EliteJournalReader.Events
             public string StationName { get; set; }
             public long MarketID { get; set; }
             public string StarSystem { get; set; }
+            public ShipPrice[] PriceList { get; set; }
+        }
+
+        public class ShipPrice
+        {
+            [JsonProperty("Id")]
+            public int ShipId { get; set; }  
+            public string ShipType { get; set; }
+            [JsonProperty("ShipPrice")]
+            public int Price { get; set; }
         }
     }
 }
