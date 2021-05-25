@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;netstandard2.0;netstandard2.1;net46;net47;net471;net48;net50</TargetFrameworks>
-    <Version>3.7.1</Version>
+    <Version>3.7.3</Version>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SignAssembly>false</SignAssembly>
@@ -11,6 +11,7 @@
     <PackageId>EliteJournalReader</PackageId>
     <AssemblyVersion>3.7.1.0</AssemblyVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>MagicMau</Authors>
   </PropertyGroup>
 
   <ItemGroup>

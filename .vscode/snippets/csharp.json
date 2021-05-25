@@ -1,0 +1,35 @@
+{
+  "Journal.Event": {
+    "prefix": "ev",
+    "comment": "use vscode plugin rebornix.project-snippets to use this",
+    "description": "Template to create a basic Journal Event",
+    "body": [
+      "using System;",
+      "using System.Collections.Generic;",
+      "using System.Linq;",
+      "using System.Text;",
+      "using System.Threading.Tasks;",
+      "using Newtonsoft.Json.Linq;",
+      "",
+      "namespace EliteJournalReader.Events",
+      "{",
+      "    public class ${TM_FILENAME_BASE} : JournalEvent<${TM_FILENAME_BASE}.${TM_FILENAME_BASE}Args>",
+      "    {",
+      "        public ${TM_FILENAME_BASE}() : base(\"${TM_FILENAME_BASE/(.*)Event/$1/}\") { }",
+      "",
+      "        public class ${TM_FILENAME_BASE}Args : JournalEventArgs",
+      "        {",
+      "            $0",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  "Journal.Localised_Property": {
+    "prefix": "loc",
+    "body": [
+      "public string $0 { get; set; }",
+      "public string $0_Localised { get; set; }"
+    ]
+  }
+}
