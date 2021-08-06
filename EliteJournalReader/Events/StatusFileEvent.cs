@@ -21,7 +21,7 @@ namespace EliteJournalReader.Events
         public int Firegroup { get; set; }
 
         public StatusGuiFocus GuiFocus { get; set; }
-        
+
         public StatusFuel Fuel { get; set; }
 
         public double Cargo { get; set; }
@@ -37,17 +37,21 @@ namespace EliteJournalReader.Events
         public double Heading { get; set; }
 
         public string BodyName { get; set; }
-           
+
         public double PlanetRadius { get; set; }
-        
+
+        public long Balance { get; set; }
+
+        public Destination Destination { get; set; }
+
         public double Oxygen { get; set; }
-        
+
         public double Health { get; set; }
-        
+
         public double Temperature { get; set; }
-        
+
         public string SelectedWeapon { get; set; }
-        
+
         public double Gravity { get; set; }
 
 
@@ -78,6 +82,13 @@ namespace EliteJournalReader.Events
 
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
         }
+    }
+
+    public struct Destination
+    {
+        public string System { get; set; }
+        public string Body { get; set; }
+        public string Name { get; set; }
     }
 
     [Flags]

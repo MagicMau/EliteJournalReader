@@ -17,6 +17,8 @@ namespace EliteJournalReader.Events
             public string Name_Localised { get; set; }
             public int Price { get; set; }
             public long SuitModuleID { get; set; }
+            public string Class { get; set; }
+            public string[] WeaponMods { get; set; }
         }
     }
 }

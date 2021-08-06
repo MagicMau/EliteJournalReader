@@ -19,6 +19,8 @@ namespace EliteJournalReader.Events
             public string LoadoutName { get; set; }
             public string ModuleName { get; set; }
             public long SuitModuleID { get; set; }
+            public string Class { get; set; }
+            public string[] WeaponMods { get; set; }
         }
     }
 }

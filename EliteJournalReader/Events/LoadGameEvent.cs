@@ -50,6 +50,10 @@ namespace EliteJournalReader.Events
             public string ShipIdent { get; set; }
             public double FuelLevel { get; set; }
             public double FuelCapacity { get; set; }
+
+            public string Language { get; set; }
+            public string GameVersion { get; set; }
+            public string Build { get; set; }
         }
     }
 }
