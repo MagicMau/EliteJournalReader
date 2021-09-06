@@ -11,10 +11,10 @@ namespace EliteJournalReader.Events
 {
     //When written: when selecting a star system to jump to
     //Note, when following a multi-jump route, this will typically appear for the next star, 
-    //during a jump, ie after “StartJump” but before the “FSDJump”
+    //during a jump, ie after ï¿½StartJumpï¿½ but before the ï¿½FSDJumpï¿½
     //Parameters:
-    //•	Starsystem
-    //•	Name
+    //ï¿½	Starsystem
+    //ï¿½	Name
 
     public class FSDTargetEvent : JournalEvent<FSDTargetEvent.FSDTargetEventArgs>
     {
@@ -26,6 +26,7 @@ namespace EliteJournalReader.Events
             public long SystemAddress { get; set; }
             public string Name { get; set; }
             public int RemainingJumpsInRoute { get; set; }
+            public string StarClass { get; set; }
         }
     }
 }

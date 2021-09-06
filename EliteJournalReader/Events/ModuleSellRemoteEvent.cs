@@ -9,10 +9,10 @@ namespace EliteJournalReader.Events
 {
     //When Written: when selling a module in outfitting
     //Parameters:
-    //•	Slot
-    //•	SellItem
-    //•	SellPrice
-    //•	Ship
+    //ï¿½	Slot
+    //ï¿½	SellItem
+    //ï¿½	SellPrice
+    //ï¿½	Ship
     public class ModuleSellRemoteEvent : JournalEvent<ModuleSellRemoteEvent.ModuleSellRemoteEventArgs>
     {
         public ModuleSellRemoteEvent() : base("ModuleSellRemote") { }
@@ -24,7 +24,7 @@ namespace EliteJournalReader.Events
             public string SellItem_Localised { get; set; }
             public int SellPrice { get; set; }
             public string Ship { get; set; }
-            public int ShipId { get; set; }
+            public long ShipID { get; set; }
             public string ServerId { get; set; }
         }
     }

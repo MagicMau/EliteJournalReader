@@ -9,13 +9,13 @@ namespace EliteJournalReader.Events
 {
     //When written: when requesting a module is transferred from storage at another station
     //Parameters:
-    //•	StorageSlot
-    //•	StoredItem
-    //•	ServerId
-    //•	TransferCost
-    //•	Ship
-    //•	ShipId
-    //•	TransferTime: (in seconds)
+    //ï¿½	StorageSlot
+    //ï¿½	StoredItem
+    //ï¿½	ServerId
+    //ï¿½	TransferCost
+    //ï¿½	Ship
+    //ï¿½	ShipId
+    //ï¿½	TransferTime: (in seconds)
     public class FetchRemoteModuleEvent : JournalEvent<FetchRemoteModuleEvent.FetchRemoteModuleEventArgs>
     {
         public FetchRemoteModuleEvent() : base("FetchRemoteModule") { }
@@ -24,7 +24,7 @@ namespace EliteJournalReader.Events
         {
             public string StorageSlot { get; set; }
             public string Ship { get; set; }
-            public int ShipId { get; set; }
+            public long ShipID { get; set; }
             public string StoredItem { get; set; }
             public string StoredItem_Localised { get; set; }
             public string ServerId { get; set; }

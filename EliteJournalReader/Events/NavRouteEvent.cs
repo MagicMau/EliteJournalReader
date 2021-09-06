@@ -8,21 +8,15 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
-    
-
     public class NavRouteEvent : JournalEvent<NavRouteEvent.NavRouteEventArgs>
     {
         public NavRouteEvent() : base("NavRoute") { }
 
-        public class NavRouteEventArgs :JournalEventArgs
-        {
-            public NavRouteItem[] Route { get; set; }
-        }
-
-        public class NavRouteItem 
+        public class NavRouteEventArgs : JournalEventArgs
         {
             public string StarSystem { get; set; }
-            public string SystemAddress { get; set; }
+
+            public long SystemAddress { get; set; }
 
             [JsonConverter(typeof(SystemPositionConverter))]
             public SystemPosition StarPos { get; set; }
@@ -30,7 +24,4 @@ namespace EliteJournalReader.Events
             public string StarClass { get; set; }
         }
     }
-
-    
-
 }

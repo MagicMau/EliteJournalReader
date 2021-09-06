@@ -9,13 +9,13 @@ namespace EliteJournalReader.Events
 {
     //When Written: when fetching a previously stored module
     //Parameters:
-    //•	Slot
-    //•	Ship
-    //•	ShipID
-    //•	RetrievedItem
-    //•	EngineerModifications: name of modification blueprint, if any
-    //•	SwapOutItem (if slot was not empty)
-    //•	Cost
+    //ï¿½	Slot
+    //ï¿½	Ship
+    //ï¿½	ShipID
+    //ï¿½	RetrievedItem
+    //ï¿½	EngineerModifications: name of modification blueprint, if any
+    //ï¿½	SwapOutItem (if slot was not empty)
+    //ï¿½	Cost
     public class ModuleRetrieveEvent : JournalEvent<ModuleRetrieveEvent.ModuleRetrieveEventArgs>
     {
         public ModuleRetrieveEvent() : base("ModuleRetrieve") { }
@@ -25,7 +25,7 @@ namespace EliteJournalReader.Events
             public long MarketID { get; set; }
             public string Slot { get; set; }
             public string Ship { get; set; }
-            public int ShipId { get; set; }
+            public long ShipID { get; set; }
             public string RetrievedItem { get; set; }
             public string RetrievedItem_Localised { get; set; }
             public string EngineerModifications { get; set; }

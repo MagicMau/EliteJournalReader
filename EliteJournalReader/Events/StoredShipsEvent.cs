@@ -10,16 +10,16 @@ namespace EliteJournalReader.Events
     //    When written: when visiting shipyard
     //
     //    Parameters:
-    //•	MarketID
-    //•	StationName
-    //•	StarSystem
-    //•	ShipsHere: (array of objects)
+    //ï¿½	MarketID
+    //ï¿½	StationName
+    //ï¿½	StarSystem
+    //ï¿½	ShipsHere: (array of objects)
     //o ShipID
     //o ShipType
     //o Name(if named)
     //o Value
     //o Hot
-    //•	ShipsRemote: (array of objects)
+    //ï¿½	ShipsRemote: (array of objects)
     //o ShipID
     //o ShipType
     //o Name(if named)
@@ -43,7 +43,7 @@ namespace EliteJournalReader.Events
         {
             public struct StoredShip
             {
-                public int ShipID;
+                public long ShipID;
                 public string ShipType;
                 public string ShipType_Localised;
                 public string Name;
