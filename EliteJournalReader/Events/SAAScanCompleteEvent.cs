@@ -7,12 +7,12 @@ using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
-    //    When written: after using the “Surface Area Analysis” scanner
+    //    When written: after using the ï¿½Surface Area Analysisï¿½ scanner
     //    Parameters:
-    //•	Bodyname
-    //•	BodyID
-    //•	ProbesUsed: (int)
-    //•	EfficiencyTarget: (int)
+    //ï¿½	Bodyname
+    //ï¿½	BodyID
+    //ï¿½	ProbesUsed: (int)
+    //ï¿½	EfficiencyTarget: (int)
 
     public class SAAScanCompleteEvent : JournalEvent<SAAScanCompleteEvent.SAAScanCompleteEventArgs>
     {
@@ -22,7 +22,7 @@ namespace EliteJournalReader.Events
         {
             public long SystemAddress { get; set; }
             public string BodyName { get; set; }
-            public int BodyID { get; set; }
+            public long BodyID { get; set; }
             public int ProbesUsed { get; set; }
             public int EfficiencyTarget { get; set; }
         }

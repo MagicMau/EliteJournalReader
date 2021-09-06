@@ -9,13 +9,13 @@ namespace EliteJournalReader.Events
 {
     //When Written: when fetching a previously stored module
     //Parameters:
-    //•	Slot
-    //•	Ship
-    //•	ShipID
-    //•	StoredItem
-    //•	EngineerModifications: name of modification blueprint, if any
-    //•	ReplacementItem (if a core module)
-    //•	Cost (if any)
+    //ï¿½	Slot
+    //ï¿½	Ship
+    //ï¿½	ShipID
+    //ï¿½	StoredItem
+    //ï¿½	EngineerModifications: name of modification blueprint, if any
+    //ï¿½	ReplacementItem (if a core module)
+    //ï¿½	Cost (if any)
     public class ModuleStoreEvent : JournalEvent<ModuleStoreEvent.ModuleStoreEventArgs>
     {
         public ModuleStoreEvent() : base("ModuleStore") { }
@@ -25,7 +25,7 @@ namespace EliteJournalReader.Events
             public long MarketID { get; set; }
             public string Slot { get; set; }
             public string Ship { get; set; }
-            public int ShipId { get; set; }
+            public long ShipID { get; set; }
             public string StoredItem { get; set; }
             public string StoredItem_Localised { get; set; }
             public string EngineerModifications { get; set; }
