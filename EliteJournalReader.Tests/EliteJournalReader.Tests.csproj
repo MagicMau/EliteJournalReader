@@ -1,10 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net46;net47;net472;net48;net50</TargetFrameworks>
 
-    <Copyright>Copyright © Maurits Elbers (@MagicMau) 2015-2021. Elite: Dangerous and related material is © Frontier Developments plc</Copyright>
+    <TargetFrameworks>net48</TargetFrameworks>
+
+    <Copyright>Copyright © Maurits Elbers (@MagicMau) 2015-2020. Elite: Dangerous and related material is © Frontier Developments plc</Copyright>
     <Company>MagicMau</Company>
+    <LangVersion>latest</LangVersion>
 
   </PropertyGroup>
 
@@ -19,6 +21,22 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EliteJournalReader\EliteJournalReader.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="cargo.json" />
+    <None Remove="EventsJson\CargoWithOutInventory.json" />
+    <None Remove="navroute.json" />
+    <EmbeddedResource Include="EventsJson\CargoWithOutInventory.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="cargo.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="navroute.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 

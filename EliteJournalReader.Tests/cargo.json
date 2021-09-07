@@ -1,0 +1,26 @@
+﻿{
+  "timestamp": "2020-06-12T22:57:44Z",
+  "event": "Cargo",
+  "Vessel": "Ship",
+  "Count": 119,
+  "Inventory": [
+    {
+      "Name": "progenitorcells",
+      "Name_Localised": "Progenitor Cells",
+      "Count": 67,
+      "Stolen": 0
+    },
+    {
+      "Name": "advancedmedicines",
+      "Name_Localised": "Advanced Medicines",
+      "Count": 32,
+      "Stolen": 0
+    },
+    {
+      "Name": "drones",
+      "Name_Localised": "Limpet",
+      "Count": 20,
+      "Stolen": 0
+    }
+  ]
+}

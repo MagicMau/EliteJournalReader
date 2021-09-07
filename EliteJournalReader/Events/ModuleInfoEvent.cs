@@ -15,6 +15,16 @@ namespace EliteJournalReader.Events
 
         public class ModuleInfoEventArgs : JournalEventArgs
         {
+            public ModuleInfo[] Modules { get; set; }
         }
+    }
+
+    public class ModuleInfo
+    {
+        public string Slot { get; set; }
+        public string Item { get; set; }
+        public decimal Power { get; set; }
+        public int Priority { get; set; }
+
     }
 }
