@@ -18,7 +18,7 @@ namespace EliteJournalReader
             EventNames = eventNames;
         }
 
-        internal abstract JournalEventArgs FireEvent(object sender, JObject evt);
+        internal abstract JournalEventArgs FireEvent(JournalWatcher journalWatcher, JObject evt);
     }
 
     public abstract class JournalEvent<TJournalEventArgs> : JournalEvent
@@ -34,7 +34,7 @@ namespace EliteJournalReader
 
         public void RemoveHandler(EventHandler<TJournalEventArgs> eventHandler) => Fired -= eventHandler;
 
-        internal override JournalEventArgs FireEvent(object sender, JObject evt)
+        internal override JournalEventArgs FireEvent(JournalWatcher journalWatcher, JObject evt)
         {
             var eventArgs = evt.ToObject<TJournalEventArgs>();
 
@@ -68,9 +68,9 @@ namespace EliteJournalReader
 
             }
 #endif
-            eventArgs.PostProcess(evt);
+            eventArgs.PostProcess(evt, journalWatcher);
 
-            Fired?.Invoke(sender, eventArgs);
+            Fired?.Invoke(journalWatcher, eventArgs);
 
             return eventArgs;
         }

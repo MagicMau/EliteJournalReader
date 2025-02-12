@@ -218,6 +218,10 @@ namespace EliteJournalReader.Events
 
             public double? OrbitalInclination { get; set; }
 
+            public double? AscendingNode{ get; set; }
+
+            public double? MeanAnomaly { get; set; }
+
             public double? Age_MY { get; set; }
 
             public double? MassEM { get; set; }
@@ -260,6 +264,8 @@ namespace EliteJournalReader.Events
 
             public ScanItemComponent[] AtmosphereComposition { get; set; }
 
+            public Dictionary<string,double> Composition { get; set; }
+
             public string Volcanism { get; set; }
 
             public double? SurfaceGravity { get; set; }
@@ -275,6 +281,7 @@ namespace EliteJournalReader.Events
             public ScanItemComponent[] Materials { get; set; }
 
             public bool? WasDiscovered { get; set; }
+
             public bool? WasMapped { get; set; }
         }
     }

@@ -120,6 +120,7 @@ namespace EliteJournalReader.Events
             public ThargoidEncounters TG_Encounters { get; set; }
             public CQC CQC { get; set; }
             public MaterialsTrader Material_Trader_Stats { get; set; }
+            public Exobiology Exobiology { get; set; }
         }
 
         public struct BankAccount
@@ -262,6 +263,21 @@ namespace EliteJournalReader.Events
         {
             public long Trades_Completed { get; set; }
             public long Materials_Traded { get; set; }
+        }
+
+        public struct Exobiology
+        {
+            public long Organic_Genus_Encountered { get; set; }
+            public long Organic_Species_Encountered { get; set; }
+            public long Organic_Variant_Encountered { get; set; }
+            public long Organic_Data_Profits { get; set; }
+            public long Organic_Data { get; set; }
+            public long First_Logged_Profits { get; set; }
+            public long First_Logged { get; set; }
+            public long Organic_Systems { get; set; }
+            public long Organic_Planets { get; set; }
+            public long Organic_Genus { get; set; }
+            public long Organic_Species { get; set; }
         }
     }
 }

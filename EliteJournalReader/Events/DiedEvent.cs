@@ -28,7 +28,7 @@ namespace EliteJournalReader.Events
                 public string Rank;
             }
 
-            public override void PostProcess(JObject evt)
+            public override void PostProcess(JObject evt, JournalWatcher journalWatcher)
             {
                 string killerName = evt.Value<string>("KillerName");
                 if (!string.IsNullOrEmpty(killerName))

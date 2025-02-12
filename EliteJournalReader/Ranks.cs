@@ -96,4 +96,30 @@ namespace EliteJournalReader
         Legend,
         Elite
     }
+
+    public enum SoldierRank
+    {
+        Defenceless = 0,
+        MostlyDefenceLess,
+        Rookie,
+        Soldier,
+        Gunslinger,
+        Warrior,
+        Gladiator,
+        Deadeye,
+        Elite
+    }
+
+    public enum ExobiologistRank
+    {
+        DirectionLess = 0,
+        MostlyDirectionLess,
+        Compiler,
+        Collector,
+        Cataloguer,
+        Taxonomist,
+        Ecologist,
+        Geneticist,
+        Elite
+    }
 }

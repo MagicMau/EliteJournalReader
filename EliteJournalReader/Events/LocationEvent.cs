@@ -92,6 +92,9 @@ namespace EliteJournalReader.Events
             public Faction[] Factions { get; set; }
             public Conflict[] Conflicts { get; set; }
 
+            public bool Taxi { get; set; }
+            public bool Multicrew { get; set; }
+
             public override JournalEventArgs Clone()
             {
                 var clone = (LocationEventArgs)base.Clone();

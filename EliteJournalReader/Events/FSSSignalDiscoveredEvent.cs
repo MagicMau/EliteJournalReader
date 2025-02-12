@@ -20,6 +20,8 @@ namespace EliteJournalReader.Events
         {
             public string SignalName { get; set; }
             public string SignalName_Localised { get; set; }
+            public string SignalType { get; set; }
+            public string SignalType_Localised { get; set; }
             public string SpawningState { get; set; }
             public string SpawningFaction { get; set; }
             public double TimeRemaining { get; set; }

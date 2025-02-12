@@ -14,7 +14,7 @@ namespace EliteJournalReader
         {
         }
 
-        public virtual void PostProcess(JObject evt) { }
+        public virtual void PostProcess(JObject evt, JournalWatcher journalWatcher) { }
 
         public virtual JournalEventArgs Clone() => (JournalEventArgs)MemberwiseClone();
     }

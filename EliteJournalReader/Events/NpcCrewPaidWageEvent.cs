@@ -17,6 +17,7 @@ namespace EliteJournalReader.Events
 
         public class NpcCrewPaidWageEventArgs : JournalEventArgs
         {
+            public string NpcCrewName { get; set; }
             public long NpcCrewId { get; set; }
             public long Amount { get; set; }
         }

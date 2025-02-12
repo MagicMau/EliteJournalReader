@@ -26,6 +26,10 @@ namespace EliteJournalReader.Events
 
             [JsonConverter(typeof(ExtendedStringEnumConverter<BodyType>))]
             public BodyType BodyType { get; set; }
+
+            public bool Taxi { get; set; }
+
+            public bool Multicrew { get; set; }
         }
     }
 }

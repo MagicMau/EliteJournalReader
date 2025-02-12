@@ -62,6 +62,8 @@ namespace EliteJournalReader.Events
             public SystemPosition StarPos { get; set; }
 
             public string Body { get; set; }
+            public long BodyID { get; set; }
+            public string BodyType { get; set; }
             public double JumpDist { get; set; }
             public double FuelUsed { get; set; }
             public double FuelLevel { get; set; }
@@ -86,6 +88,11 @@ namespace EliteJournalReader.Events
             public Faction[] Factions { get; set; }
 
             public Conflict[] Conflicts { get; set; }
+
+            public bool Taxi { get; set; }
+
+            public bool Multicrew { get; set; }
+
 
             public override JournalEventArgs Clone()
             {

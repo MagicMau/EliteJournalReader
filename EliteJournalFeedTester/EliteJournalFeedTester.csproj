@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netstandard2.0;netstandard2.1;net46;net47;net472;net48;net50</TargetFrameworks>
+    <TargetFrameworks>net481</TargetFrameworks>
 
     <Copyright>Copyright © Maurits Elbers (@MagicMau) 2015-2021. Elite: Dangerous and related material is © Frontier Developments plc</Copyright>
     <Company>MagicMau</Company>
@@ -10,7 +10,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
