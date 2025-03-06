@@ -11,10 +11,11 @@ namespace EliteJournalReader
         public string Name { get; set; }
         public string FactionState { get; set; }
         public string Government { get; set; }
-        public string Government_Localised { get; set; }
         public double Influence { get; set; }
         public string Allegiance { get; set; }
-        public string MyReputation { get; set; }
+        public string Happiness { get; set; }
+        public string Happiness_Localised { get; set; }
+        public double MyReputation { get; set; }
         public bool SquadronFaction { get; set; } = false;
         public bool HappiestSystem { get; set; } = false;
         public bool HomeSystem { get; set; } = false;
@@ -31,7 +32,7 @@ namespace EliteJournalReader
             && that.Government?.Equals(Government) == true
             && that.Influence == Influence
             && that.Allegiance?.Equals(Allegiance) == true
-            && that.MyReputation?.Equals(MyReputation) == true
+            && that.MyReputation == MyReputation
             && that.SquadronFaction == SquadronFaction
             && that.HappiestSystem == HappiestSystem
             && that.HomeSystem == HomeSystem
@@ -50,7 +51,7 @@ namespace EliteJournalReader
                 h *= 31 + (Government?.GetHashCode() ?? 0);
                 h *= 31 + Influence.GetHashCode();
                 h *= 31 + (Allegiance?.GetHashCode() ?? 0);
-                h *= 31 + (MyReputation?.GetHashCode() ?? 0);
+                h *= 31 + MyReputation.GetHashCode();
                 h *= 31 + SquadronFaction.GetHashCode();
                 h *= 31 + HappiestSystem.GetHashCode();
                 h *= 31 + HomeSystem.GetHashCode();

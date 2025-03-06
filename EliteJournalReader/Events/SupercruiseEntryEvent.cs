@@ -18,6 +18,8 @@ namespace EliteJournalReader.Events
         {
             public long SystemAddress { get; set; }
             public string StarSystem { get; set; }
+            public bool Taxi { get; set; }
+            public bool Multicrew { get; set; }
         }
     }
 }

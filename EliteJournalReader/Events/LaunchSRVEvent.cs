@@ -16,8 +16,11 @@ namespace EliteJournalReader.Events
 
         public class LaunchSRVEventArgs : JournalEventArgs
         {
+            public string SRVType { get; set; }
+            public string SRVType_Localised { get; set; }
             public string Loadout { get; set; }
             public long ID { get; set; }
+            public bool PlayerControlled { get; set; }
         }
     }
 }

@@ -74,6 +74,7 @@ namespace EliteJournalReader.Events
 
             public string Faction { get; set; }
             public string Name { get; set; }
+            public string LocalisedName { get; set; }
             public long MissionID { get; set; }
             public string Commodity { get; set; }
             public string Commodity_Localised { get; set; }
@@ -81,6 +82,7 @@ namespace EliteJournalReader.Events
             public string Target { get; set; }
             public string TargetType { get; set; }
             public string TargetFaction { get; set; }
+            public string DestinationSystem { get; set; }
             public int Reward { get; set; }
             public string Donation { get; set; }
             public int? Donated { get; set; }

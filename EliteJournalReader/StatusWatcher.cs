@@ -34,6 +34,8 @@ namespace EliteJournalReader
         /// </summary>
         private CancellationTokenSource cancellationTokenSource;
 
+        public StatusFileEvent LastEvent { get; protected set; }
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
@@ -145,6 +147,7 @@ namespace EliteJournalReader
                     if (evt.Timestamp > lastTimestamp)
                     {
                         lastTimestamp = evt.Timestamp;
+                        LastEvent = evt;
                         FireStatusUpdatedEvent(evt);
                     }
                 }

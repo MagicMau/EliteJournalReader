@@ -58,6 +58,7 @@ namespace EliteJournalReader.Events
             public BodyType BodyType { get; set; }
 
             public bool Docked { get; set; }
+            public double? DistFromStarLS { get; set; }
             public double? Latitude { get; set; }
             public double? Longitude { get; set; }
 
@@ -66,8 +67,11 @@ namespace EliteJournalReader.Events
             public long MarketID { get; set; }
             public Faction StationFaction { get; set; }
             public string StationGovernment { get; set; }
+            public string StationGovernment_Localised { get; set; }
             public string StationAllegiance { get; set; }
             public string[] StationServices { get; set; }
+            public string StationEconomy { get; set; }
+            public string StationEconomy_Localised { get; set; }
             public Economy[] StationEconomies { get; set; }
 
             public Faction SystemFaction { get; set; }

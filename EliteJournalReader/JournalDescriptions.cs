@@ -531,4 +531,113 @@ namespace EliteJournalReader
         Research,
         Decontamination
     }
+
+    public enum Economies
+    {
+        Unknown,
+
+        [Description("$economy_Agri;")]
+        Agriculture,
+
+        [Description("$economy_Colony;")]
+        Colony,
+
+        [Description("$economy_Extraction;")]
+        Extraction,
+
+        [Description("$economy_HighTech;")]
+        HighTech,
+
+        [Description("$economy_Industrial;")]
+        Industrial,
+
+        [Description("$economy_Military;")]
+        Military,
+
+        [Description("$economy_None;")]
+        None,
+
+        [Description("$economy_Refinery;")]
+        Refinery,
+
+        [Description("$economy_Service;")]
+        Service,
+
+        [Description("$economy_Terraforming;")]
+        Terraforming,
+
+        [Description("$economy_Tourism;")]
+        Tourism,
+
+        [Description("$economy_Prison;")]
+        Prison,
+
+        [Description("$economy_Damaged;")]
+        Damaged,
+
+        [Description("$economy_Rescue;")]
+        Rescue,
+
+        [Description("$economy_Repair;")]
+        Repair,
+
+        [Description("$economy_Carrier;")]
+        PrivateEnterprise,
+
+        [Description("$economy_Engineer;")]
+        Engineering,
+    }
+
+    public enum Allegiances
+    {
+        Unknown,
+        Independent,
+        PilotsFederation,
+        Federation,
+        Empire,
+        Alliance,
+        Guardian,
+        Thargoid,
+        PlayerPilots,
+    }
+
+    public enum Governments
+    {
+        Unknown,
+        [Description("$government_Anarchy;")] Anarchy,
+        [Description("$government_Communism;")] Communism,
+        [Description("$government_Confederacy;")] Confederacy,
+        [Description("$government_Cooperative;")] Cooperative,
+        [Description("$government_Corporate;")] Corporate,
+        [Description("$government_Democracy;")] Democracy,
+        [Description("$government_Dictatorship;")] Dictatorship,
+        [Description("$government_Feudal;")] Feudal,
+        [Description("$government_Imperial;")] Imperial,
+        [Description("$government_None;")] None,
+        [Description("$government_Patronage;")] Patronage,
+        [Description("$government_PrisonColony;")] PrisonColony,
+        [Description("$government_Theocracy;")] Theocracy,
+        [Description("$government_Engineer;")] Engineer,
+        [Description("$government_Carrier;")] PrivateOwnership,
+    }
+
+    public enum SecurityLevels
+    {
+        Unknown,
+        [Description("$GAlAXY_MAP_INFO_state_anarchy;")]
+        Anarchy,
+
+        [Description("$GALAXY_MAP_INFO_state_lawless;")]
+        Lawless,
+
+        [Description("$SYSTEM_SECURITY_high;")]
+        High,
+
+        [Description("$SYSTEM_SECURITY_low;")]
+        Low,
+
+        [Description("$SYSTEM_SECURITY_medium;")]
+        Medium,
+    }
+
 }

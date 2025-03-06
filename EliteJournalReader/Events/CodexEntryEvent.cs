@@ -39,11 +39,15 @@ namespace EliteJournalReader.Events
             public string Region { get; set; }
             public string System { get; set; }
             public long SystemAddress { get; set; }
+            public int BodyID { get; set; }
+            public double Latitude { get; set; }
+            public double Longitude { get; set; }
             public string NearestDestination { get; set; }
             public string NearestDestination_Localised { get; set; }
             public bool IsNewEntry { get; set; } = false;
             public bool NewTraitsDiscovered { get; set; } = false;
             public string[] Traits { get; set; }
+            public int VoucherAmount { get; set; }
         }
     }
 }

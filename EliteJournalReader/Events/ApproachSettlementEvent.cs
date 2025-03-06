@@ -23,6 +23,14 @@ namespace EliteJournalReader.Events
             public long SystemAddress { get; set; }
             public string BodyName { get; set; }
             public long BodyID { get; set; }
+            public Faction StationFaction { get; set; }
+            public string StationGovernment { get; set; }
+            public string StationGovernment_Localised { get; set; }
+            public string StationAllegiance { get; set; }
+            public string[] StationServices { get; set; }
+            public string StationEconomy { get; set; }
+            public string StationEconomy_Localised { get; set; }
+            public Economy[] StationEconomies { get; set; }
         }
     }
 }

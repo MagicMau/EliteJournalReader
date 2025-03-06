@@ -35,7 +35,7 @@ namespace EliteJournalReader.Events
                 // The actual route is written to NavRoute.json, so let's try to read it
                 try
                 {
-                    string path = Path.Combine(Path.GetDirectoryName(journalWatcher.Path), "NavRoute.json");
+                    string path = Path.Combine(journalWatcher.Path, "NavRoute.json");
                     if (File.Exists(path))
                     {
                         string text = File.ReadAllText(path);

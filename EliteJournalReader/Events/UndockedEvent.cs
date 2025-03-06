@@ -19,6 +19,8 @@ namespace EliteJournalReader.Events
             public string StationName { get; set; }
             public string StationType { get; set; }
             public long MarketID { get; set; }
+            public bool Taxi { get; set; }
+            public bool Multicrew { get; set; }
         }
     }
 }

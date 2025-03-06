@@ -30,10 +30,10 @@ namespace EliteJournalReader.Events
             public struct StoredModule
             {
                 public string Name;
+                public string Name_Localised;
                 public string StarSystem;
-                public string StationName;
                 public long MarketID;
-                public string StorageSlot;
+                public int StorageSlot;
                 public int TransferCost;
                 public int TransferTime;
                 public string EngineerModifications;
@@ -45,6 +45,8 @@ namespace EliteJournalReader.Events
                 public bool Hot;
             }
 
+            public string StarSystem { get; set; }
+            public string StationName { get; set; }
             public long MarketID { get; set; }
             public StoredModule[] Items { get; set; }
         }

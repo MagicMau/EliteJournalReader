@@ -20,6 +20,7 @@ namespace EliteJournalReader.Events
             public string To { get; set; }
             public string Message { get; set; }
             public string Channel { get; set; }
+            public bool Sent { get; set; }
         }
     }
 }
