@@ -45,11 +45,10 @@ namespace EliteJournalReader.Events
                 }
                 catch (Exception e)
                 {
-#if DEBUG
-                    Debug.WriteLine("Error reading NavRoute.json: " + e.Message);
+                    Trace.TraceWarning("Error reading NavRoute.json: " + e.Message);
                     throw e;
-#endif
                 }
+
             }
         }
     }

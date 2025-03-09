@@ -36,11 +36,14 @@ namespace EliteJournalReader
 
         public StatusFileEvent LastEvent { get; protected set; }
 
+        private readonly bool logUpdates = false;
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
-        public StatusWatcher(string path)
+        public StatusWatcher(string path, bool logUpdates)
         {
+            this.logUpdates = logUpdates;
             Initialize(path);
         }
 
@@ -139,9 +142,14 @@ namespace EliteJournalReader
                 var streamReader = new StreamReader(new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
                 using (var jsonTextReader = new JsonTextReader(streamReader))
                 {
-                    var evt = JToken.ReadFrom(jsonTextReader).ToObject<StatusFileEvent>();
-                    if (evt == null)
-                        throw new ArgumentNullException($"Unexpected empty status.json file");
+                    var jToken = JToken.ReadFrom(jsonTextReader);
+                    var evt = jToken.ToObject<StatusFileEvent>() ?? throw new ArgumentNullException($"Unexpected empty status.json file");
+                    if (logUpdates)
+                    {
+                        Trace.TraceInformation("Status: " + jToken.ToString(Formatting.None));
+                        Trace.TraceInformation($"Status Flags : {(long)evt.Flags:X8} - {string.Join(", ", evt.Flags.GetIndividualFlags())}");
+                        Trace.TraceInformation($"Status Flags2: {(long)evt.Flags2:X8} - {string.Join(", ", evt.Flags2.GetIndividualFlags())}");
+                    }
 
                     // only fire the event if it's new data
                     if (evt.Timestamp > lastTimestamp)

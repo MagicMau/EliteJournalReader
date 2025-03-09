@@ -145,6 +145,14 @@ namespace EliteJournalReader.Events
         Hot = 0x00000200,
         VeryCold = 0x00000400,
         VeryHot = 0x00000800,
+        GlideMode = 0x00001000,
+        OnFootInHangar = 0x00002000,
+        OnFootInSocialSpace = 0x00004000,
+        OnFootExterior = 0x00008000,
+        BreathableAtmosphere = 0x000010000,
+        TelepresenceMulticrew = 0x000020000,
+        PhysicalMulticrew = 0x000040000,
+        FsdHyperdriveCharging = 0x000080000,
     }
 
     public enum StatusGuiFocus

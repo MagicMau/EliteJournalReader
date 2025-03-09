@@ -256,7 +256,6 @@ namespace EliteJournalReader
         Planet,
         PlanetaryRing,
         StellarRing,
-        Station,
         AsteroidCluster
     }
 
