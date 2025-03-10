@@ -25,7 +25,7 @@ namespace EliteJournalReader.Events
             public string BodyName { get; set; }
             public long BodyID { get; set; }
             public SAASignal[] Signals { get; set; }
-            public SAASignal[] Genuses { get; set; }
+            public SAAGenus[] Genuses { get; set; }
         }
     }
 }
