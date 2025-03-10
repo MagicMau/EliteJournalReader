@@ -1,0 +1,20 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".cs" #>
+
+// https://makolyte.com/auto-increment-build-numbers-in-visual-studio/
+
+using System.Reflection;
+
+[assembly: AssemblyVersion("<#= this.Major #>.<#= this.Minor #>.<#= this.DaysSinceProjectStarted #>.<#= this.MinutesSinceMidnight  #>")]
+
+<#+
+
+ int Major = 4;
+ int Minor = 1;
+ 
+ static DateTime ProjectStartedDate = new DateTime(year: 2014, month: 12, day: 16);
+ int DaysSinceProjectStarted = (int)((DateTime.UtcNow - ProjectStartedDate).TotalDays);
+
+ int MinutesSinceMidnight = (int)DateTime.UtcNow.TimeOfDay.TotalMinutes;
+
+#>

@@ -1,22 +1,50 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net481</TargetFrameworks>
-    <Version>4.0.32</Version>
+	<PropertyGroup>
+		<TargetFrameworks>net481</TargetFrameworks>
+		<Version>4.0.32</Version>
 
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <SignAssembly>false</SignAssembly>
-    <Copyright>Copyright © Maurits Elbers (@MagicMau) 2015-2025. Elite: Dangerous and related material is © Frontier Developments plc</Copyright>
-    <Company>MagicMau</Company>
-    <PackageId>EliteJournalReader</PackageId>
-    <AssemblyVersion>4.0.32</AssemblyVersion>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Authors>MagicMau</Authors>
-  </PropertyGroup>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<SignAssembly>false</SignAssembly>
+		<Copyright>Copyright © Maurits Elbers (@MagicMau) 2015-2025. Elite: Dangerous and related material is © Frontier Developments plc</Copyright>
+		<Company>MagicMau</Company>
+		<PackageId>EliteJournalReader</PackageId>
+		<AssemblyVersion>4.0.32</AssemblyVersion>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Authors>MagicMau</Authors>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+
+	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
+
+	<PropertyGroup>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<TransformOnBuild>true</TransformOnBuild>
+		<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+		<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Update="VersionAutoIncrementer.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>VersionAutoIncrementer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="VersionAutoIncrementer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>VersionAutoIncrementer.tt</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
 
 </Project>
