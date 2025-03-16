@@ -19,6 +19,8 @@ namespace EliteJournalReader.Events
 
         public class EngineerCraftEventArgs : JournalEventArgs
         {
+            public string Slot { get; set; }
+            public string Module { get; set; }
             public string Engineer { get; set; }
             public long EngineerID { get; set; }
             public string BlueprintName { get; set; }
