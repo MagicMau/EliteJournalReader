@@ -170,6 +170,7 @@ namespace EliteJournalReader
             catch (Exception)
             {
 #endif
+                FireFailedStatusUpdateEvent();
             }
         }
 
@@ -183,11 +184,25 @@ namespace EliteJournalReader
             {
                 Trace.TraceWarning($"{ex.GetType().Name} while reading from status.json: {ex.Message}");
                 Trace.TraceInformation(ex.StackTrace);
+                FireFailedStatusUpdateEvent();
             }
         }
 
 
         protected void FireStatusUpdatedEvent(StatusFileEvent evt) => StatusUpdated?.Invoke(this, evt);
+
+        /// <summary>
+        /// When an error occurs, set some status flags to signal that the status is not valid
+        /// And to prevent logic from sending data to EDSM/Inara.
+        /// </summary>
+        protected void FireFailedStatusUpdateEvent()
+        {
+            FireStatusUpdatedEvent(new StatusFileEvent
+            {
+                Flags = StatusFlags.None,
+                Flags2 = MoreStatusFlags.InMulticrew & MoreStatusFlags.PhysicalMulticrew & MoreStatusFlags.TelepresenceMulticrew,
+            });
+        }
     }
 
 }

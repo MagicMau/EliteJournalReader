@@ -6,38 +6,155 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Security.Policy;
 
 namespace EliteJournalReader.Events
 {
-    //When written: at startup, or when being resurrected at a station
-    //Parameters:
-    //•	StarSystem: name of destination starsystem
-    //•	StarPos: star position, as a Json array [x, y, z], in light years
-    //•	Body: star’s body name
-    //•	BodyType
-    //•	DistFromStarLS: (unless close to main star)
-    //•	Docked: true (if docked)
-    //•	Latitude (if landed)
-    //•	Longitude (if landed)
-    //•	StationName: station name, (if docked)
-    //•	StationType: (if docked)
-    //•	MarketID
-    //•	SystemFaction: star system controlling faction
-    //    o Name
-    //    o FactionState
-    //•	Faction: star system controlling faction
-    //•	FactionState
-    //•	SystemAllegiance
-    //•	SystemEconomy
-    //•	SystemSecondEconomy
-    //•	SystemGovernment
-    //•	SystemSecurity
-    //•	Wanted
-    //•	Factions: an array with info on local minor factions (similar to FSDJump)
-    //•	Conflicts: an array with info on local conflicts(similar to FSDJump)
-    //If the player is pledged to a Power in Powerplay, and the star system is involved in powerplay,
-    //•	Powers: a json array with the names of any powers contesting the system, or the name of the controlling power
-    //•	PowerplayState: the system state – one of("InPrepareRadius", "Prepared", "Exploited", "Contested", "Controlled", "Turmoil", "HomeSystem")
+    // {
+    //  "timestamp": "2025-03-19T19:03:12Z",
+    //  "event": "CarrierJump",
+    //  "Docked": true,
+    //  "StationName": "V1B-WQB",
+    //  "StationType": "FleetCarrier",
+    //  "MarketID": 3705689344,
+    //  "StationFaction": { "Name": "FleetCarrier" },
+    //  "StationGovernment": "$government_Carrier;",
+    //  "StationGovernment_Localised": "Private Ownership",
+    //  "StationServices": [
+    //    "dock",
+    //    "autodock",
+    //    "blackmarket",
+    //    "commodities",
+    //    "contacts",
+    //    "exploration",
+    //    "outfitting",
+    //    "crewlounge",
+    //    "rearm",
+    //    "refuel",
+    //    "repair",
+    //    "shipyard",
+    //    "engineer",
+    //    "flightcontroller",
+    //    "stationoperations",
+    //    "stationMenu",
+    //    "carriermanagement",
+    //    "carrierfuel",
+    //    "livery",
+    //    "voucherredemption",
+    //    "socialspace",
+    //    "bartender",
+    //    "vistagenomics",
+    //    "pioneersupplies"
+    //  ],
+    //  "StationEconomy": "$economy_Carrier;",
+    //  "StationEconomy_Localised": "Private Enterprise",
+    //  "StationEconomies": [
+    //    {
+    //      "Name": "$economy_Carrier;",
+    //      "Name_Localised": "Private Enterprise",
+    //      "Proportion": 1.0
+    //    }
+    //  ],
+    //  "Taxi": false,
+    //  "Multicrew": false,
+    //  "StarSystem": "HR 3635",
+    //  "SystemAddress": 1694121347427,
+    //  "StarPos": [64.0625, 75.34375, -79.59375],
+    //  "SystemAllegiance": "Alliance",
+    //  "SystemEconomy": "$economy_Agri;",
+    //  "SystemEconomy_Localised": "Agriculture",
+    //  "SystemSecondEconomy": "$economy_Refinery;",
+    //  "SystemSecondEconomy_Localised": "Refinery",
+    //  "SystemGovernment": "$government_Democracy;",
+    //  "SystemGovernment_Localised": "Democracy",
+    //  "SystemSecurity": "$SYSTEM_SECURITY_high;",
+    //  "SystemSecurity_Localised": "High Security",
+    //  "Population": 7910623478,
+    //  "Body": "HR 3635 A",
+    //  "BodyID": 1,
+    //  "BodyType": "Star",
+    //  "ControllingPower": "Edmund Mahon",
+    //  "Powers": ["Edmund Mahon"],
+    //  "PowerplayState": "Fortified",
+    //  "PowerplayStateControlProgress": 0.052366,
+    //  "PowerplayStateReinforcement": 1396,
+    //  "PowerplayStateUndermining": 758,
+    //  "Factions": [
+    //    {
+    //      "Name": "HR 3635 Democrats",
+    //      "FactionState": "None",
+    //      "Government": "Democracy",
+    //      "Influence": 0.018831,
+    //      "Allegiance": "Federation",
+    //      "Happiness": "$Faction_HappinessBand2;",
+    //      "Happiness_Localised": "Happy",
+    //      "MyReputation": 0.0
+    //    },
+    //    {
+    //    "Name": "HR 3635 Universal & Co",
+    //      "FactionState": "None",
+    //      "Government": "Corporate",
+    //      "Influence": 0.015857,
+    //      "Allegiance": "Independent",
+    //      "Happiness": "$Faction_HappinessBand2;",
+    //      "Happiness_Localised": "Happy",
+    //      "MyReputation": 0.0
+    //    },
+    //    {
+    //    "Name": "K'uanele PLC",
+    //      "FactionState": "None",
+    //      "Government": "Corporate",
+    //      "Influence": 0.029732,
+    //      "Allegiance": "Federation",
+    //      "Happiness": "$Faction_HappinessBand2;",
+    //      "Happiness_Localised": "Happy",
+    //      "MyReputation": 0.0
+    //    },
+    //    {
+    //    "Name": "League of HR 3635",
+    //      "FactionState": "None",
+    //      "Government": "Dictatorship",
+    //      "Influence": 0.030723,
+    //      "Allegiance": "Independent",
+    //      "Happiness": "$Faction_HappinessBand2;",
+    //      "Happiness_Localised": "Happy",
+    //      "MyReputation": 0.0
+    //    },
+    //    {
+    //    "Name": "HR 3635 Industries",
+    //      "FactionState": "None",
+    //      "Government": "Corporate",
+    //      "Influence": 0.191278,
+    //      "Allegiance": "Independent",
+    //      "Happiness": "$Faction_HappinessBand2;",
+    //      "Happiness_Localised": "Happy",
+    //      "MyReputation": 0.0
+    //    },
+    //    {
+    //    "Name": "Dragons of HR 3635",
+    //      "FactionState": "None",
+    //      "Government": "Anarchy",
+    //      "Influence": 0.014866,
+    //      "Allegiance": "Independent",
+    //      "Happiness": "$Faction_HappinessBand2;",
+    //      "Happiness_Localised": "Happy",
+    //      "MyReputation": 0.0
+    //    },
+    //    {
+    //    "Name": "Flat Galaxy Society",
+    //      "FactionState": "None",
+    //      "Government": "Democracy",
+    //      "Influence": 0.698712,
+    //      "Allegiance": "Alliance",
+    //      "Happiness": "$Faction_HappinessBand2;",
+    //      "Happiness_Localised": "Happy",
+    //      "MyReputation": 100.0,
+    //      "PendingStates": [{ "State": "Expansion", "Trend": 0 }]
+    //    }
+    //  ],
+    //  "SystemFaction": { "Name": "Flat Galaxy Society" }
+    //}
+
     public class CarrierJumpEvent : JournalEvent<CarrierJumpEvent.CarrierJumpEventArgs>
     {
         public CarrierJumpEvent() : base("CarrierJump") { }
@@ -68,6 +185,8 @@ namespace EliteJournalReader.Events
             public string StationGovernment { get; set; }
             public string StationAllegiance { get; set; }
             public string[] StationServices { get; set; }
+            public string StationEconomy { get; set; }
+            public string StationEconomy_Localised { get; set; }
             public Economy[] StationEconomies { get; set; }
 
             public Faction SystemFaction { get; set; }
@@ -84,13 +203,21 @@ namespace EliteJournalReader.Events
 
             public bool Wanted { get; set; }
             public long? Population { get; set; }
+            public string ControllingPower { get; set; }
             public string[] Powers { get; set; }
 
             [JsonConverter(typeof(ExtendedStringEnumConverter<PowerplayState>))]
             public PowerplayState PowerplayState { get; set; }
+            public double PowerplayStateControlProgress { get; set; }
+            public int PowerplayStateReinforcement { get; set; }
+            public int PowerplayStateUndermining { get; set; }
+            public PowerplayConflictProgress[] PowerplayConflictProgress { get; set; }
 
             public Faction[] Factions { get; set; }
             public Conflict[] Conflicts { get; set; }
+            public bool Taxi { get; set; }
+            public bool Multicrew { get; set; }
+            
 
             public override JournalEventArgs Clone()
             {

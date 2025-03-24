@@ -45,21 +45,38 @@ namespace EliteJournalReader
             }
 
             // if this all fails, try it again, but now case insensitive
-            var e = typeof(T)
-                .GetFields()
-                .FirstOrDefault(f => f.GetCustomAttributes<DescriptionAttribute>()
-                             .Any(a => a.Description.Equals(value, StringComparison.OrdinalIgnoreCase))
-                );
+            var descs = enumDescriptionCache[type];
+            FieldInfo fieldInfo = null;
+            if (descs == null)
+            {
+                fieldInfo = typeof(T)
+                    .GetFields()
+                    .FirstOrDefault(f => f.GetCustomAttributes<DescriptionAttribute>()
+                                 .Any(a => a.Description.Equals(value, StringComparison.OrdinalIgnoreCase))
+                    );
+
+            }
+            else
+            {
+                foreach (var kv in descs)
+                {
+                    if (kv.Key.Equals(value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        cache[value] = kv.Value; // store for next time!
+                        return (T)kv.Value;
+                    }
+                }
+            }
 
             // not in the descriptions, perhaps in the 'regular' values?
-            if (e == null)
-                e = typeof(T)
+            if (fieldInfo == null)
+                fieldInfo = typeof(T)
                     .GetFields()
                     .FirstOrDefault(f => f.Name.Equals(value, StringComparison.OrdinalIgnoreCase));
 
-            if (e != null)
+            if (fieldInfo != null)
             {
-                var resultInsensitive = (T)e.GetValue(null);
+                var resultInsensitive = (T)fieldInfo.GetValue(null);
                 cache[value] = resultInsensitive; // remember for next time
                 return resultInsensitive;
             }

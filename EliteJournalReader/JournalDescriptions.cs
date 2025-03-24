@@ -280,6 +280,12 @@ namespace EliteJournalReader
         HomeSystem
     }
 
+    public class PowerplayConflictProgress
+    {
+        public string Power { get; set; }
+        public double ConflictProgress { get; set; }
+    }
+
     public enum TerraformState
     {
         Unknown,
@@ -637,6 +643,19 @@ namespace EliteJournalReader
 
         [Description("$SYSTEM_SECURITY_medium;")]
         Medium,
+    }
+
+    public enum LegalState
+    {
+        Unknown,
+        Clean,
+        IllegalCargo,
+        Speeding,
+        Wanted,
+        Hostile,
+        PassengerWanted,
+        Warrant,
+        Lawless
     }
 
 }

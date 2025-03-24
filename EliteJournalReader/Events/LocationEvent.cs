@@ -88,10 +88,15 @@ namespace EliteJournalReader.Events
 
             public bool Wanted { get; set; }
             public long? Population { get; set; }
+            public string ControllingPower { get; set; }
             public string[] Powers { get; set; }
 
             [JsonConverter(typeof(ExtendedStringEnumConverter<PowerplayState>))]
             public PowerplayState PowerplayState { get; set; }
+            public double PowerplayStateControlProgress { get; set; }
+            public int PowerplayStateReinforcement { get; set; }
+            public int PowerplayStateUndermining { get; set; }
+            public PowerplayConflictProgress[] PowerplayConflictProgress { get; set; }
 
             public Faction[] Factions { get; set; }
             public Conflict[] Conflicts { get; set; }

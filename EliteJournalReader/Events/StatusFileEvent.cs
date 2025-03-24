@@ -26,7 +26,8 @@ namespace EliteJournalReader.Events
 
         public double Cargo { get; set; }
 
-        public string LegalState { get; set; }
+        [JsonConverter(typeof(ExtendedStringEnumConverter<LegalState>))]
+        public LegalState LegalState { get; set; }
 
         public double Latitude { get; set; }
 
@@ -153,6 +154,9 @@ namespace EliteJournalReader.Events
         TelepresenceMulticrew = 0x000020000,
         PhysicalMulticrew = 0x000040000,
         FsdHyperdriveCharging = 0x000080000,
+        SuperCruiseOvercharge = 0x000100000,
+        SuperCruiseAssist = 0x000200000,
+        NpcCrewIsActive = 0x000400000,
     }
 
     public enum StatusGuiFocus

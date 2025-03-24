@@ -398,11 +398,8 @@ namespace EliteJournalReader
             journalThread = new Thread(state =>
             {
                 // keep a current ID for this thread. If the ID changes, we are watching a different file, and this thread can exit.
-                var tuple = (Tuple<int, long, string, CancellationToken>)state;
-                int id = tuple.Item1;
-                long offset = tuple.Item2;
-                string journalFile = System.IO.Path.Combine(Path, tuple.Item3);
-                var cancellationToken = tuple.Item4;
+                (int id, long offset, var journalFileName, var cancellationToken) = (ValueTuple<int, long, string, CancellationToken>)state;
+                string journalFile = System.IO.Path.Combine(Path, journalFileName);
 
 #if DEBUG
                 Trace.TraceInformation($"Journal: now starting journal thread {id} for {journalFile} from offset {offset}.");
@@ -459,7 +456,7 @@ namespace EliteJournalReader
                 Name = "Journal Watcher",
                 IsBackground = true
             };
-            journalThread.Start(Tuple.Create(journalThreadId, startOffset, filename, journalCancellationTokenSource.Token));
+            journalThread.Start((journalThreadId, startOffset, filename, journalCancellationTokenSource.Token));
 
         }
 
