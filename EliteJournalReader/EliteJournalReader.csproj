@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net481</TargetFrameworks>
+		<LangVersion>8.0</LangVersion>
 		<Version>4.0.32</Version>
 
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>

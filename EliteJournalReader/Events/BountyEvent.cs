@@ -34,6 +34,8 @@ namespace EliteJournalReader.Events
             public string VictimFaction { get; set; }
             public int TotalReward { get; set; }
             public int SharedWithOthers { get; set; } = 0;
+
+            public string StarSystem { get; set; }
         }
     }
 }
