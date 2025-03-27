@@ -13,6 +13,7 @@ namespace EliteJournalReader
     public static class EnumHelpers
     {
         private static readonly Dictionary<Type, Dictionary<string, object>> enumDescriptionCache = new Dictionary<Type, Dictionary<string, object>>();
+        private static readonly Dictionary<Type, Dictionary<object, string>> enumToDescriptionCache = new Dictionary<Type, Dictionary<object, string>>();
 
         public static T ToEnum<T>(this string value, T defaultValue) where T : struct
         {
@@ -86,12 +87,30 @@ namespace EliteJournalReader
             return defaultValue;
         }
 
-        public static string StringValue(this Enum enumItem) => enumItem
-            .GetType()
-            .GetField(enumItem.ToString())
-            .GetCustomAttributes<DescriptionAttribute>()
-            .Select(a => a.Description)
-            .FirstOrDefault() ?? enumItem.ToString();
+        public static string StringValue(this Enum enumItem)
+        {
+            if (enumToDescriptionCache.TryGetValue(enumItem.GetType(), out var cache))
+            {
+                if (cache.TryGetValue(enumItem, out string resultFromCache))
+                {
+                    return resultFromCache;
+                }
+            }
+            if (cache == null)
+            {
+                cache = new Dictionary<object, string>();
+                enumToDescriptionCache[enumItem.GetType()] = cache;
+            }
+            string value = enumItem
+                .GetType()
+                .GetField(enumItem.ToString())
+                .GetCustomAttributes<DescriptionAttribute>()
+                .Select(a => a.Description)
+                .FirstOrDefault() ?? enumItem.ToString();
+
+            cache[enumItem] = value;
+            return value;
+        }
 
         public static IEnumerable<Enum> GetFlags(this Enum value)
         {
