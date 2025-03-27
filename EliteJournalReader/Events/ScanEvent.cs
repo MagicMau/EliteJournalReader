@@ -218,7 +218,7 @@ namespace EliteJournalReader.Events
 
             public double? OrbitalInclination { get; set; }
 
-            public double? AscendingNode{ get; set; }
+            public double? AscendingNode { get; set; }
 
             public double? MeanAnomaly { get; set; }
 
@@ -264,7 +264,7 @@ namespace EliteJournalReader.Events
 
             public ScanItemComponent[] AtmosphereComposition { get; set; }
 
-            public Dictionary<string,double> Composition { get; set; }
+            public Dictionary<string, double> Composition { get; set; }
 
             public string Volcanism { get; set; }
 
@@ -338,6 +338,13 @@ namespace EliteJournalReader.Events
             return bps.ToArray();
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            if (!(value is BodyParent[] bps))
+                return;
+
+            var bpsArray = bps.Select(bp => new Dictionary<string, long> { [bp.Type] = bp.BodyID }).ToArray();
+            serializer.Serialize(writer, bpsArray);
+        }
     }
 }
