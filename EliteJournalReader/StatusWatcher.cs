@@ -144,12 +144,6 @@ namespace EliteJournalReader
                 {
                     var jToken = JToken.ReadFrom(jsonTextReader);
                     var evt = jToken.ToObject<StatusFileEvent>() ?? throw new ArgumentNullException($"Unexpected empty status.json file");
-                    if (logUpdates)
-                    {
-                        Trace.TraceInformation("Status: " + jToken.ToString(Formatting.None));
-                        Trace.TraceInformation($"Status Flags : {(long)evt.Flags:X8} - {string.Join(", ", evt.Flags.GetIndividualFlags())}");
-                        Trace.TraceInformation($"Status Flags2: {(long)evt.Flags2:X8} - {string.Join(", ", evt.Flags2.GetIndividualFlags())}");
-                    }
 
                     // only fire the event if it's new data
                     if (evt.Timestamp > lastTimestamp)
@@ -157,6 +151,13 @@ namespace EliteJournalReader
                         lastTimestamp = evt.Timestamp;
                         LastEvent = evt;
                         FireStatusUpdatedEvent(evt);
+
+                        if (logUpdates)
+                        {
+                            Trace.TraceInformation("Status: " + jToken.ToString(Formatting.None));
+                            Trace.TraceInformation($"Status Flags : {(long)evt.Flags:X8} - {string.Join(", ", evt.Flags.GetIndividualFlags())}");
+                            Trace.TraceInformation($"Status Flags2: {(long)evt.Flags2:X8} - {string.Join(", ", evt.Flags2.GetIndividualFlags())}");
+                        }
                     }
                 }
             }
