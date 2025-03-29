@@ -17,7 +17,7 @@ namespace EliteJournalReader.Events
         public class FSSBodySignalsEventArgs : JournalEventArgs
         {
             public string BodyName { get; set; }
-            public long BodyID { get; set; }
+            public int BodyID { get; set; }
             public long SystemAddress { get; set; }
             public Signal[] Signals { get; set; }
         }

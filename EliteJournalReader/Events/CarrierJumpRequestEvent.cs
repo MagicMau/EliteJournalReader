@@ -22,7 +22,7 @@ namespace EliteJournalReader.Events
             public string SystemName { get; set; }
             public long SystemID { get; set; }
             public string Body { get; set; }
-            public long BodyID { get; set; }
+            public int BodyID { get; set; }
         }
     }
 }

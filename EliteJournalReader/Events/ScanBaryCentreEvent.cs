@@ -15,7 +15,7 @@ namespace EliteJournalReader.Events
         {
             public string StarSystem { get; set; }
             public long SystemAddress { get; set; }
-            public long BodyID { get; set; }
+            public int BodyID { get; set; }
             public double SemiMajorAxis { get; set; }
             public double Eccentricity { get; set; }
             public double OrbitalInclination { get; set; }

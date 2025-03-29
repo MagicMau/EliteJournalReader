@@ -62,7 +62,7 @@ namespace EliteJournalReader.Events
             public SystemPosition StarPos { get; set; }
 
             public string Body { get; set; }
-            public long BodyID { get; set; }
+            public int BodyID { get; set; }
             public string BodyType { get; set; }
             public double JumpDist { get; set; }
             public double FuelUsed { get; set; }

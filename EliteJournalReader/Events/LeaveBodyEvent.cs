@@ -22,7 +22,7 @@ namespace EliteJournalReader.Events
             public string StarSystem { get; set; }
             public long SystemAddress { get; set; }
             public string Body { get; set; }
-            public long BodyID { get; set; }
+            public int BodyID { get; set; }
         }
     }
 }

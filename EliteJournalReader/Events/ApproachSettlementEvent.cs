@@ -22,7 +22,7 @@ namespace EliteJournalReader.Events
             public double Longitude { get; set; }
             public long SystemAddress { get; set; }
             public string BodyName { get; set; }
-            public long BodyID { get; set; }
+            public int BodyID { get; set; }
             public Faction StationFaction { get; set; }
             public string StationGovernment { get; set; }
             public string StationGovernment_Localised { get; set; }
