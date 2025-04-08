@@ -138,10 +138,13 @@ namespace EliteJournalReader
         {
             try
             {
-                Thread.Sleep(50); // give it a wee bit
+                //Thread.Sleep(50); // give it a wee bit
                 var streamReader = new StreamReader(new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
                 using (var jsonTextReader = new JsonTextReader(streamReader))
                 {
+                    if (streamReader.EndOfStream)
+                        return; // nothing to read
+
                     var jToken = JToken.ReadFrom(jsonTextReader);
                     var evt = jToken.ToObject<StatusFileEvent>() ?? throw new ArgumentNullException($"Unexpected empty status.json file");
 
