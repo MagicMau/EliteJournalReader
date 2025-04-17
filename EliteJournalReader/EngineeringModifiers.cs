@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 namespace EliteJournalReader
 {
     [JsonConverter(typeof(EngineeringModifiersCoverter))]
-    public struct EngineeringModifiers
+    public class EngineeringModifiers
     {
         [JsonConverter(typeof(ExtendedStringEnumConverter<ModuleAttribute>))]
         public ModuleAttribute Label { get; set; }

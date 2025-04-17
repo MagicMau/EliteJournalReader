@@ -1,8 +1,8 @@
 ﻿namespace EliteJournalReader
 {
-    public struct SAASignal
+    public class SAASignal
     {
-        public string Type;
-        public int Count;
+        public string Type { get;set; }
+        public int Count { get; set; }
     }
 }

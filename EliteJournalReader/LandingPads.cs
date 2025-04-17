@@ -1,6 +1,6 @@
 namespace EliteJournalReader
 {
-    public struct LandingPads
+    public class LandingPads
     {
         public int Small { get; set; }
         public int Medium { get; set; }

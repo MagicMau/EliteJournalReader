@@ -1,11 +1,11 @@
 ﻿namespace EliteJournalReader
 {
-    public struct Passenger
+    public class Passenger
     {
-        public long MissionID;
-        public string Type;
-        public string VIP;
-        public bool Wanted;
-        public int Count;
+        public long MissionID { get; set; }
+        public string Type { get; set; }
+        public string VIP { get; set; }
+        public bool Wanted { get; set; }
+        public int Count { get; set; }
     }
 }

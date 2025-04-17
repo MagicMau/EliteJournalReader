@@ -78,7 +78,7 @@ namespace EliteJournalReader.Events
             }
         }
 
-        public struct FuelCapacity
+        public class FuelCapacity
         {
             public double Main { get; set; }
             public double Reserve { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace EliteJournalReader
 {
-    public struct Signal
+    public class Signal
     {
         public string Type { get; set; }
         public string Type_Localised { get; set; }

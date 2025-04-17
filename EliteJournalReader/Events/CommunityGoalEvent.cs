@@ -35,29 +35,29 @@ namespace EliteJournalReader.Events
 
         public class CommunityGoalEventArgs : JournalEventArgs
         {
-            public struct CurrentGoal
+            public class CurrentGoal
             {
-                public long CGID;
-                public string Title;
-                public string SystemName;
-                public string MarketName;
-                public DateTime Expiry;
-                public bool IsCompleted;
-                public long CurrentTotal;
-                public long PlayerContribution;
-                public long NumContributors;
-                public int? PlayerPercentileBand;
-                public int? TopRankSize;
-                public bool? PlayerInTopRank;
-                public string TierReached;
-                public long? Bonus;
-                public Tier TopTier;
+                public long CGID { get; set; }
+                public string Title { get; set; }
+                public string SystemName { get; set; }
+                public string MarketName { get; set; }
+                public DateTime Expiry { get; set; }
+                public bool IsCompleted { get; set; }
+                public long CurrentTotal { get; set; }
+                public long PlayerContribution { get; set; }
+                public long NumContributors { get; set; }
+                public int? PlayerPercentileBand { get; set; }
+                public int? TopRankSize { get; set; }
+                public bool? PlayerInTopRank { get; set; }
+                public string TierReached { get; set; }
+                public long? Bonus { get; set; }
+                public Tier TopTier { get; set; }
             }
 
-            public struct Tier
+            public class Tier
             {
-                public string Name;
-                public string Bonus;
+                public string Name { get; set; }
+                public string Bonus { get; set; }
             }
             
             public CurrentGoal[] CurrentGoals { get; set; }

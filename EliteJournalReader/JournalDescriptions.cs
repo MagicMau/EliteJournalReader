@@ -11,9 +11,9 @@ namespace EliteJournalReader
     public enum ScanType
     {
         Unknown,
+        AutoScan,
         Basic,
         Detailed,
-        AutoScan,
         NavBeacon,
         NavBeaconDetail
     }

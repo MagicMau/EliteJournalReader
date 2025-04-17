@@ -22,11 +22,11 @@ namespace EliteJournalReader.Events
 
         public class MassModuleStoreEventArgs : JournalEventArgs
         {
-            public struct ModuleItems
+            public class ModuleItems
             {
-                public string Slot;
-                public string Name;
-                public string EngineerModifications;
+                public string Slot { get; set; }
+                public string Name { get; set; }
+                public string EngineerModifications { get; set; }
                 public int Level { get; set; }
                 public double Quality { get; set; }
                 public bool Hot { get; set; }

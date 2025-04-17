@@ -18,6 +18,8 @@ namespace EliteJournalReader
             EventNames = eventNames;
         }
 
+        internal abstract JournalEventArgs ParseEventArgs(JObject evt);
+
         internal abstract JournalEventArgs FireEvent(JournalWatcher journalWatcher, JObject evt);
     }
 
@@ -33,6 +35,8 @@ namespace EliteJournalReader
         public void AddHandler(EventHandler<TJournalEventArgs> eventHandler) => Fired += eventHandler;
 
         public void RemoveHandler(EventHandler<TJournalEventArgs> eventHandler) => Fired -= eventHandler;
+
+        internal override JournalEventArgs ParseEventArgs(JObject evt) => evt.ToObject<TJournalEventArgs>();
 
         internal override JournalEventArgs FireEvent(JournalWatcher journalWatcher, JObject evt)
         {

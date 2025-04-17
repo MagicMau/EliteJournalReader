@@ -17,10 +17,10 @@ namespace EliteJournalReader.Events
 
         public class RedeemVoucherEventArgs : JournalEventArgs
         {
-            public struct FactionAmount
+            public class FactionAmount
             {
-                public string Faction;
-                public int Amount;
+                public string Faction { get; set; }
+                public int Amount { get; set; }
             }
 
             public string Type { get; set; }

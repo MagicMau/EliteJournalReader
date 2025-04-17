@@ -66,7 +66,7 @@ namespace EliteJournalReader
         public Faction Clone() => (Faction)MemberwiseClone();
     }
 
-    public struct FactionStateChange
+    public class FactionStateChange
     {
         public string State { get; set; }
         public int Trend { get; set; }

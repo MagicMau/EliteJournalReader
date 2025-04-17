@@ -1,6 +1,6 @@
 ﻿namespace EliteJournalReader
 {
-    public struct Mission
+    public class Mission
     {
         public long MissionID { get; set; }
         public string Name { get; set; }

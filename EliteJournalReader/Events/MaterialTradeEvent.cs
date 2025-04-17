@@ -25,13 +25,13 @@ namespace EliteJournalReader.Events
 
         public class MaterialTradeEventArgs : JournalEventArgs
         {
-            public struct MaterialTraded
+            public class MaterialTraded
             {
-                public string Material;
-                public string Material_Localised;
-                public string Category;
-                public string Category_Localised;
-                public int Quantity;
+                public string Material { get; set; }
+                public string Material_Localised { get; set; }
+                public string Category { get; set; }
+                public string Category_Localised { get; set; }
+                public int Quantity { get; set; }
             }
 
             public long MarketID { get; set; }

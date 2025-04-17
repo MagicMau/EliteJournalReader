@@ -1,8 +1,8 @@
 ﻿namespace EliteJournalReader
 {
-    public struct SAAGenus
+    public class SAAGenus
     {
-        public string Genus;
-        public string Genus_Localised;
+        public string Genus { get; set; }
+        public string Genus_Localised { get; set; }
     }
 }

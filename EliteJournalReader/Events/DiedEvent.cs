@@ -21,11 +21,11 @@ namespace EliteJournalReader.Events
 
         public class DiedEventArgs : JournalEventArgs
         {
-            public struct Killer
+            public class Killer
             {
-                public string Name;
-                public string Ship;
-                public string Rank;
+                public string Name { get; set; }
+                public string Ship { get; set; }
+                public string Rank { get; set; }
             }
 
             public string KillerName { get; set; }

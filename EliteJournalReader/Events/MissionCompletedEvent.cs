@@ -34,42 +34,42 @@ namespace EliteJournalReader.Events
 
         public class MissionCompletedEventArgs : JournalEventArgs
         {
-            public struct CommodityRewardItem
+            public class CommodityRewardItem
             {
-                public string Name;
-                public string Name_Localised;
-                public int Count;
+                public string Name { get; set; }
+                public string Name_Localised { get; set; }
+                public int Count { get; set; }
             }
 
-            public struct MaterialRewardItem
+            public class MaterialRewardItem
             {
-                public string Name;
-                public string Name_Localised;
-                public string Category;
-                public string Category_Localised;
-                public int Count;
+                public string Name { get; set; }
+                public string Name_Localised { get; set; }
+                public string Category { get; set; }
+                public string Category_Localised { get; set; }
+                public int Count { get; set; }
             }
 
-            public struct FactionEffectsDesc
+            public class FactionEffectsDesc
             {
-                public string Faction;
-                public FactionEffect[] Effects;
-                public FactionInfluenceEffect[] Influence;
-                public string Reputation;
+                public string Faction { get; set; }
+                public FactionEffect[] Effects { get; set; }
+                public FactionInfluenceEffect[] Influence { get; set; }
+                public string Reputation { get; set; }
             }
 
-            public struct FactionEffect
+            public class FactionEffect
             {
-                public string Effect;
-                public string Effect_Localised;
-                public string Trend;
+                public string Effect { get; set; }
+                public string Effect_Localised { get; set; }
+                public string Trend { get; set; }
             }
 
-            public struct FactionInfluenceEffect
+            public class FactionInfluenceEffect
             {
-                public long SystemAddress;
-                public string Trend;
-                public string Influence;
+                public long SystemAddress { get; set; }
+                public string Trend { get; set; }
+                public string Influence { get; set; }
             }
 
             public string Faction { get; set; }

@@ -85,7 +85,7 @@ namespace EliteJournalReader.Events
         }
     }
 
-    public struct Destination
+    public class Destination
     {
         public string System { get; set; }
         public string Body { get; set; }

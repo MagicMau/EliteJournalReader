@@ -45,7 +45,7 @@ namespace EliteJournalReader.Events
             public CarrierModulePack[] ModulePacks { get; set; }
         }
 
-        public struct CarrierSpaceUsage
+        public class CarrierSpaceUsage
         {
             public long TotalCapacity { get; set; }
             public long Crew { get; set; }
@@ -56,7 +56,7 @@ namespace EliteJournalReader.Events
             public long FreeSpace { get; set; }
         }
 
-        public struct CarrierFinance
+        public class CarrierFinance
         {
             public long CarrierBalance { get; set; }
             public long ReserveBalance { get; set; }
@@ -65,7 +65,7 @@ namespace EliteJournalReader.Events
             public double TaxRate { get; set; }
         }
 
-        public struct CarrierCrew
+        public class CarrierCrew
         {
             public string CrewRole { get; set; }
             public bool Activated { get; set; }
@@ -73,13 +73,13 @@ namespace EliteJournalReader.Events
             public string Name { get; set; }
         }
 
-        public struct CarrierShipPack
+        public class CarrierShipPack
         {
             public string PackTheme { get; set; }
             public int PackTier { get; set; }
         }
 
-        public struct CarrierModulePack
+        public class CarrierModulePack
         {
             public string PackTheme { get; set; }
             public int PackTier { get; set; }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EliteJournalReader
 {
-    public struct SystemPosition
+    public class SystemPosition
     {
         public decimal X, Y, Z;
 
@@ -51,9 +51,12 @@ namespace EliteJournalReader
             if (JToken.ReadFrom(reader) is JArray jarr)
             {
                 decimal[] array = jarr.ToObject<decimal[]>();
-                pos.X = Math.Round(array[0], 3);
-                pos.Y = Math.Round(array[1], 3);
-                pos.Z = Math.Round(array[2], 3);
+                pos = new SystemPosition
+                {
+                    X = Math.Round(array[0], 3),
+                    Y = Math.Round(array[1], 3),
+                    Z = Math.Round(array[2], 3),
+                };
             }
             return pos;
         }

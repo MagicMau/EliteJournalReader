@@ -55,7 +55,7 @@ namespace EliteJournalReader.Events
 
             public bool Multicrew { get; set; }
 
-            public struct Economy
+            public class Economy
             {
                 public string Name { get; set; }
                 public string Name_Localised { get; set; }

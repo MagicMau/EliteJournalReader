@@ -1,6 +1,6 @@
 ﻿namespace EliteJournalReader
 {
-    public struct Material
+    public class Material
     {
         public string Name { get; set; }
         public string Name_Localised { get; set; }

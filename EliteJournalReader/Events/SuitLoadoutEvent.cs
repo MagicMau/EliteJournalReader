@@ -65,13 +65,13 @@ namespace EliteJournalReader.Events
         }
     }
 
-    public struct SuitModule
+    public class SuitModule
     {
-        public string SlotName;
-        public long SuitModuleID;
-        public string ModuleName;
-        public string ModuleName_Localised;
-        public int Class;
-        public object[] WeaponMods;
+        public string SlotName { get; set; }
+        public long SuitModuleID { get; set; }
+        public string ModuleName { get; set; }
+        public string ModuleName_Localised { get; set; }
+        public int Class { get; set; }
+        public object[] WeaponMods { get; set; }
     }
 }

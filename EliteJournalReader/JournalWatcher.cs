@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EliteJournalReader
 {
@@ -24,7 +25,7 @@ namespace EliteJournalReader
         public const int UPDATE_INTERVAL_MILLISECONDS = 500;
 
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
-        
+
         /// <summary>
         ///     The default filter
         /// </summary>
@@ -260,8 +261,7 @@ namespace EliteJournalReader
             long offset = 0;
 
             // before we start watching, rerun all events up until now (including any previous parts of this game session)
-            await Task.Run(() =>
-            {
+            await Task.Run(() => {
                 offset = ProcessPreviousJournals();
 
                 // because we might just have read an old log file, make sure we don't miss the new one when it arrives
@@ -282,7 +282,7 @@ namespace EliteJournalReader
                 EnableRaisingEvents = true;
             });
 
-            
+
         }
 
         public CargoEvent.CargoEventArgs ReadCargoJson()
@@ -320,8 +320,7 @@ namespace EliteJournalReader
                 return; // we're already polling or no longer needed
 
             isPollingForNewFile = true;
-            Task.Run(async () =>
-            {
+            Task.Run(async () => {
                 while (isPollingForNewFile)
                 {
                     try
@@ -395,8 +394,7 @@ namespace EliteJournalReader
             }
 
             journalCancellationTokenSource = new CancellationTokenSource();
-            journalThread = new Thread(state =>
-            {
+            journalThread = new Thread(state => {
                 // keep a current ID for this thread. If the ID changes, we are watching a different file, and this thread can exit.
                 (int id, long offset, var journalFileName, var cancellationToken) = (ValueTuple<int, long, string, CancellationToken>)state;
                 string journalFile = System.IO.Path.Combine(Path, journalFileName);
@@ -607,6 +605,53 @@ namespace EliteJournalReader
             var type = typeof(TJournalEvent);
             return journalEvents.ContainsKey(type) ? journalEvents[type] as TJournalEvent : null;
         }
+
+        public IEnumerable<JournalEventArgs> RetrieveHistoricalEvents(params string[] eventNames)
+        {
+            var events = new List<JournalEventArgs>();
+            var journals = Directory.GetFiles(Path, DefaultFilter).OrderBy(f => GetFileCreationDate(f));
+            if (!journals.Any())
+                return events; // there's nothing
+
+            // now process each journal
+            foreach (string filename in journals)
+            {
+                try
+                {
+                    string journalFile = System.IO.Path.Combine(Path, filename);
+                    using (var reader = new StreamReader(new FileStream(journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                    {
+                        // read new data
+                        string text = reader.ReadToEnd();
+                        // split the new data into lines
+                        string[] lines = text.Split('\r', '\n');
+
+                        // parse each line
+                        foreach (string line in lines)
+                        {
+                            if (string.IsNullOrEmpty(line))
+                                continue;
+
+                            var evt = JObject.Parse(line);
+                            string eventType = evt.Value<string>("event");
+                            if (string.IsNullOrEmpty(eventType))
+                                continue; // no event, nothing to do
+
+                            if (eventNames.Contains(eventType))
+                            {
+                                var type = journalEventsByName[eventType];
+                                events.Add(type.ParseEventArgs(evt));
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Trace.TraceError($"Error while parsing previous data from {filename}: " + e.Message);
+                }
+            }
+
+            return events;
+        }
     }
-    
 }

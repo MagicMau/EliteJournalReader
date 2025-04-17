@@ -27,22 +27,22 @@ namespace EliteJournalReader.Events
 
         public class StoredModulesEventArgs : JournalEventArgs
         {
-            public struct StoredModule
+            public class StoredModule
             {
-                public string Name;
-                public string Name_Localised;
-                public string StarSystem;
-                public long MarketID;
-                public int StorageSlot;
-                public int TransferCost;
-                public int TransferTime;
-                public string EngineerModifications;
-                public int Level;
-                public double Quality;
-                public string ExperimentalEffect;
-                public int BuyPrice;
-                public bool InTransit;
-                public bool Hot;
+                public string Name { get; set; }
+                public string Name_Localised { get; set; }
+                public string StarSystem { get; set; }
+                public long MarketID { get; set; }
+                public int StorageSlot { get; set; }
+                public int TransferCost { get; set; }
+                public int TransferTime { get; set; }
+                public string EngineerModifications { get; set; }
+                public int Level { get; set; }
+                public double Quality { get; set; }
+                public string ExperimentalEffect { get; set; }
+                public int BuyPrice { get; set; }
+                public bool InTransit { get; set; }
+                public bool Hot { get; set; }
             }
 
             public string StarSystem { get; set; }

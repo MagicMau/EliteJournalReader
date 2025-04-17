@@ -286,25 +286,25 @@ namespace EliteJournalReader.Events
         }
     }
 
-    public struct ScanItemComponent
+    public class ScanItemComponent
     {
-        public string Name;
-        public double Percent;
+        public string Name { get; set; }
+        public double Percent { get; set; }
     }
 
-    public struct PlanetRing
+    public class PlanetRing
     {
-        public string Name;
-        public string RingClass;
-        public double MassMT;
-        public double InnerRad;
-        public double OuterRad;
+        public string Name { get; set; }
+        public string RingClass { get; set; }
+        public double MassMT { get; set; }
+        public double InnerRad { get; set; }
+        public double OuterRad { get; set; }
     }
 
-    public struct BodyParent
+    public class BodyParent
     {
-        public string Type;
-        public int BodyID;
+        public string Type { get; set; }
+        public int BodyID { get; set; }
     }
 
 
