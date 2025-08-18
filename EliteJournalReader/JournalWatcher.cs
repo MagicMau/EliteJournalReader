@@ -606,16 +606,18 @@ namespace EliteJournalReader
             return journalEvents.ContainsKey(type) ? journalEvents[type] as TJournalEvent : null;
         }
 
-        public IEnumerable<JournalEventArgs> RetrieveHistoricalEvents(params string[] eventNames)
+        public IEnumerable<JournalEventArgs> RetrieveHistoricalEvents(Action<double> progressUpdater, params string[] eventNames)
         {
             var events = new List<JournalEventArgs>();
-            var journals = Directory.GetFiles(Path, DefaultFilter).OrderBy(f => GetFileCreationDate(f));
-            if (!journals.Any())
+            var journals = Directory.GetFiles(Path, DefaultFilter).OrderBy(f => GetFileCreationDate(f)).ToArray();
+            if (journals.Length == 0)
                 return events; // there's nothing
 
             // now process each journal
-            foreach (string filename in journals)
+            for (int i = 0; i < journals.Length; i++)
             {
+                string filename = journals[i];
+                progressUpdater?.Invoke(i / (double)journals.Length);
                 try
                 {
                     string journalFile = System.IO.Path.Combine(Path, filename);
