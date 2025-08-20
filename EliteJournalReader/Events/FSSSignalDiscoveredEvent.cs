@@ -29,6 +29,8 @@ namespace EliteJournalReader.Events
             public int ThreatLevel { get; set; } = 0;
             public long SystemAddress { get; set; }
             public string USSType { get; set; }
+            public string SpawningPower { get; set; }
+            public string OpposingPower { get; set; }
         }
     }
 }
