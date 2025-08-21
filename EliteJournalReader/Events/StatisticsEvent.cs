@@ -121,6 +121,7 @@ namespace EliteJournalReader.Events
             public CQC CQC { get; set; }
             public MaterialsTrader Material_Trader_Stats { get; set; }
             public Exobiology Exobiology { get; set; }
+            public Squadron Squadron { get; set; }
         }
 
         public class BankAccount
@@ -278,6 +279,34 @@ namespace EliteJournalReader.Events
             public long Organic_Planets { get; set; }
             public long Organic_Genus { get; set; }
             public long Organic_Species { get; set; }
+        }
+
+        public class Squadron
+        {
+            public long Squadron_Bank_Credits_Deposited { get; set; }
+            public long Squadron_Bank_Credits_Withdrawn { get; set; }
+            public long Squadron_Bank_Commodities_Deposited_Num { get; set; }
+            public long Squadron_Bank_Commodities_Deposited_Value { get; set; }
+            public long Squadron_Bank_Commodities_Withdrawn_Num { get; set; }
+            public long Squadron_Bank_Commodities_Withdrawn_Value { get; set; }
+            public long Squadron_Bank_PersonalAssets_Deposited_Num { get; set; }
+            public long Squadron_Bank_PersonalAssets_Deposited_Value { get; set; }
+            public long Squadron_Bank_PersonalAssets_Withdrawn_Num { get; set; }
+            public long Squadron_Bank_PersonalAssets_Withdrawn_Value { get; set; }
+            public long Squadron_Bank_Ships_Deposited_Num { get; set; }
+            public long Squadron_Bank_Ships_Deposited_Value { get; set; }
+            public long Squadron_Leaderboard_aegis_highestcontribution { get; set; }
+            public long Squadron_Leaderboard_bgs_highestcontribution { get; set; }
+            public long Squadron_Leaderboard_bounty_highestcontribution { get; set; }
+            public long Squadron_Leaderboard_colonisation_contribution_highestcontribution { get; set; }
+            public long Squadron_Leaderboard_combat_highestcontribution { get; set; }
+            public long Squadron_Leaderboard_cqc_highestcontribution { get; set; }
+            public long Squadron_Leaderboard_exploration_highestcontribution { get; set; }
+            public long Squadron_Leaderboard_mining_highestcontribution { get; set; }
+            public long Squadron_Leaderboard_powerplay_highestcontribution { get; set; }
+            public long Squadron_Leaderboard_trade_highestcontribution { get; set; }
+            public long Squadron_Leaderboard_trade_illicit_highestcontribution { get; set; }
+            public long Squadron_Leaderboard_podiums { get; set; }
         }
     }
 }

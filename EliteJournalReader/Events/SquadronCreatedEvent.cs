@@ -13,6 +13,7 @@ namespace EliteJournalReader.Events
 
         public class SquadronCreatedEventArgs : JournalEventArgs
         {
+            public long SquadronID { get; set; }
             public string SquadronName { get; set; }
         }
     }
