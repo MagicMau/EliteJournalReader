@@ -12,19 +12,35 @@
 		<AssemblyVersion>4.0.32</AssemblyVersion>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Authors>MagicMau</Authors>
+		<PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+		<Description>A .NET library for reading and parsing Elite Dangerous journal files. Provides easy access to game events and data through .NET events.</Description>
+		<PackageTags>elite-dangerous;journal;game;events;frontier</PackageTags>
+		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<None Include="..\ReadMe.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
+
 	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
 
 	<PropertyGroup>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<TransformOnBuild>true</TransformOnBuild>
 		<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
 		<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+	</PropertyGroup>
+
+	<!-- Only transform templates on Release builds, not Debug builds -->
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<TransformOnBuild>true</TransformOnBuild>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<TransformOnBuild>false</TransformOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
