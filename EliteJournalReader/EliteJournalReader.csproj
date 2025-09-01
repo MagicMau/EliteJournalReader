@@ -2,14 +2,14 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net481</TargetFrameworks>
-		<Version>4.0.32</Version>
+		<Version>4.2.0</Version>
 
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<SignAssembly>false</SignAssembly>
 		<Copyright>Copyright © Maurits Elbers (@MagicMau) 2015-2025. Elite: Dangerous and related material is © Frontier Developments plc</Copyright>
 		<Company>MagicMau</Company>
 		<PackageId>EliteJournalReader</PackageId>
-		<AssemblyVersion>4.0.32</AssemblyVersion>
+		<AssemblyVersion>4.2.0</AssemblyVersion>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Authors>MagicMau</Authors>
 		<PackageReadmeFile>ReadMe.md</PackageReadmeFile>
