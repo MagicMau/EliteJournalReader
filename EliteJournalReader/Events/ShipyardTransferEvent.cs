@@ -29,6 +29,7 @@ namespace EliteJournalReader.Events
             public double Distance { get; set; }
             public int TransferPrice { get; set; }
             public int TransferTime { get; set; }
+            public long ShipMarketID { get; set; }
         }
     }
 }
