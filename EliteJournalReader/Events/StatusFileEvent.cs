@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace EliteJournalReader.Events
 {
-    public class StatusFileEvent : EventArgs
+    public class StatusEvent : JournalEvent<StatusFileEvent>
     {
-        public DateTime Timestamp { get; set; }
+        public StatusEvent() : base("Status") { }
+    }
 
+    public class StatusFileEvent : JournalEventArgs
+    {
         public StatusFlags Flags { get; set; }
 
         public MoreStatusFlags Flags2 { get; set; }
@@ -87,8 +90,8 @@ namespace EliteJournalReader.Events
 
     public class Destination
     {
-        public string System { get; set; }
-        public string Body { get; set; }
+        public long System { get; set; }
+        public int Body { get; set; }
         public string Name { get; set; }
     }
 
