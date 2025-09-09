@@ -40,12 +40,17 @@ namespace EliteJournalReader.Events
             public long MarketID { get; set; }
             public string StarSystem { get; set; }
             public string StationType { get; set; }
-            public MarketInfo MarketInfo { get; set; }
+            public List<MarketItem> Items { get; set; }
 
             public override void PostProcess(JObject evt, JournalWatcher journalWatcher)
             {
-                // read market info from market.json
-                MarketInfo = ReadMarketInfo(journalWatcher.Path);
+                if (!evt.TryGetValue("Items", out var _))
+                {
+                    // read market info from market.json
+                    var marketInfo = ReadMarketInfo(journalWatcher.Path);
+                    Items = marketInfo.Items;
+                }
+
             }
 
             public MarketInfo ReadMarketInfo(string journalPath)
