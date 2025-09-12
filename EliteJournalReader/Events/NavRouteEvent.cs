@@ -46,7 +46,7 @@ namespace EliteJournalReader.Events
                 catch (Exception e)
                 {
                     Trace.TraceWarning("Error reading NavRoute.json: " + e.Message);
-                    throw e;
+                    throw;
                 }
 
             }
