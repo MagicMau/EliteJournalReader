@@ -2,7 +2,6 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
     <Version>4.2.0</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SignAssembly>false</SignAssembly>
     <Copyright>Copyright © Maurits Elbers (@MagicMau) 2015-2025. Elite: Dangerous and related
       material is © Frontier Developments plc</Copyright>
@@ -18,7 +17,17 @@
     <RepositoryType>git</RepositoryType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
-    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+    <!-- Only transform T4 templates when inputs are out of date to avoid regenerating files
+         and changing timestamps on every build. This prevents unnecessary rebuilds of the
+         project when nothing changed. -->
+    <TransformOutOfDateOnly>true</TransformOutOfDateOnly>
+  </PropertyGroup>
+  <!-- Only produce NuGet package on Release builds -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' != 'Release'">
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -33,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TransformOnBuild>true</TransformOnBuild>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+  <PropertyGroup Condition="'$(Configuration)' != 'Release'">
     <TransformOnBuild>false</TransformOnBuild>
   </PropertyGroup>
   <ItemGroup>
@@ -58,8 +67,11 @@
     <T4Templates Include="$(MSBuildThisFileDirectory)**\*.tt" />
   </ItemGroup>
 
+  <!-- Run transforms only when enabled (e.g. Release) and make the target incremental by
+       declaring Inputs and Outputs so MSBuild can skip it when generated files are up-to-date. -->
   <Target Name="RunLocalT4Transforms" BeforeTargets="BeforeCompile"
-    Condition=" '@(T4Templates)' != '' ">
+    Condition=" '@(T4Templates)' != '' and '$(TransformOnBuild)' == 'true' "
+    Inputs="@(T4Templates)" Outputs="@(T4Templates->'%(RootDir)%(Directory)%(Filename).cs')">
     <Message Text="Running dotnet-t4 for %(T4Templates.Identity)" Importance="Normal" />
     <!-- Run dotnet-t4 for each .tt found. The command uses the local tool manifest: 'dotnet tool
     run dotnet-t4'. -->
