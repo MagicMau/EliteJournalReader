@@ -21,6 +21,8 @@
          and changing timestamps on every build. This prevents unnecessary rebuilds of the
          project when nothing changed. -->
     <TransformOutOfDateOnly>true</TransformOutOfDateOnly>
+    <Platforms>AnyCPU</Platforms>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   <!-- Only produce NuGet package on Release builds -->
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -30,14 +32,12 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ReadMe.md" Pack="true" PackagePath="\" />
   </ItemGroup>
-  <Import
-    Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets"
-    Condition="Exists('$(MSBuildExtensionsPath)\\Microsoft\\VisualStudio\\v$(VisualStudioVersion)\\TextTemplating\\Microsoft.TextTemplating.targets')" />  <!--
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" Condition="Exists('$(MSBuildExtensionsPath)\\Microsoft\\VisualStudio\\v$(VisualStudioVersion)\\TextTemplating\\Microsoft.TextTemplating.targets')" />  <!--
   Only transform templates on Release builds, not Debug builds -->
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TransformOnBuild>true</TransformOnBuild>
@@ -69,20 +69,14 @@
 
   <!-- Run transforms only when enabled (e.g. Release) and make the target incremental by
        declaring Inputs and Outputs so MSBuild can skip it when generated files are up-to-date. -->
-  <Target Name="RunLocalT4Transforms" BeforeTargets="BeforeCompile"
-    Condition=" '@(T4Templates)' != '' and '$(TransformOnBuild)' == 'true' "
-    Inputs="@(T4Templates)" Outputs="@(T4Templates->'%(RootDir)%(Directory)%(Filename).cs')">
+  <Target Name="RunLocalT4Transforms" BeforeTargets="BeforeCompile" Condition=" '@(T4Templates)' != '' and '$(TransformOnBuild)' == 'true' " Inputs="@(T4Templates)" Outputs="@(T4Templates->'%(RootDir)%(Directory)%(Filename).cs')">
     <Message Text="Running dotnet-t4 for %(T4Templates.Identity)" Importance="Normal" />
     <!-- Run dotnet-t4 for each .tt found. The command uses the local tool manifest: 'dotnet tool
     run dotnet-t4'. -->
-      <Exec
-        Command="dotnet tool run t4 -- &quot;%(T4Templates.FullPath)&quot; -o &quot;%(T4Templates.RootDir)%(T4Templates.Directory)%(T4Templates.Filename).cs&quot;"
-        ContinueOnError="true">
+      <Exec Command="dotnet tool run t4 -- &quot;%(T4Templates.FullPath)&quot; -o &quot;%(T4Templates.RootDir)%(T4Templates.Directory)%(T4Templates.Filename).cs&quot;" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="T4ExitCode" />
     </Exec>
 
-    <Warning
-      Text="T4 transform for %(T4Templates.Identity) did not run (t4 tool missing or failed). Install dotnet-t4 as a local tool: 'dotnet tool install --local dotnet-t4' and re-run build."
-      Condition="'$(T4ExitCode)' != '0' and !Exists('%(T4Templates.RootDir)%(T4Templates.Directory)%(T4Templates.Filename).cs')" />
+    <Warning Text="T4 transform for %(T4Templates.Identity) did not run (t4 tool missing or failed). Install dotnet-t4 as a local tool: 'dotnet tool install --local dotnet-t4' and re-run build." Condition="'$(T4ExitCode)' != '0' and !Exists('%(T4Templates.RootDir)%(T4Templates.Directory)%(T4Templates.Filename).cs')" />
   </Target>
 </Project>
