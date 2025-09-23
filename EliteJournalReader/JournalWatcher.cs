@@ -1,5 +1,6 @@
 ﻿using EliteJournalReader.Events;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -458,8 +459,7 @@ namespace EliteJournalReader
             long offset = startOffset;
             var cancellationToken = journalCancellationTokenSource.Token;
 
-            journalTask = Task.Factory.StartNew(async () =>
-            {
+            journalTask = Task.Factory.StartNew(async () => {
 #if DEBUG
                 Trace.TraceInformation($"Journal: now starting journal task {currentTaskId} for {journalFile} from offset {offset}.");
 #endif
@@ -470,7 +470,7 @@ namespace EliteJournalReader
                         while (currentTaskId == journalTaskId && !cancellationToken.IsCancellationRequested)
                         {
                             // check for updates every 0.5 seconds
-                            if (!Pause() || currentTaskId != journalTaskId)
+                            if (!await PauseAsync(cancellationToken) || currentTaskId != journalTaskId)
                                 return;
 
                             // if the file size has not changed, idle
@@ -500,7 +500,7 @@ namespace EliteJournalReader
                 {
                     // We're here, so something must've gone wrong
                     // Let's try again in a few seconds
-                    Pause();
+                    await PauseAsync(cancellationToken);
                     await UpdateLatestJournalFile();
                 }
 #if DEBUG
@@ -556,11 +556,11 @@ namespace EliteJournalReader
                 Parse(line);
         }
 
-        private bool Pause()
+        private static async Task<bool> PauseAsync(CancellationToken token)
         {
             try
             {
-                Task.Delay(UPDATE_INTERVAL_MILLISECONDS, cancellationTokenSource.Token).Wait(cancellationTokenSource.Token);
+                await Task.Delay(UPDATE_INTERVAL_MILLISECONDS, token);
                 return true;
             }
             catch
@@ -639,6 +639,7 @@ namespace EliteJournalReader
                 if (IsLive)
                     Trace.TraceInformation($"Journal - firing event {eventType} @ {evt["timestamp"]?.Value<string>()}\r\n\t{line}");
 #endif
+
                 var journalEventArgs = FireEvent(eventType, evt);
                 if (journalEventArgs != null)
                     MessageReceived?.Invoke(this, new MessageReceivedEventArgs(journalEventArgs, eventType));
