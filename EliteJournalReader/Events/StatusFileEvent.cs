@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +60,16 @@ namespace EliteJournalReader.Events
 
         public double Gravity { get; set; }
 
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine("Status: " + OriginalEvent?.ToString(Formatting.None) ?? "<no json>");
+            sb.AppendLine($"Status Flags : {(long)Flags:X8} - {string.Join(", ", Flags.GetIndividualFlags())}");
+            sb.AppendLine($"Status Flags2: {(long)Flags2:X8} - {string.Join(", ", Flags2.GetIndividualFlags())}");
+
+            return sb.ToString();
+        }
 
         class JsonPipsConverter : JsonConverter
         {
