@@ -32,13 +32,18 @@ namespace EliteJournalReader.Events
 
             public override void PostProcess(JObject evt, JournalWatcher journalWatcher)
             {
+                // when using UDP to receive events, the route is provided through UDP.
+                if (Route != null)
+                    return;
+
                 // The actual route is written to NavRoute.json, so let's try to read it
                 try
                 {
                     string path = Path.Combine(journalWatcher.Path, "NavRoute.json");
                     if (File.Exists(path))
                     {
-                        string text = File.ReadAllText(path);
+                        using var reader = new StreamReader(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+                        string text = reader.ReadToEnd();
                         var navRoute = JObject.Parse(text).ToObject<NavRouteEventArgs>();
                         Route = navRoute.Route;
                     }
