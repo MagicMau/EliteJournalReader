@@ -283,6 +283,8 @@ namespace EliteJournalReader.Events
             public bool? WasDiscovered { get; set; }
 
             public bool? WasMapped { get; set; }
+
+            public bool? WasFootfalled { get; set; }
         }
     }
 
