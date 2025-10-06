@@ -11,8 +11,6 @@ namespace EliteJournalReader
     {
         public string[] EventNames { get; }
 
-        public string OriginalEvent { get; protected set; }
-
         protected JournalEvent(params string[] eventNames)
         {
             EventNames = eventNames;
