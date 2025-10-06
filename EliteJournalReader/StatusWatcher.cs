@@ -157,9 +157,7 @@ namespace EliteJournalReader
 
                         if (logUpdates)
                         {
-                            Trace.TraceInformation("Status: " + jToken.ToString(Formatting.None));
-                            Trace.TraceInformation($"Status Flags : {(long)evt.Flags:X8} - {string.Join(", ", evt.Flags.GetIndividualFlags())}");
-                            Trace.TraceInformation($"Status Flags2: {(long)evt.Flags2:X8} - {string.Join(", ", evt.Flags2.GetIndividualFlags())}");
+                            Trace.TraceInformation(evt.ToString());
                         }
                     }
                 }
