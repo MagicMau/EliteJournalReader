@@ -6,7 +6,7 @@ namespace EliteJournalReader
 {
     public class JournalEventArgs : EventArgs
     {
-        public JObject OriginalEvent { get; set; }
+        public JToken OriginalEvent { get; set; }
 
         public DateTime Timestamp { get; set; }
 

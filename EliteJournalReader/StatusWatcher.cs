@@ -147,6 +147,7 @@ namespace EliteJournalReader
 
                     var jToken = JToken.ReadFrom(jsonTextReader);
                     var evt = jToken.ToObject<StatusFileEvent>() ?? throw new ArgumentNullException($"Unexpected empty status.json file");
+                    evt.OriginalEvent = jToken;
 
                     // only fire the event if it's new data
                     if (evt.Timestamp > lastTimestamp)
