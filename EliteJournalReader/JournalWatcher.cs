@@ -521,7 +521,7 @@ namespace EliteJournalReader
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    Parse(line);
+                    ParseAndProcess(line);
                 }
             }
             catch (Exception e)
@@ -553,7 +553,7 @@ namespace EliteJournalReader
             // This method is still used for historical reads, but not for live journal reading.
             string[] lines = text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string line in lines)
-                Parse(line);
+                ParseAndProcess(line);
         }
 
         private static async Task<bool> PauseAsync(CancellationToken token)
@@ -623,7 +623,7 @@ namespace EliteJournalReader
         /// Parses a line of JSON from the journal and fire a .NET event handler.
         /// </summary>
         /// <param name="line"></param>
-        protected virtual void Parse(string line)
+        protected void ParseAndProcess(string line)
         {
             if (string.IsNullOrEmpty(line))
                 return;
@@ -631,13 +631,31 @@ namespace EliteJournalReader
             try
             {
                 var evt = JObject.Parse(line);
-                string eventType = evt.Value<string>("event");
+                Process(evt);
+            }
+            catch (JsonReaderException jre)
+            {
+                Trace.TraceError($"Error parsing journal line: {jre.Message}\r\n\t{line}");
+                OnError(new ErrorEventArgs(jre));
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError($"Exception handling journal line:\r\n\t{line}\r\n\t{e.GetType().FullName}: {e.Message}");
+                OnError(new ErrorEventArgs(e));
+            }
+        }
+
+        protected void Process(JObject evt)
+        {
+            try
+            {
+                string eventType = evt?.Value<string>("event") ?? throw new ArgumentNullException(nameof(evt));
                 if (string.IsNullOrEmpty(eventType))
                     return; // no event, nothing to do
 
 #if DEBUG
                 if (IsLive)
-                    Trace.TraceInformation($"Journal - firing event {eventType} @ {evt["timestamp"]?.Value<string>()}\r\n\t{line}");
+                    Trace.TraceInformation($"Journal - firing event {eventType} @ {evt["timestamp"]?.Value<string>()}\r\n\t{evt.ToString(Formatting.None)}");
 #endif
 
                 var journalEventArgs = FireEvent(eventType, evt);
@@ -646,7 +664,7 @@ namespace EliteJournalReader
             }
             catch (Exception e)
             {
-                Trace.TraceError($"Exception handling journal event:\r\n\t{line}\r\n\t{e.GetType().FullName}: {e.Message}");
+                Trace.TraceError($"Exception handling journal event:\r\n\t{evt.ToString(Formatting.None)}\r\n\t{e.GetType().FullName}: {e.Message}");
                 OnError(new ErrorEventArgs(e));
             }
         }
