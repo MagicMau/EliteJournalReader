@@ -49,7 +49,7 @@ namespace EliteJournalReader
             var eventName = evt["event"];
 
             var argsPropertyNames = argsType.GetProperties().Select(p => p.Name).ToList();
-            string[] ignoreProperties = new string[] { "event" };
+            string[] ignoreProperties = ["event"];
             foreach (var jProperty in evt.Properties())
             {
                 string jsonPropertyName = jProperty.Name;
