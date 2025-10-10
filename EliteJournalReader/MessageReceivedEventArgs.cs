@@ -3,19 +3,11 @@ using System;
 
 namespace EliteJournalReader
 {
-    public class MessageReceivedEventArgs : EventArgs
+    public class MessageReceivedEventArgs(JournalEventArgs args, string eventType) : EventArgs
     {
-        public JObject JObject { get; private set; }
-        public string EventType { get; private set; }
-        public DateTime Timestamp { get; private set; }
-        public JournalEventArgs EventArgs { get; private set; }
-
-        public MessageReceivedEventArgs(JournalEventArgs args, string eventType)
-        {
-            JObject = args.OriginalEvent?.DeepClone() as JObject;
-            EventType = eventType;
-            Timestamp = args.Timestamp;
-            EventArgs = args;
-        }
+        public JToken JToken { get; private set; } = args.OriginalEvent?.DeepClone();
+        public string EventType { get; private set; } = eventType;
+        public DateTime Timestamp { get; private set; } = args.Timestamp;
+        public JournalEventArgs EventArgs { get; private set; } = args;
     }
 }

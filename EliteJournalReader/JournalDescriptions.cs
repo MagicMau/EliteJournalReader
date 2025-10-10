@@ -345,6 +345,7 @@ namespace EliteJournalReader
         Unknown,
         NPC,
         Local,
+        Starsystem,
         System,
         Player,
         Wing,
