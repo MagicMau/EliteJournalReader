@@ -294,6 +294,12 @@ namespace EliteJournalReader.Events
         public double Percent { get; set; }
     }
 
+    public class ProspectedMaterial
+    {
+        public string Name { get; set; }
+        public double Proportion { get; set; }
+    }
+
     public class PlanetRing
     {
         public string Name { get; set; }
