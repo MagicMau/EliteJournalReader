@@ -1,8 +1,9 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
@@ -10,7 +11,7 @@ namespace EliteJournalReader.Events
     //When written: when checking the status of a community goal
     //This event contains the current status of all community goals the player is currently subscribed to
     //Parameters:
-    //•	CurrentGoals: an array with an entry for each CG, containing:
+    //ï¿½	CurrentGoals: an array with an entry for each CG, containing:
     //o CGID: a unique ID number for this CG
     //o   Title: the description of the CG
     //o   SystemName
@@ -42,7 +43,7 @@ namespace EliteJournalReader.Events
                 public string SystemName { get; set; }
                 public string MarketName { get; set; }
                 public DateTime Expiry { get; set; }
-                public bool IsCompleted { get; set; }
+                public bool IsComplete { get; set; }
                 public long CurrentTotal { get; set; }
                 public long PlayerContribution { get; set; }
                 public long NumContributors { get; set; }
