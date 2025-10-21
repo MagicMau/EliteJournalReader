@@ -11,26 +11,26 @@ namespace EliteJournalReader.Events
     //    When written: when the current player selects a new target
     //    The amount of data written depends on the extent to which the target ship has been scanned
     //Parameters:
-    //•	TargetLocked: bool (ie false when losing target)
+    //ï¿½	TargetLocked: bool (ie false when losing target)
 
     //If target locked:
-    //•	Ship: name
-    //•	ScanStage: number
+    //ï¿½	Ship: name
+    //ï¿½	ScanStage: number
 
     //If Scan stage >= 1
-    //•	PilotName: name
-    //•	PilotRank: rank name
+    //ï¿½	PilotName: name
+    //ï¿½	PilotRank: rank name
 
     //If scan stage >= 2
-    //•	ShieldHealth
-    //•	HullHealth
+    //ï¿½	ShieldHealth
+    //ï¿½	HullHealth
 
     //If scan stage >= 3
-    //•	Faction
-    //•	LegalStatus
-    //•	Bounty
-    //•	SubSystem
-    //•	SubSystemHealth
+    //ï¿½	Faction
+    //ï¿½	LegalStatus
+    //ï¿½	Bounty
+    //ï¿½	SubSystem
+    //ï¿½	SubSystemHealth
     public class ShipTargetedEvent : JournalEvent<ShipTargetedEvent.ShipTargetedEventArgs>
     {
         public ShipTargetedEvent() : base("ShipTargeted") { }
@@ -66,7 +66,7 @@ namespace EliteJournalReader.Events
 
             public double SubSystemHealth { get; set; }
             public string Power { get; set; }
-            public long SquadronID { get; set; }
+            public string SquadronID { get; set; }
         }
     }
 }
