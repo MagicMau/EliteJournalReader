@@ -66,6 +66,7 @@ namespace EliteJournalReader.Events
 
             public double SubSystemHealth { get; set; }
             public string Power { get; set; }
+            public long SquadronID { get; set; }
         }
     }
 }
