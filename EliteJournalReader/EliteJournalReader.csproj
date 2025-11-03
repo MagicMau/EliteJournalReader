@@ -21,9 +21,21 @@
          and changing timestamps on every build. This prevents unnecessary rebuilds of the
          project when nothing changed. -->
     <TransformOutOfDateOnly>true</TransformOutOfDateOnly>
-    <Platforms>AnyCPU</Platforms>
-    <Configurations>Debug;Release</Configurations>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Debug local;Release</Configurations>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Any CPU'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\Debug\</OutputPath>
+	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug local|Any CPU'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\Debug local\</OutputPath>
+	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Any CPU'">
+		<DebugSymbols>false</DebugSymbols>
+		<OutputPath>bin\Release\</OutputPath>
+	</PropertyGroup>
   <!-- Only produce NuGet package on Release builds -->
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
