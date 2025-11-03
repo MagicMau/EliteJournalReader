@@ -631,7 +631,7 @@ namespace EliteJournalReader
             try
             {
                 var evt = JObject.Parse(line);
-                Process(evt);
+                Process(evt, line);
             }
             catch (JsonReaderException jre)
             {
@@ -645,7 +645,7 @@ namespace EliteJournalReader
             }
         }
 
-        protected void Process(JObject evt)
+        protected void Process(JObject evt, string json)
         {
             try
             {
@@ -660,7 +660,7 @@ namespace EliteJournalReader
 
                 var journalEventArgs = FireEvent(eventType, evt);
                 if (journalEventArgs != null)
-                    MessageReceived?.Invoke(this, new MessageReceivedEventArgs(journalEventArgs, eventType));
+                    MessageReceived?.Invoke(this, new MessageReceivedEventArgs(journalEventArgs, eventType, json));
             }
             catch (Exception e)
             {
