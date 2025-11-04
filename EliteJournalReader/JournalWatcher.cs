@@ -336,6 +336,29 @@ namespace EliteJournalReader
             return null;
         }
 
+        public NavRouteEvent.NavRouteEventArgs ReadNavRouteJson()
+        {
+            // The actual route is written to NavRoute.json, so let's try to read it
+            try
+            {
+                string path = System.IO.Path.Combine(Path, "NavRoute.json");
+                if (File.Exists(path))
+                {
+                    using var reader = new StreamReader(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+                    string text = reader.ReadToEnd();
+                    var navRoute = JObject.Parse(text).ToObject<NavRouteEvent.NavRouteEventArgs>();
+                    return navRoute;
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.TraceWarning("Error reading NavRoute.json: " + e.Message);
+                Trace.TraceInformation(e.ToString());
+            }
+
+            return null;
+        }
+
         private async void JournalWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             // if we're not watching anything, let's see if there is a log available
