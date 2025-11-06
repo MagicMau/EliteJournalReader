@@ -254,8 +254,7 @@ namespace EliteJournalReader.Events
             [JsonConverter(typeof(ExtendedStringEnumConverter<TerraformState>))]
             public TerraformState TerraformState { get; set; }
 
-            [JsonConverter(typeof(ExtendedStringEnumConverter<PlanetClass>))]
-            public PlanetClass PlanetClass { get; set; }
+            public string PlanetClass { get; set; }
 
             public string Atmosphere { get; set; }
 

@@ -123,69 +123,6 @@ namespace EliteJournalReader
         VII
     }
 
-
-    public enum PlanetClass
-    {
-        Unknown,
-
-        [Description("Metal rich body")]
-        MetalRichBody,
-
-        [Description("High metal content body")]
-        HighMetalContentBody,
-
-        [Description("Rocky body")]
-        RockyBody,
-
-        [Description("Icy body")]
-        IcyBody,
-
-        [Description("Rocky ice body")]
-        RockyIceBody,
-
-        [Description("Earthlike body")]
-        EarthlikeBody,
-
-        [Description("Water world")]
-        WaterWorld,
-
-        [Description("Ammonia world")]
-        AmmoniaWorld,
-
-        [Description("Water giant")]
-        WaterGiant,
-
-        [Description("Water giant with life")]
-        WaterGiantWithLife,
-
-        [Description("Gas giant with water based life")]
-        GasGiantWithWaterBasedLife,
-
-        [Description("Gas giant with ammonia based life")]
-        GasGiantWithAmmoniaBasedLife,
-
-        [Description("Sudarsky class I gas giant")]
-        SudarskyClassIGasGiant,
-
-        [Description("Sudarsky class II gas giant")]
-        SudarskyClassIIGasGiant,
-
-        [Description("Sudarsky class III gas giant")]
-        SudarskyClassIIIGasGiant,
-
-        [Description("Sudarsky class IV gas giant")]
-        SudarskyClassIVGasGiant,
-
-        [Description("Sudarsky class V gas giant")]
-        SudarskyClassVGasGiant,
-
-        [Description("Helium rich gas giant")]
-        HeliumRichGasGiant,
-
-        [Description("Helium gas giant")]
-        HeliumGasGiant
-    }
-
     public enum AtmosphereClass
     {
         Unknown,
