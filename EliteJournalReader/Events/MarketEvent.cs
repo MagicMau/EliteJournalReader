@@ -12,12 +12,12 @@ namespace EliteJournalReader.Events
     //When written: when accessing the commodity market in a station
     //A separate file market.json is written to the same folder as the journal, containing full market price info
     //Parameters:
-    //•	MarketID
-    //•	StationName
-    //•	StarSystem
+    //ï¿½	MarketID
+    //ï¿½	StationName
+    //ï¿½	StarSystem
 
     //The separate file also contains:
-    //•	Items: array of objects
+    //ï¿½	Items: array of objects
     //o   id
     //o   Name
     //o   BuyPrice
@@ -44,12 +44,14 @@ namespace EliteJournalReader.Events
 
             public override void PostProcess(JObject evt, JournalWatcher journalWatcher)
             {
-                if (!evt.TryGetValue("Items", out var _))
+                // if Items are already present, no need to read market.json
+                if (evt.TryGetValue("Items", out var _))
                 {
-                    // read market info from market.json
-                    var marketInfo = ReadMarketInfo(journalWatcher.Path);
-                    Items = marketInfo.Items;
+                    return;
                 }
+                // read market info from market.json
+                var marketInfo = ReadMarketInfo(journalWatcher.Path);
+                Items = marketInfo.Items;
 
             }
 
