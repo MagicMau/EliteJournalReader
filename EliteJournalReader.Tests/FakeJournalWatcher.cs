@@ -29,12 +29,19 @@ namespace EliteJournalReader.Tests
 
         public override void StopWatching()
         {
-            // nothing to do here
+            base.StopWatching();
         }
 
         public void FireFakeEvent(string json)
         {
-            Parse(json); // this will fire the event
+            ParseAndProcess(json); // this will fire the event
+        }
+
+        public EliteJournalReader.JournalEventArgs FireFakeEventAndReturn(string json)
+        {
+            var obj = JObject.Parse(json);
+            var eventType = obj.Value<string>("event");
+            return FireEvent(eventType, obj);
         }
     }
 }

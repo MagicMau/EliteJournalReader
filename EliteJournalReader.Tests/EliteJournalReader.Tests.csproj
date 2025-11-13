@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net481</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
 
     <Copyright>Copyright © Maurits Elbers (@MagicMau) 2015-2021. Elite: Dangerous and related material is © Frontier Developments plc</Copyright>
     <Company>MagicMau</Company>
@@ -9,12 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-    <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="17.13.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.7.3" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.7.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="18.0.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="4.0.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="4.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
   <ItemGroup>
