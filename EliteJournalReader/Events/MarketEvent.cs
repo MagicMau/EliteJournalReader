@@ -41,46 +41,7 @@ namespace EliteJournalReader.Events
             public string StarSystem { get; set; }
             public string StationType { get; set; }
             public List<MarketItem> Items { get; set; }
-
-            public override void PostProcess(JObject evt, JournalWatcher journalWatcher)
-            {
-                // if Items are already present, no need to read market.json
-                if (evt.TryGetValue("Items", out var _))
-                {
-                    return;
-                }
-                // read market info from market.json
-                var marketInfo = ReadMarketInfo(journalWatcher.Path);
-                Items = marketInfo.Items;
-
-            }
-
-            public MarketInfo ReadMarketInfo(string journalPath)
-            {
-                string filepath = Path.Combine(journalPath, "Market.json");
-                try
-                {
-                    var result = JToken.ReadFrom(new JsonTextReader(new StreamReader(filepath))).ToObject<MarketInfo>();
-                    return result;
-                }
-                catch (Exception e)
-                {
-                    System.Diagnostics.Trace.TraceError($"Error reading from {filepath}: {e.Message}");
-                    return null;
-                }
-            }
         }
-    }
-
-    public class MarketInfo
-    {
-        public DateTime Timestamp { get; set; }
-        public string Event { get; set; }
-        public long MarketID { get; set; }
-        public string StationName { get; set; }
-        public string StationType { get; set; }
-        public string StarSystem { get; set; }
-        public List<MarketItem> Items { get; set; }
     }
 
     public class MarketItem
