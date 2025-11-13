@@ -314,6 +314,29 @@ namespace EliteJournalReader
             await UpdateLatestJournalFile();
         }
 
+        public MarketEvent.MarketEventArgs ReadMarketJson()
+        {
+            try
+            {
+                string marketPath = System.IO.Path.Combine(Path, "Market.json");
+                if (!File.Exists(marketPath))
+                    return null;
+
+                using var reader = new StreamReader(
+                            new FileStream(marketPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+                var result = JToken.ReadFrom(new JsonTextReader(reader))
+                    .ToObject<MarketEvent.MarketEventArgs>();
+                return result;
+            }
+            catch (Exception e)
+            {
+                Trace.TraceWarning($"Error reading Market.json journal file: {e.Message}");
+                Trace.TraceInformation(e.ToString());
+            }
+
+            return null;
+        }
+
         public CargoEvent.CargoEventArgs ReadCargoJson()
         {
             try
@@ -322,10 +345,12 @@ namespace EliteJournalReader
                 if (!File.Exists(cargoPath))
                     return null;
 
-                string json = File.ReadAllText(cargoPath);
-                var obj = JObject.Parse(json);
-                var cargo = obj.ToObject<CargoEvent.CargoEventArgs>();
-                return cargo;
+                using var reader = new StreamReader(
+                            new FileStream(cargoPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+                var result = JToken.ReadFrom(new JsonTextReader(reader))
+                    .ToObject<CargoEvent.CargoEventArgs>();
+                return result;
+
             }
             catch (Exception e)
             {
@@ -344,9 +369,10 @@ namespace EliteJournalReader
                 string path = System.IO.Path.Combine(Path, "NavRoute.json");
                 if (File.Exists(path))
                 {
-                    using var reader = new StreamReader(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-                    string text = reader.ReadToEnd();
-                    var navRoute = JObject.Parse(text).ToObject<NavRouteEvent.NavRouteEventArgs>();
+                    using var reader = new StreamReader(
+                        new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+                    var navRoute = JToken.ReadFrom(
+                        new JsonTextReader(reader)).ToObject<NavRouteEvent.NavRouteEventArgs>();
                     return navRoute;
                 }
             }
