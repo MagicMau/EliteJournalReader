@@ -42,25 +42,20 @@ namespace EliteJournalReader
 
         public override int GetHashCode()
         {
-            //https://stackoverflow.com/a/892640/3131828
-            unchecked
-            {
-                int h = 23;
-                h *= 31 + (Name?.GetHashCode() ?? 0);
-                h *= 31 + (FactionState?.GetHashCode() ?? 0);
-                h *= 31 + (Government?.GetHashCode() ?? 0);
-                h *= 31 + Influence.GetHashCode();
-                h *= 31 + (Allegiance?.GetHashCode() ?? 0);
-                h *= 31 + MyReputation.GetHashCode();
-                h *= 31 + SquadronFaction.GetHashCode();
-                h *= 31 + HappiestSystem.GetHashCode();
-                h *= 31 + HomeSystem.GetHashCode();
-                h *= 31 + (PendingStates?.GetHashCode() ?? 0);
-                h *= 31 + (RecoveringStates?.GetHashCode() ?? 0);
-                h *= 31 + (ActiveStates?.GetHashCode() ?? 0);
-
-                return h;
-            }
+            var hash = new HashCode();
+            hash.Add(Name);
+            hash.Add(FactionState);
+            hash.Add(Government);
+            hash.Add(Influence);
+            hash.Add(Allegiance);
+            hash.Add(MyReputation);
+            hash.Add(SquadronFaction);
+            hash.Add(HappiestSystem);
+            hash.Add(HomeSystem);
+            hash.Add(PendingStates);
+            hash.Add(RecoveringStates);
+            hash.Add(ActiveStates);
+            return hash.ToHashCode();
         }
 
         public Faction Clone() => (Faction)MemberwiseClone();
