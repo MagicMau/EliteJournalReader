@@ -20,16 +20,7 @@ namespace EliteJournalReader
 
         public override int GetHashCode()
         {
-            //https://stackoverflow.com/a/892640/3131828
-            unchecked
-            {
-                int h = 23;
-                h *= 31 + X.GetHashCode();
-                h *= 31 + Y.GetHashCode();
-                h *= 31 + Z.GetHashCode();
-
-                return h;
-            }
+            return System.HashCode.Combine(X, Y, Z);
         }
 
         public decimal[] ToArray() => new[] { X, Y, Z };

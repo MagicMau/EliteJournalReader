@@ -23,17 +23,8 @@ namespace EliteJournalReader
 
         public override int GetHashCode()
         {
-            //https://stackoverflow.com/a/892640/3131828
-            unchecked
-            {
-                int h = 23;
-                h *= 31 + (WarType?.GetHashCode() ?? 0);
-                h *= 31 + (Status?.GetHashCode() ?? 0);
-                h *= 31 + (Faction1?.GetHashCode() ?? 0);
-                h *= 31 + (Faction2?.GetHashCode() ?? 0);
-
-                return h;
-            }
+            // Use HashCode to combine multiple fields safely
+            return System.HashCode.Combine(WarType, Status, Faction1, Faction2);
         }
 
         public Conflict Clone()
@@ -60,16 +51,7 @@ namespace EliteJournalReader
 
         public override int GetHashCode()
         {
-            //https://stackoverflow.com/a/892640/3131828
-            unchecked
-            {
-                int h = 23;
-                h *= 31 + (Name?.GetHashCode() ?? 0);
-                h *= 31 + (Stake?.GetHashCode() ?? 0);
-                h *= 31 + WonDays.GetHashCode();
-
-                return h;
-            }
+            return System.HashCode.Combine(Name, Stake, WonDays);
         }
 
         public ConflictFaction Clone() => (ConflictFaction)MemberwiseClone();
