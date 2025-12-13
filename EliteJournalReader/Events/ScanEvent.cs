@@ -208,7 +208,7 @@ namespace EliteJournalReader.Events
             public double DistanceFromArrivalLs { get; set; }
 
             [JsonConverter(typeof(BodyParentConverter))]
-            public BodyParent[] Parents { get; set; }
+            public List<BodyParent> Parents { get; set; }
 
             public double? SemiMajorAxis { get; set; }
 
@@ -261,7 +261,7 @@ namespace EliteJournalReader.Events
             [JsonConverter(typeof(ExtendedStringEnumConverter<AtmosphereClass>))]
             public AtmosphereClass AtmosphereType { get; set; }
 
-            public ScanItemComponent[] AtmosphereComposition { get; set; }
+            public List<ScanItemComponent> AtmosphereComposition { get; set; }
 
             public Dictionary<string, double> Composition { get; set; }
 
@@ -277,7 +277,7 @@ namespace EliteJournalReader.Events
 
             public bool? TidalLock { get; set; }
 
-            public ScanItemComponent[] Materials { get; set; }
+            public List<ScanItemComponent> Materials { get; set; }
 
             public bool? WasDiscovered { get; set; }
 
@@ -342,12 +342,12 @@ namespace EliteJournalReader.Events
                     }
                 }
             }
-            return bps.ToArray();
+            return bps;
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (!(value is BodyParent[] bps))
+            if (!(value is List<BodyParent> bps))
                 return;
 
             var bpsArray = bps.Select(bp => new Dictionary<string, long> { [bp.Type] = bp.BodyID }).ToArray();
