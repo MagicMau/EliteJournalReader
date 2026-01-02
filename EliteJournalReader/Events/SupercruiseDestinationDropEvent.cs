@@ -1,18 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: leaving supercruise for normal space
     //Parameters:
-    //•	Starsystem
-    //•	Body
+    //ï¿½	Starsystem
+    //ï¿½	Body
     public class SupercruiseDestinationDropEvent : JournalEvent<SupercruiseDestinationDropEvent.SupercruiseDestinationDropEventArgs>
     {
         public SupercruiseDestinationDropEvent() : base("SupercruiseDestinationDrop") { }

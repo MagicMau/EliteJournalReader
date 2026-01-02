@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When Written: whenever materials are collected 
     //Parameters: 
-    //•	Category: type of material (Raw/Encoded/Manufactured)
-    //•	Name: name of material
+    //ï¿½	Category: type of material (Raw/Encoded/Manufactured)
+    //ï¿½	Name: name of material
     public class MaterialCollectedEvent : JournalEvent<MaterialCollectedEvent.MaterialCollectedEventArgs>
     {
         public MaterialCollectedEvent() : base("MaterialCollected") { }

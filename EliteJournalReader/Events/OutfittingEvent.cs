@@ -1,21 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //Written when accessing the outfitting menu
     //The full parts pricelist is written to a separate file Outfitting.json
     //Parameters:
-    //•	MarketID
-    //•	StationName
-    //•	StarSystem
+    //ï¿½	MarketID
+    //ï¿½	StationName
+    //ï¿½	StarSystem
 
     //The separate file also contains
-    //•	Items: array of objects
+    //ï¿½	Items: array of objects
     //o   id
     //o   Name
     //o   BuyPrice

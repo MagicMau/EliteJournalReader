@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: when flying away from a planet, and distance increases above the 'Orbital Cruise' altitude
     //Parameters:
-    //•	StarSystem
-    //•	SystemAddress
-    //•	Body
-    //•	BodyID
+    //ï¿½	StarSystem
+    //ï¿½	SystemAddress
+    //ï¿½	Body
+    //ï¿½	BodyID
     public class LeaveBodyEvent : JournalEvent<LeaveBodyEvent.LeaveBodyEventArgs>
     {
         public LeaveBodyEvent() : base("LeaveBody") { }

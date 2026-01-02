@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
-    //When written: when the player’s rank increases
+    //When written: when the playerï¿½s rank increases
     //Parameters: one of the following
-    //•	Combat: new rank
-    //•	Trade: new rank
-    //•	Explore: new rank
-    //•	CQC: new rank
+    //ï¿½	Combat: new rank
+    //ï¿½	Trade: new rank
+    //ï¿½	Explore: new rank
+    //ï¿½	CQC: new rank
     public class PromotionEvent : JournalEvent<PromotionEvent.PromotionEventArgs>
     {
         public PromotionEvent() : base("Promotion") { }

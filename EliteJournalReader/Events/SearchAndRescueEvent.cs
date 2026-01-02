@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: when contributing materials to a "research" community goal
     //Parameters:
-    //•	Name: material name
-    //•	Category
-    //•	Count
+    //ï¿½	Name: material name
+    //ï¿½	Category
+    //ï¿½	Count
     public class SearchAndRescueEvent : JournalEvent<SearchAndRescueEvent.SearchAndRescueEventArgs>
     {
         public SearchAndRescueEvent() : base("SearchAndRescue") { }

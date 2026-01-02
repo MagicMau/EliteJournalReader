@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When Written: Player has bought a fleet carrier
-    //•	BoughtAtmarket: marketid
-    //•	CarrierID : marketid
-    //•	Location: starsystem name
-    //•	Price: number
-    //•	Variant: string
-    //•	Callsign: string
+    //ï¿½	BoughtAtmarket: marketid
+    //ï¿½	CarrierID : marketid
+    //ï¿½	Location: starsystem name
+    //ï¿½	Price: number
+    //ï¿½	Variant: string
+    //ï¿½	Callsign: string
     public class CarrierBuyEvent : JournalEvent<CarrierBuyEvent.CarrierBuyEventArgs>
     {
         public CarrierBuyEvent() : base("CarrierBuy") { }

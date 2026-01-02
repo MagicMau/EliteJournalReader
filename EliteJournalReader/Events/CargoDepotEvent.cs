@@ -1,24 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: when collecting or delivering cargo for a wing mission, or if a wing member updates progress
     //    Parameters:
-    //•	MissionID:(int)
-    //•	UpdateType:(string) (one of: "Collect", "Deliver", "WingUpdate")
-    //•	CargoType
-    //•	Count
-    //•	StartMarketID(int)
-    //•	EndMarketID(int)
-    //•	ItemsCollected(int)
-    //•	ItemsDelivered(int)
-    //•	TotalItemsToDeliver(int)
-    //•	Progress:(float)
+    //ï¿½	MissionID:(int)
+    //ï¿½	UpdateType:(string) (one of: "Collect", "Deliver", "WingUpdate")
+    //ï¿½	CargoType
+    //ï¿½	Count
+    //ï¿½	StartMarketID(int)
+    //ï¿½	EndMarketID(int)
+    //ï¿½	ItemsCollected(int)
+    //ï¿½	ItemsDelivered(int)
+    //ï¿½	TotalItemsToDeliver(int)
+    //ï¿½	Progress:(float)
     //The CargoType and Count are included when you collect or deliver gods, they are not included for a wing update.
     //The Progress value actually represents pending progress for goods in transit: (ItemsCollected-ItemsDelievered)/TotalItemsToDeliver
 

@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace EliteJournalReader.Events
 {
     //When written: when the station denies a docking request
     //Parameters:
-    //•	StationName: name of station
-    //•	Reason: reason for denial
+    //ï¿½	StationName: name of station
+    //ï¿½	Reason: reason for denial
     //
     //Reasons include: NoSpace, TooLarge, Hostile, Offences, Distance, ActiveFighter, NoReason
     public class DockingDeniedEvent : JournalEvent<DockingDeniedEvent.DockingDeniedEventArgs>

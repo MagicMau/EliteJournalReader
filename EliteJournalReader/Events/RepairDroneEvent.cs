@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: when the player's ship has been repaired by a repair drone
     //Parameters:
-    //•	HullRepaired
-    //•	CockpitRepaired
-    //•	CorrosionRepaired
+    //ï¿½	HullRepaired
+    //ï¿½	CockpitRepaired
+    //ï¿½	CorrosionRepaired
 
     //Each of these is a number indicating the amount of damage that has been repaired
     public class RepairDroneEvent : JournalEvent<RepairDroneEvent.RepairDroneEventArgs>

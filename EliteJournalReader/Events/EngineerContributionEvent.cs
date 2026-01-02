@@ -1,21 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: when offering items cash or bounties to an Engineer to gain access
     //Parameters:
-    //•	Engineer: name of engineer
-    //•	Type: type of contribution(Commodity, materials, Credits, Bond, Bounty)
-    //•	Commodity
-    //•	Material
-    //•	Faction(for bond or bounty)
-    //•	Quantity: amount offered this time
-    //•	TotalQuantity: total amount now donated
+    //ï¿½	Engineer: name of engineer
+    //ï¿½	Type: type of contribution(Commodity, materials, Credits, Bond, Bounty)
+    //ï¿½	Commodity
+    //ï¿½	Material
+    //ï¿½	Faction(for bond or bounty)
+    //ï¿½	Quantity: amount offered this time
+    //ï¿½	TotalQuantity: total amount now donated
     public class EngineerContributionEvent : JournalEvent<EngineerContributionEvent.EngineerContributionEventArgs>
     {
         public EngineerContributionEvent() : base("EngineerContribution") { }

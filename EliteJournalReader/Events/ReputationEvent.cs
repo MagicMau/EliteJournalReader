@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: at startup(after Rank and Progress)
     //This gives the player's reputation (on a scale of -100..+100) with the superpowers
     //Parameters:
-    //•	Empire
-    //•	Federation
-    //•	Independent
-    //•	Alliance
+    //ï¿½	Empire
+    //ï¿½	Federation
+    //ï¿½	Independent
+    //ï¿½	Alliance
 
     //Note thresholds:
     //-100.. -90: hostile

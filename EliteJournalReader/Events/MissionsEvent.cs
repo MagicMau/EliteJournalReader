@@ -1,25 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: at startup
     //Parameters:
-    //•	Active: (array of objects)
-    //•	Failed: (array of objects)
-    //•	Complete: (array of objects)
+    //ï¿½	Active: (array of objects)
+    //ï¿½	Failed: (array of objects)
+    //ï¿½	Complete: (array of objects)
 
     //Each object contains:
-    //•	MissionID
-    //•	Name
-    //•	PassengerMission: bool
-    //•	Expires: time left in seconds
+    //ï¿½	MissionID
+    //ï¿½	Name
+    //ï¿½	PassengerMission: bool
+    //ï¿½	Expires: time left in seconds
     public class MissionsEvent : JournalEvent<MissionsEvent.MissionsEventArgs>
     {
         public MissionsEvent() : base("Missions") { }

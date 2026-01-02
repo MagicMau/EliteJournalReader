@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: when delivering powerplay commodities
     //Parameters:
-    //•	Power
-    //•	Type
-    //•	Count
+    //ï¿½	Power
+    //ï¿½	Type
+    //ï¿½	Count
     public class PowerplayDeliverEvent : JournalEvent<PowerplayDeliverEvent.PowerplayDeliverEventArgs>
     {
         public PowerplayDeliverEvent() : base("PowerplayDeliver") { }

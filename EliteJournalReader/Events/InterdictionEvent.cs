@@ -1,20 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: player has (attempted to) interdict another player or npc
     //Parameters: 
-    //•	Success : true or false
-    //•	Interdicted: victim pilot name
-    //•	IsPlayer: whether player or npc
-    //•	CombatRank: if a player
-    //•	Faction: if an npc
-    //•	Power: if npc working for power
+    //ï¿½	Success : true or false
+    //ï¿½	Interdicted: victim pilot name
+    //ï¿½	IsPlayer: whether player or npc
+    //ï¿½	CombatRank: if a player
+    //ï¿½	Faction: if an npc
+    //ï¿½	Power: if npc working for power
     public class InterdictionEvent : JournalEvent<InterdictionEvent.InterdictionEventArgs>
     {
         public InterdictionEvent() : base("Interdiction") { }

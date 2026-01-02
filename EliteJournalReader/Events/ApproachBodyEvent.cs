@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //    When written: when in Supercruise, and distance from planet drops to within the 'Orbital Cruise' zone
     //    Parameters:
-    //•	StarSystem
-    //•	SystemAddress
-    //•	Body
-    //•	BodyID
+    //ï¿½	StarSystem
+    //ï¿½	SystemAddress
+    //ï¿½	Body
+    //ï¿½	BodyID
     public class ApproachBodyEvent : JournalEvent<ApproachBodyEvent.ApproachBodyEventArgs>
     {
         public ApproachBodyEvent() : base("ApproachBody") { }

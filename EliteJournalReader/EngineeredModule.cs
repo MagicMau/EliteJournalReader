@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace EliteJournalReader
+﻿namespace EliteJournalReader
 {
     public class EngineeredModule
     {

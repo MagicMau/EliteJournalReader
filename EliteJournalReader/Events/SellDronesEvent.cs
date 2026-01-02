@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When Written: when selling unwanted drones back to the market
     //Parameters:
-    //•	Type
-    //•	Count
-    //•	SellPrice
-    //•	TotalSale
+    //ï¿½	Type
+    //ï¿½	Count
+    //ï¿½	SellPrice
+    //ï¿½	TotalSale
     public class SellDronesEvent : JournalEvent<SellDronesEvent.SellDronesEventArgs>
     {
         public SellDronesEvent() : base("SellDrones") { }

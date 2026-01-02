@@ -1,20 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace EliteJournalReader.Events
 {
     //When written: player was killed
     //Parameters: 
-    //•	KillerName
-    //•	KillerShip
-    //•	KillerRank
+    //ï¿½	KillerName
+    //ï¿½	KillerShip
+    //ï¿½	KillerRank
     //When written: player was killed by a wing
     //Parameters:
-    //•	Killers: a JSON array of objects containing player name, ship, and rank
+    //ï¿½	Killers: a JSON array of objects containing player name, ship, and rank
     public class DiedEvent : JournalEvent<DiedEvent.DiedEventArgs>
     {
         public DiedEvent() : base("Died") { }

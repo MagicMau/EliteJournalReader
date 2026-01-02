@@ -1,18 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: when taking off from planet surface
     //Parameters:
-    //•	Latitude
-    //•	Longitude
-    //•	PlayerControlled: (bool) false if ship dismissed when player is in SRV, true if player is taking off
+    //ï¿½	Latitude
+    //ï¿½	Longitude
+    //ï¿½	PlayerControlled: (bool) false if ship dismissed when player is in SRV, true if player is taking off
     public class LiftoffEvent : JournalEvent<LiftoffEvent.LiftoffEventArgs>
     {
         public LiftoffEvent() : base("Liftoff") { }

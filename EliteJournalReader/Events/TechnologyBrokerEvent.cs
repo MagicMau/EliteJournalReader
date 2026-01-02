@@ -1,21 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: when using the Technology Broker to unlock new purchasable technology
     //Parameters:
-    //•	BrokerType
-    //•	MarketID
-    //•	ItemsUnlocked: the name(s) of the new item unlocked(available in Outfitting)
-    //•	Commodities:
+    //ï¿½	BrokerType
+    //ï¿½	MarketID
+    //ï¿½	ItemsUnlocked: the name(s) of the new item unlocked(available in Outfitting)
+    //ï¿½	Commodities:
     //o Name: name of item
     //o   Count: number of items used
-    //•	Materials:
+    //ï¿½	Materials:
     //o Name
     //o Count
     //o Category
