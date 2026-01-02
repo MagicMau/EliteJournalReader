@@ -1,23 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When Written: when buying a new ship in the shipyard
     //Parameters:
-    //•	ShipType: ship being purchased
-    //•	ShipPrice: purchase cost 
-    //•	StoreOldShip: (if storing old ship) ship type being stored
-    //•	StoreShipID
-    //•	SellOldShip: (if selling current ship) ship type being sold
-    //•	SellShipID
-    //•	SellPrice: (if selling current ship) ship sale price
+    //ï¿½	ShipType: ship being purchased
+    //ï¿½	ShipPrice: purchase cost 
+    //ï¿½	StoreOldShip: (if storing old ship) ship type being stored
+    //ï¿½	StoreShipID
+    //ï¿½	SellOldShip: (if selling current ship) ship type being sold
+    //ï¿½	SellShipID
+    //ï¿½	SellPrice: (if selling current ship) ship sale price
     //
-    //Note: the new ship’s ShipID will be logged in a separate event after the purchase
+    //Note: the new shipï¿½s ShipID will be logged in a separate event after the purchase
     public class ShipyardBuyEvent : JournalEvent<ShipyardBuyEvent.ShipyardBuyEventArgs>
     {
         public ShipyardBuyEvent() : base("ShipyardBuy") { }

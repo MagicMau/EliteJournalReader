@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When Written: when repairing the ship
     //Parameters:
-    //•	Item: all, wear, hull, paint, or name of module
-    //•	Cost: cost of repair
+    //ï¿½	Item: all, wear, hull, paint, or name of module
+    //ï¿½	Cost: cost of repair
     public class RepairEvent : JournalEvent<RepairEvent.RepairEventArgs>
     {
         public RepairEvent() : base("Repair") { }

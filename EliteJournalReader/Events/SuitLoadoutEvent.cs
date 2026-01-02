@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
-namespace EliteJournalReader.Events
+﻿namespace EliteJournalReader.Events
 {
     //When written: at startup, when loading from main menu, or when switching ships, 
     //or after changing the ship in Outfitting, or when docking SRV back in mothership

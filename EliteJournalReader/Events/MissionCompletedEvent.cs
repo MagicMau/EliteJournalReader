@@ -1,28 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When Written: when a mission is completed
     //Parameters:
-    //•	Name: mission type
-    //•	Faction: faction name
-    //•	MissionID
+    //ï¿½	Name: mission type
+    //ï¿½	Faction: faction name
+    //ï¿½	MissionID
     //Optional parameters (depending on mission type)
-    //•	Commodity
-    //•	Count
-    //•	Target
-    //•	TargetType
-    //•	TargetFaction
-    //•	Reward: value of reward
-    //•	Donation: donation offered (for altruism missions)
-    //•	PermitsAwarded:[] (names of any permits awarded, as a JSON array)
-    //•	MaterialsReward:[] (name, category and count)
-    //•	FactionEffects: array of records
+    //ï¿½	Commodity
+    //ï¿½	Count
+    //ï¿½	Target
+    //ï¿½	TargetType
+    //ï¿½	TargetFaction
+    //ï¿½	Reward: value of reward
+    //ï¿½	Donation: donation offered (for altruism missions)
+    //ï¿½	PermitsAwarded:[] (names of any permits awarded, as a JSON array)
+    //ï¿½	MaterialsReward:[] (name, category and count)
+    //ï¿½	FactionEffects: array of records
     //    o   Faction
     //    o   Effects: array of Effect and Trend value pairs
     //    o   Influence: array of SystemAddress and Trend value pairs

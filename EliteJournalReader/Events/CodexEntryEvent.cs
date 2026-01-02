@@ -1,25 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: when a new discovery is added to the Codex
     //Parameters:
-    //•	EntryID: an ID number
-    //•	Name: string (+localisation)
-    //•	SubCategory: string (+localisation)
-    //•	Category: string (+localisation)
-    //•	Region: string
-    //•	System: string
-    //•	SystemAddress
-    //•	NearestDestination: name
-    //•	IsNewEntry: bool
-    //•	NewTraitsDiscovered: bool
-    //•	Traits: [array of strings]
+    //ï¿½	EntryID: an ID number
+    //ï¿½	Name: string (+localisation)
+    //ï¿½	SubCategory: string (+localisation)
+    //ï¿½	Category: string (+localisation)
+    //ï¿½	Region: string
+    //ï¿½	System: string
+    //ï¿½	SystemAddress
+    //ï¿½	NearestDestination: name
+    //ï¿½	IsNewEntry: bool
+    //ï¿½	NewTraitsDiscovered: bool
+    //ï¿½	Traits: [array of strings]
     //
     //The IsNewEntry and NewTraitsDiscovered fields are optional depending on the results of the scan, 
     //and the Traits field is only available for entries that have unlocked traits.

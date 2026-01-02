@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: when this player has killed another player
     //Parameters: 
-    //•	Victim: name of victim
-    //•	CombatRank: victim’s rank in range 0..8
+    //ï¿½	Victim: name of victim
+    //ï¿½	CombatRank: victimï¿½s rank in range 0..8
     public class PVPKillEvent : JournalEvent<PVPKillEvent.PVPKillEventArgs>
     {
         public PVPKillEvent() : base("PVPKill") { }

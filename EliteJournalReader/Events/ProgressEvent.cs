@@ -1,20 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: at startup
     //Parameters:
-    //•	Combat: percent progress to next rank
-    //•	Trade: 		“
-    //•	Explore: 	“
-    //•	Empire: 	“
-    //•	Federation: 	“
-    //•	CQC: 		“
+    //ï¿½	Combat: percent progress to next rank
+    //ï¿½	Trade: 		ï¿½
+    //ï¿½	Explore: 	ï¿½
+    //ï¿½	Empire: 	ï¿½
+    //ï¿½	Federation: 	ï¿½
+    //ï¿½	CQC: 		ï¿½
     public class ProgressEvent : JournalEvent<ProgressEvent.ProgressEventArgs>
     {
         public ProgressEvent() : base("Progress") { }

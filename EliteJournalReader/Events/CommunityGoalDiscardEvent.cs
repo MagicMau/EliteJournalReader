@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When Written: when opting out of a community goal
     //Parameters:
-    //•	Name
-    //•	System
+    //ï¿½	Name
+    //ï¿½	System
     public class CommunityGoalDiscardEvent : JournalEvent<CommunityGoalDiscardEvent.CommunityGoalDiscardEventArgs>
     {
         public CommunityGoalDiscardEvent() : base("CommunityGoalDiscard") { }

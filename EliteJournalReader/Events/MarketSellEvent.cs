@@ -1,22 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When Written: when selling goods in the market
     //Parameters:
-    //•	Type: cargo type
-    //•	Count: number of units
-    //•	SellPrice: price per unit
-    //•	TotalSale: total sale value
-    //•	AvgPricePaid: average price paid
-    //•	IllegalGoods: (not always present) whether goods are illegal here
-    //•	StolenGoods: (not always present) whether goods were stolen
-    //•	BlackMarket: (not always present) whether selling in a black market
+    //ï¿½	Type: cargo type
+    //ï¿½	Count: number of units
+    //ï¿½	SellPrice: price per unit
+    //ï¿½	TotalSale: total sale value
+    //ï¿½	AvgPricePaid: average price paid
+    //ï¿½	IllegalGoods: (not always present) whether goods are illegal here
+    //ï¿½	StolenGoods: (not always present) whether goods were stolen
+    //ï¿½	BlackMarket: (not always present) whether selling in a black market
     public class MarketSellEvent : JournalEvent<MarketSellEvent.MarketSellEventArgs>
     {
         public MarketSellEvent() : base("MarketSell") { }

@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When Written: when receiving a reward for a community goal
     //Parameters:
-    //•	Name
-    //•	System
-    //•	Reward
+    //ï¿½	Name
+    //ï¿½	System
+    //ï¿½	Reward
     public class CommunityGoalRewardEvent : JournalEvent<CommunityGoalRewardEvent.CommunityGoalRewardEventArgs>
     {
         public CommunityGoalRewardEvent() : base("CommunityGoalReward") { }

@@ -1,24 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: at startup
     //This line contains the information displayed in the statistics panel on the right side of the cockpit
 
     //Parameters:
-    //•	Bank_Account
+    //ï¿½	Bank_Account
     //o   Current_Wealth Spent_On_Ships
     //o Spent_On_Outfitting Spent_On_Repairs
     //o   Spent_On_Fuel
     //o   Spent_On_Ammo_Consumables
     //o   Insurance_Claims
     //o   Spent_On_Insurance
-    //•	Combat
+    //ï¿½	Combat
     //o   Bounties_Claimed
     //o   Bounty_Hunting_Profit
     //o   Combat_Bonds
@@ -27,29 +20,29 @@ namespace EliteJournalReader.Events
     //o   Assassination_Profits
     //o   Highest_Single_Reward
     //o   Skimmers_Killed 
-    //•	Crime
+    //ï¿½	Crime
     //o   Fines
     //o   Total_Fines
     //o   Bounties_Received
     //o   Total_Bounties
     //o   Highest_Bounty
-    //•	Smuggling
+    //ï¿½	Smuggling
     //o   Black_Markets_Traded_With
     //o   Black_Markets_Profits
     //o   Resources_Smuggled
     //o   Average_Profit
     //o   Highest_Single_Transaction 
-    //•	Trading
+    //ï¿½	Trading
     //o   Markets_Traded_With
     //o   Market_Profits
     //o   Resources_Traded
     //o   Average_Profit
     //o   Highest_Single_Transaction 
-    //•	Mining
+    //ï¿½	Mining
     //o   Mining_Profits
     //o   Quantity_Mined
     //o   Materials_Collected 
-    //•	Exploration
+    //ï¿½	Exploration
     //o   Systems_Visited
     //o   Fuel_Scooped
     //o   Fuel_Purchased
@@ -61,16 +54,16 @@ namespace EliteJournalReader.Events
     //o   Total_Hyperspace_Jumps
     //o   Greatest_Distance_From_Start
     //o   Time_Played 
-    //•	Passengers
+    //ï¿½	Passengers
     //o   Passengers_Missions_Bulk
     //o   Passengers_Missions_VIP
     //o   Passengers_Missions_Delivered
     //o   Passengers_Missions_Ejected 
-    //•	Search_And_Rescue
+    //ï¿½	Search_And_Rescue
     //o   SearchRescue_Traded
     //o   SearchRescue_Profit
     //o   SearchRescue_Count 
-    //•	Crafting
+    //ï¿½	Crafting
     //o   Spent_On_Crafting
     //o   Count_Of_Used_Engineers
     //o   Recipes_Generated
@@ -86,12 +79,12 @@ namespace EliteJournalReader.Events
     //o   Recipes_Applied_Rank_4
     //o   Recipes_Applied_Rank_5
     //o   Recipes_Applied_On_Previously_Modified_Modules 
-    //•	Crew
+    //ï¿½	Crew
     //o   NpcCrew_TotalWages
     //o   NpcCrew_Hired
     //o   NpcCrew_Fired
     //o   NpcCrew_Died
-    //•	Multicrew
+    //ï¿½	Multicrew
     //o   Multicrew_Time_Total
     //o   Multicrew_Gunner_Time_Total
     //o   Multicrew_Fighter_Time_Total

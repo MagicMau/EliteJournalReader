@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: when dropping from Supercruise at a USS
     //Parameters:
-    //•	USSType: description of USS
-    //•	USSThreat: threat level
+    //ï¿½	USSType: description of USS
+    //ï¿½	USSThreat: threat level
     public class USSDropEvent : JournalEvent<USSDropEvent.USSDropEventArgs>
     {
         public USSDropEvent() : base("USSDrop") { }

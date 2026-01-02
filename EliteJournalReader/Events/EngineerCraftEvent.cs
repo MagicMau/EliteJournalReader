@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When Written: when requesting an engineer upgrade
     //Parameters:
-    //•	Engineer: name of engineer
-    //•	Blueprint: name of blueprint
-    //•	Level: crafting level
-    //•	Ingredients: JSON object with names and quantities of materials required
+    //ï¿½	Engineer: name of engineer
+    //ï¿½	Blueprint: name of blueprint
+    //ï¿½	Level: crafting level
+    //ï¿½	Ingredients: JSON object with names and quantities of materials required
     public class EngineerCraftEvent : JournalEvent<EngineerCraftEvent.EngineerCraftEventArgs>
     {
         public EngineerCraftEvent() : base("EngineerCraft") { }

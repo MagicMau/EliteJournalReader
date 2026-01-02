@@ -1,28 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: When owner opens carrier management
-    //•	CarrierID: marketid
-    //•	Callsign: string
-    //•	Name: string
-    //•	DockingAccess: all/none/friends/squadron/squadronfriends
-    //•	AllowNotorious: bool
-    //•	FuelLevel: int
-    //•	JumpRangeCurr: float
-    //•	JumpRangeMax: float
-    //•	PendingDecommission: bool
-    //•	SpaceUsage { TotalCapacity, Crew, Cargo, CargoSpaceReserved, ShipPacks, ModulePacks, FreeSpace
+    //ï¿½	CarrierID: marketid
+    //ï¿½	Callsign: string
+    //ï¿½	Name: string
+    //ï¿½	DockingAccess: all/none/friends/squadron/squadronfriends
+    //ï¿½	AllowNotorious: bool
+    //ï¿½	FuelLevel: int
+    //ï¿½	JumpRangeCurr: float
+    //ï¿½	JumpRangeMax: float
+    //ï¿½	PendingDecommission: bool
+    //ï¿½	SpaceUsage { TotalCapacity, Crew, Cargo, CargoSpaceReserved, ShipPacks, ModulePacks, FreeSpace
     //}
-    //•	Finance { CarrierBalance, ReserveBalance, AvailableBalance, ReservePercent, TaxRate }
-    //•	Crew[{ CrewRole, Activated, Enabled, CrewName },...]
-    //•	ShipPacks[{ PackTheme, packTier },...]
-    //•	ModulePacks[{PackTheme, packTier },...]
+    //ï¿½	Finance { CarrierBalance, ReserveBalance, AvailableBalance, ReservePercent, TaxRate }
+    //ï¿½	Crew[{ CrewRole, Activated, Enabled, CrewName },...]
+    //ï¿½	ShipPacks[{ PackTheme, packTier },...]
+    //ï¿½	ModulePacks[{PackTheme, packTier },...]
     public class CarrierStatsEvent : JournalEvent<CarrierStatsEvent.CarrierStatsEventArgs>
     {
         public CarrierStatsEvent() : base("CarrierStats") { }

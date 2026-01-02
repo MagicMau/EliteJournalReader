@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When Written: when purchasing goods in the market
     //Parameters:
-    //•	Type: cargo type
-    //•	Count: number of units
-    //•	BuyPrice: cost per unit
-    //•	TotalCost: total cost
+    //ï¿½	Type: cargo type
+    //ï¿½	Count: number of units
+    //ï¿½	BuyPrice: cost per unit
+    //ï¿½	TotalCost: total cost
     public class MarketBuyEvent : JournalEvent<MarketBuyEvent.MarketBuyEventArgs>
     {
         public MarketBuyEvent() : base("MarketBuy") { }

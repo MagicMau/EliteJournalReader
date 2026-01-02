@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //    When written: when first visiting Outfitting, and when the set of stored modules has changed
     //Parameters:
-    //•	MarketID: current market
-    //•	Items: (array of objects)
+    //ï¿½	MarketID: current market
+    //ï¿½	Items: (array of objects)
     //o Name
     //o StarSystem
     //o MarketID: where the module is stored

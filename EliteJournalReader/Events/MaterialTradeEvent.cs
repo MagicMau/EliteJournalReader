@@ -1,21 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: when exchanging materials at the Material trader contact
     //Parameters:
-    //•	MarketID
-    //•	TraderType
-    //•	Paid
+    //ï¿½	MarketID
+    //ï¿½	TraderType
+    //ï¿½	Paid
     //   o   Material
     //   o   Category
     //   o   Quantity
-    //•	Received
+    //ï¿½	Received
     //   o   Material
     //   o   Category
     //   o   Quantity

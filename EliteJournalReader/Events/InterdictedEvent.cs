@@ -1,20 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: player was interdicted by player or npc
     //Parameters: 
-    //•	Submitted: true or false
-    //•	Interdictor: interdicting pilot name
-    //•	IsPlayer: whether player or npc
-    //•	CombatRank: if player
-    //•	Faction: if npc
-    //•	Power: if npc working for a power
+    //ï¿½	Submitted: true or false
+    //ï¿½	Interdictor: interdicting pilot name
+    //ï¿½	IsPlayer: whether player or npc
+    //ï¿½	CombatRank: if player
+    //ï¿½	Faction: if npc
+    //ï¿½	Power: if npc working for a power
     public class InterdictedEvent : JournalEvent<InterdictedEvent.InterdictedEventArgs>
     {
         public InterdictedEvent() : base("Interdicted") { }

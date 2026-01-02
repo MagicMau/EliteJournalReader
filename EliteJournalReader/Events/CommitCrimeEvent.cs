@@ -1,20 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
 namespace EliteJournalReader.Events
 {
     //When written: when a crime is recorded against the player
     //Parameters:
-    //•	CrimeType
-    //•	Faction
+    //ï¿½	CrimeType
+    //ï¿½	Faction
     //Optional parameters (depending on crime)
-    //•	Victim
-    //•	Fine
-    //•	Bounty
+    //ï¿½	Victim
+    //ï¿½	Fine
+    //ï¿½	Bounty
     public class CommitCrimeEvent : JournalEvent<CommitCrimeEvent.CommitCrimeEventArgs>
     {
         public CommitCrimeEvent() : base("CommitCrime") { }

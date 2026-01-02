@@ -1,34 +1,28 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace EliteJournalReader.Events
 {
     //When written: when jumping from one star system to another
     //Parameters:
-    //•	StarSystem: name of destination starsystem
-    //•	StarPos: star position, as a Json array [x, y, z], in light years
-    //•	Body: star’s body name
-    //•	JumpDist: distance jumped
-    //•	FuelUsed
-    //•	FuelLevel
-    //•	BoostUsed: whether FSD boost was used
-    //•	SystemFaction: system controlling faction
+    //ï¿½	StarSystem: name of destination starsystem
+    //ï¿½	StarPos: star position, as a Json array [x, y, z], in light years
+    //ï¿½	Body: starï¿½s body name
+    //ï¿½	JumpDist: distance jumped
+    //ï¿½	FuelUsed
+    //ï¿½	FuelLevel
+    //ï¿½	BoostUsed: whether FSD boost was used
+    //ï¿½	SystemFaction: system controlling faction
     //    o Name
     //    o FactionState
-    //•	SystemAllegiance
-    //•	SystemEconomy
-    //•	SystemSecondEconomy
-    //•	SystemGovernment
-    //•	SystemSecurity
-    //•	Population
-    //•	Wanted
-    //•	Factions: an array of info for the local minor factions
+    //ï¿½	SystemAllegiance
+    //ï¿½	SystemEconomy
+    //ï¿½	SystemSecondEconomy
+    //ï¿½	SystemGovernment
+    //ï¿½	SystemSecurity
+    //ï¿½	Population
+    //ï¿½	Wanted
+    //ï¿½	Factions: an array of info for the local minor factions
     //    o Name
     //    o FactionState
     //    o Government
@@ -41,14 +35,14 @@ namespace EliteJournalReader.Events
     //    o SquadronFaction:true (if player is in squadron aligned to this faction)
     //    o HappiestSystem:true (if player squadron faction, and this is happiest system)
     //    o HomeSystem:true(if player squadron faction, and this is home system)
-    //•	Conflicts: an array of info about local conflicts(if any)
+    //ï¿½	Conflicts: an array of info about local conflicts(if any)
     //    o WarType
     //    o Status
     //    o Faction1: { Name, Stake, WonDays }
     //    o Faction2: { Name, Stake, WonDays }
     //If the player is pledged to a Power in Powerplay, and the star system is involved in powerplay,
-    //•	Powers: a json array with the names of any powers contesting the system, or the name of the controlling power
-    //•	PowerplayState: the system state – one of("InPrepareRadius", "Prepared", "Exploited", "Contested", "Controlled", "Turmoil", "HomeSystem")
+    //ï¿½	Powers: a json array with the names of any powers contesting the system, or the name of the controlling power
+    //ï¿½	PowerplayState: the system state ï¿½ one of("InPrepareRadius", "Prepared", "Exploited", "Contested", "Controlled", "Turmoil", "HomeSystem")
     public class FSDJumpEvent : JournalEvent<FSDJumpEvent.FSDJumpEventArgs>
     {
         public FSDJumpEvent() : base("FSDJump") { }
