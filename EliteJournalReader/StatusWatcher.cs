@@ -30,14 +30,11 @@ namespace EliteJournalReader
 
         public StatusFileEvent LastEvent { get; protected set; }
 
-        private readonly bool logUpdates = false;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
-        public StatusWatcher(string path, bool logUpdates)
+        public StatusWatcher(string path)
         {
-            this.logUpdates = logUpdates;
             Initialize(path);
         }
 
@@ -149,11 +146,6 @@ namespace EliteJournalReader
                         lastTimestamp = evt.Timestamp;
                         LastEvent = evt;
                         FireStatusUpdatedEvent(evt);
-
-                        if (logUpdates)
-                        {
-                            Trace.TraceInformation(evt.ToString());
-                        }
                     }
                 }
             }
