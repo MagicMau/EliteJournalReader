@@ -646,6 +646,9 @@ namespace EliteJournalReader
             {
                 LatestJournalFile = latestJournalFileName;
                 isPollingForNewFile = false;
+                FireEvent("MagicMau.NewJournalFileEvent", new JObject(
+                    new JProperty("timestamp", DateTime.UtcNow),
+                    new JProperty("Filename", LatestJournalFile)));
                 Trace.TraceInformation($"Journal: now reading from {LatestJournalFile}.");
 
                 // New file, start from offset 0
