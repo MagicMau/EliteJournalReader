@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using System.Linq;
 
 namespace EliteJournalReader
 {
@@ -61,7 +62,7 @@ namespace EliteJournalReader
                 else if (!argsPropertyNames.Any(x => string.Compare(jsonPropertyName, x, StringComparison.InvariantCultureIgnoreCase) == 0))
                 {
                     // found something missing
-                    Trace.TraceInformation($"EventArgs for {eventName} does not contain property {jsonPropertyName}");
+                    System.Diagnostics.Trace.TraceInformation($"EventArgs for {eventName} does not contain property {jsonPropertyName}");
                     //Debugger.Break();
                 }
 
