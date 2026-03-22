@@ -1,0 +1,51 @@
+name: CI/CD - Publish NuGet Package
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Restore dependencies
+        run: dotnet restore EliteJournalReader.sln
+
+      - name: Build in Release mode
+        run: dotnet build EliteJournalReader.sln -c Release --no-restore
+
+      - name: Run tests
+        run: dotnet test EliteJournalReader.Tests/EliteJournalReader.Tests.csproj --no-restore --verbosity normal
+
+      - name: Get package version
+        id: get_version
+        run: |
+          VERSION=$(grep -oPm1 '(?<=<Version>)[^<]+' EliteJournalReader/EliteJournalReader.csproj)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Package version: $VERSION"
+
+      - name: Check if version already exists on NuGet
+        id: check_version
+        run: |
+          VERSION="${{ steps.get_version.outputs.version }}"
+          RESPONSE=$(curl -sf "https://api.nuget.org/v3-flatcontainer/elitejournalreader/index.json" || echo '{"versions":[]}')
+          if echo "$RESPONSE" | grep -q "\"$VERSION\""; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Version $VERSION already exists on NuGet — skipping publish."
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Version $VERSION not found on NuGet — will publish."
+          fi
+
+      - name: Push NuGet package
+        if: steps.check_version.outputs.exists == 'false'
+        run: dotnet nuget push "EliteJournalReader/bin/Release/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate

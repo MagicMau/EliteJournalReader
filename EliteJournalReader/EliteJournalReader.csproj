@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net10.0</TargetFrameworks>
-    <Version>4.2.0</Version>
+    <Version>4.2.5</Version>
     <SignAssembly>false</SignAssembly>
     <Copyright>Copyright © Maurits Elbers (@MagicMau) 2015-2025. Elite: Dangerous and related
       material is © Frontier Developments plc</Copyright>
     <Company>MagicMau</Company>
     <PackageId>EliteJournalReader</PackageId>
-    <AssemblyVersion>4.2.0</AssemblyVersion>
+    <AssemblyVersion>4.2.5.0</AssemblyVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>MagicMau</Authors>
     <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
@@ -15,12 +15,7 @@
       access to game events and data through .NET events.</Description>
     <PackageTags>elite-dangerous;journal;game;events;frontier</PackageTags>
     <RepositoryType>git</RepositoryType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
-    <!-- Only transform T4 templates when inputs are out of date to avoid regenerating files
-         and changing timestamps on every build. This prevents unnecessary rebuilds of the
-         project when nothing changed. -->
-    <TransformOutOfDateOnly>true</TransformOutOfDateOnly>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Debug local;Release</Configurations>
   </PropertyGroup>
@@ -49,46 +44,5 @@
   <ItemGroup>
     <None Include="..\ReadMe.md" Pack="true" PackagePath="\" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" Condition="Exists('$(MSBuildExtensionsPath)\\Microsoft\\VisualStudio\\v$(VisualStudioVersion)\\TextTemplating\\Microsoft.TextTemplating.targets')" />  <!--
-  Only transform templates on Release builds, not Debug builds -->
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <TransformOnBuild>true</TransformOnBuild>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' != 'Release'">
-    <TransformOnBuild>false</TransformOnBuild>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Update="VersionAutoIncrementer.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>VersionAutoIncrementer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="VersionAutoIncrementer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>VersionAutoIncrementer.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <!-- Cross-platform T4 transforms using local dotnet-t4 tool -->
-  <ItemGroup>
-    <!-- Adjust path if your .tt files are outside the project folder -->
-    <T4Templates Include="$(MSBuildThisFileDirectory)**\*.tt" />
-  </ItemGroup>
 
-  <!-- Run transforms only when enabled (e.g. Release) and make the target incremental by
-       declaring Inputs and Outputs so MSBuild can skip it when generated files are up-to-date. -->
-  <Target Name="RunLocalT4Transforms" BeforeTargets="BeforeCompile" Condition=" '@(T4Templates)' != '' and '$(TransformOnBuild)' == 'true' " Inputs="@(T4Templates)" Outputs="@(T4Templates->'%(RootDir)%(Directory)%(Filename).cs')">
-    <Message Text="Running dotnet-t4 for %(T4Templates.Identity)" Importance="Normal" />
-    <!-- Run dotnet-t4 for each .tt found. The command uses the local tool manifest: 'dotnet tool
-    run dotnet-t4'. -->
-      <Exec Command="dotnet tool run t4 -- &quot;%(T4Templates.FullPath)&quot; -o &quot;%(T4Templates.RootDir)%(T4Templates.Directory)%(T4Templates.Filename).cs&quot;" ContinueOnError="true">
-      <Output TaskParameter="ExitCode" PropertyName="T4ExitCode" />
-    </Exec>
-
-    <Warning Text="T4 transform for %(T4Templates.Identity) did not run (t4 tool missing or failed). Install dotnet-t4 as a local tool: 'dotnet tool install --local dotnet-t4' and re-run build." Condition="'$(T4ExitCode)' != '0' and !Exists('%(T4Templates.RootDir)%(T4Templates.Directory)%(T4Templates.Filename).cs')" />
-  </Target>
 </Project>
