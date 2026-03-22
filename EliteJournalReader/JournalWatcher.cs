@@ -392,8 +392,8 @@ namespace EliteJournalReader
 
         internal void StartPollingForNewJournal()
         {
-            if (isPollingForNewFile || cancellationTokenSource.IsCancellationRequested)
-                return; // we're already polling or no longer needed
+            if (isPollingForNewFile || cancellationTokenSource == null || cancellationTokenSource.IsCancellationRequested)
+                return; // we're already polling, not started, or no longer needed
 
             isPollingForNewFile = true;
             Task.Run(async () => {
