@@ -7,6 +7,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
     steps:
       - name: Checkout code
@@ -25,6 +27,12 @@ jobs:
 
       - name: Run tests
         run: dotnet test EliteJournalReader.Tests/EliteJournalReader.Tests.csproj --no-restore --verbosity normal
+
+      - name: Upload NuGet package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget
+          path: EliteJournalReader/bin/Release/*.nupkg
 
       - name: Get package version
         id: get_version
@@ -48,4 +56,11 @@ jobs:
 
       - name: Push NuGet package
         if: steps.check_version.outputs.exists == 'false'
-        run: dotnet nuget push "EliteJournalReader/bin/Release/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          if [ -z "$NUGET_API_KEY" ]; then
+            echo "NUGET_API_KEY secret is not set — skipping publish."
+            exit 0
+          fi
+          dotnet nuget push "EliteJournalReader/bin/Release/*.nupkg" --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
