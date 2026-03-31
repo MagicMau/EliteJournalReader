@@ -2,7 +2,7 @@ namespace EliteJournalReader.Events
 {
     public class BackpackEvent : JournalEvent<BackpackEvent.BackpackEventArgs>
     {
-        public BackpackEvent() : base("Backpack") { }
+        public BackpackEvent() : base("Backpack", "BackpackChange") { }
 
         public class BackpackEventArgs : JournalEventArgs
         {
