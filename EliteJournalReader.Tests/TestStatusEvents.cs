@@ -75,13 +75,14 @@ namespace EliteJournalReader.Tests
 
             while (!hodor.WaitOne(100))
             {
-                WriteStatusFile(new StatusFileEvent { Timestamp = DateTime.UtcNow, Longitude = 14, Latitude = 7, Pips = (2, 4, 2) });
+                WriteStatusFile(new StatusFileEvent { Timestamp = DateTime.UtcNow, Longitude = 14, Latitude = 7, Pips = (2, 4, 2), GuiFocus = StatusGuiFocus.MainMenu });
                 Thread.Sleep(1000); // wait a bit
             }
 
             Assert.IsNotNull(evt);
             Assert.AreEqual(14, evt.Longitude);
             Assert.AreEqual(7, evt.Latitude);
+            Assert.AreEqual(StatusGuiFocus.MainMenu, evt.GuiFocus);
 
             Thread.Sleep(1000); // wait a bit more for all the notifications to be handled
             Assert.IsGreaterThanOrEqualTo(counter, 1); // at least one update should have been triggered

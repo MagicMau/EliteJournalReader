@@ -171,6 +171,7 @@ namespace EliteJournalReader.Events
 
     public enum StatusGuiFocus
     {
+        MainMenu = -1,
         NoFocus = 0,
         InternalPanel = 1,
         ExternalPanel = 2,
