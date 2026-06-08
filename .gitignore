@@ -252,3 +252,8 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 EliteJournalReader/VersionAutoIncrementer.cs
+# Added by code-review-graph
+.code-review-graph/
+.github/code-review-graph.instruction.md
+.vscode/mcp.json
+.vscode/settings.json
