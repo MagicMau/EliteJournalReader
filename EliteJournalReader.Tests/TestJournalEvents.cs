@@ -181,6 +181,20 @@ namespace EliteJournalReader.Tests
         }
 
         [TestMethod]
+        public void Test_LoadoutEvent_EngineeringDamageLabels_WithDollarPrefix_Parse()
+        {
+            var returned = watcher.FireFakeEventAndReturn(@"{ ""timestamp"":""2026-07-02T15:06:13Z"", ""event"":""Loadout"", ""Ship"":""asp"", ""ShipID"":2, ""ShipName"":""wild yonder"", ""ShipIdent"":""mauxpl"", ""HullValue"":4908528, ""ModulesValue"":20012586, ""HullHealth"":1.0, ""UnladenMass"":439.116699, ""CargoCapacity"":64, ""MaxJumpRange"":40.212559, ""FuelCapacity"":{ ""Main"":32.0, ""Reserve"":0.63 }, ""Rebuy"":1246057, ""Modules"":[{ ""Slot"":""MediumHardpoint1"", ""Item"":""hpt_multicannon_gimbal_medium"", ""On"":true, ""Priority"":0, ""Health"":1.0, ""Value"":48450, ""Engineering"":{ ""Engineer"":""Tod 'The Blaster' McQuinn"", ""EngineerID"":300260, ""BlueprintID"":128673513, ""BlueprintName"":""Weapon_ShortRange"", ""Level"":4, ""Quality"":0.6, ""Modifiers"":[ { ""Label"":""$Kinetic;"", ""Label_Localised"":""Kinetic"", ""Value"":0.0, ""OriginalValue"":100.0, ""LessIsGood"":0 }, { ""Label"":""$Thermic;"", ""Label_Localised"":""Thermal"", ""Value"":100.0, ""OriginalValue"":0.0, ""LessIsGood"":0 } ] } }] }");
+
+            var loadout = returned as LoadoutEvent.LoadoutEventArgs;
+            Assert.IsNotNull(loadout);
+            Assert.HasCount(1, loadout.Modules);
+            Assert.IsNotNull(loadout.Modules[0].Engineering);
+            Assert.HasCount(2, loadout.Modules[0].Engineering.Modifiers);
+            Assert.AreEqual(ModuleAttribute.Kinetic, loadout.Modules[0].Engineering.Modifiers[0].Label);
+            Assert.AreEqual(ModuleAttribute.Thermic, loadout.Modules[0].Engineering.Modifiers[1].Label);
+        }
+
+        [TestMethod]
         public void Test_AllEvents_CanFireWithMinimalJson()
         {
             var journalEventType = typeof(JournalEvent);

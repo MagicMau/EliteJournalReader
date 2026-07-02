@@ -331,6 +331,10 @@ namespace EliteJournalReader
         Jitter,
         WeaponMode,
         DamageType,
+        [Description("$Kinetic;")]
+        Kinetic,
+        [Description("$Thermic;")]
+        Thermic,
         ShieldGenMinimumMass,
         ShieldGenOptimalMass,
         ShieldGenMaximumMass,
