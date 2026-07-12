@@ -98,6 +98,7 @@ namespace EliteJournalReader.Events
             public bool Taxi { get; set; }
             public bool Multicrew { get; set; }
             public bool OnFoot { get; set; }
+            public bool InSRV { get; set; }
 
             public override JournalEventArgs Clone()
             {
