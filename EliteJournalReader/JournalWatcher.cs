@@ -72,10 +72,26 @@ namespace EliteJournalReader
         private CancellationTokenSource journalCancellationTokenSource;
 
         /// <summary>
-        /// Because the journal is kept open, we might not get notified through the FileWatcher
-        /// So, in cases where we expect a new file might come, poll the directory to see if it does.
+        /// Low-frequency directory discovery remains active for the complete watcher lifetime.
+        /// It is independent from the selected-file reader's 500 ms growth polling.
         /// </summary>
-        private bool isPollingForNewFile = false;
+        private Task _directoryDiscoveryTask;
+
+        /// <summary>
+        /// Owns the processor that coalesces filesystem notifications and periodic scans.
+        /// </summary>
+        private Task _signalProcessorTask;
+
+        internal const int DIRECTORY_DISCOVERY_INTERVAL_MILLISECONDS = 5000;
+
+        internal bool IsDirectoryDiscoveryActive =>
+            _directoryDiscoveryTask != null && !_directoryDiscoveryTask.IsCompleted;
+
+        internal bool IsSignalProcessorActive =>
+            _signalProcessorTask != null && !_signalProcessorTask.IsCompleted;
+
+        internal bool IsSelectedFilePollingActive =>
+            _readerTask != null && !_readerTask.IsCompleted;
 
         /// <summary>
         /// Keep a map of event names to event objects
@@ -119,7 +135,8 @@ namespace EliteJournalReader
         private enum LifecycleSignal
         {
             FileCreated,
-            FileChanged
+            FileChanged,
+            DirectoryScan
         }
 
         /// <summary>
@@ -280,18 +297,22 @@ namespace EliteJournalReader
                 if (sessionFiles.Count == 0)
                     return 0;
 
-                // Process each journal file in the selected session (ordered by part number)
+                // Process each journal file in the selected session (ordered by part number).
+                // Use the same byte-level newline framing contract as the live reader so an
+                // unterminated suffix in the latest part remains uncommitted and is re-read live.
                 foreach (string journalFile in sessionFiles)
                 {
                     // Store only the filename
                     LatestJournalFile = System.IO.Path.GetFileName(journalFile);
-                    using (var reader = new StreamReader(new FileStream(journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                    using (var stream = new FileStream(
+                        journalFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
                         Trace.TraceInformation($"Journal: now reading previous entries from {LatestJournalFile}.");
-                        offset = ParseData(reader, 0);
+                        var framer = new JournalRecordFramer(0);
+                        offset = ParseData(stream, framer);
                     }
                 }
-                // Store the offset for the latest journal file
+                // Store the committed newline offset for the latest journal file.
                 lastJournalFileOffset = offset;
             }
             catch (Exception e)
@@ -391,12 +412,18 @@ namespace EliteJournalReader
 
                 if (lastJournalFileOffset >= 0)
                 {
+                    // Pair the selected latest startup part with its committed newline offset
+                    // before exposing live state. The live framer re-reads any uncommitted suffix
+                    // from this boundary and retains it until a later append supplies a newline.
+                    string startupJournalFile = LatestJournalFile;
+                    long startupCommittedOffset = lastJournalFileOffset;
+
                     // finally send an event that we've gone live
                     IsLive = true;
                     FireEvent("MagicMau.IsLiveEvent", new JObject(new JProperty("timestamp", DateTime.UtcNow)));
 
-                    if (!string.IsNullOrEmpty(LatestJournalFile))
-                        StartReaderTask(LatestJournalFile, lastJournalFileOffset);
+                    if (!string.IsNullOrEmpty(startupJournalFile))
+                        StartReaderTask(startupJournalFile, startupCommittedOffset);
                 }
 
                 EnableRaisingEvents = true;
@@ -498,41 +525,37 @@ namespace EliteJournalReader
 
         internal void StartPollingForNewJournal()
         {
-            if (isPollingForNewFile || cancellationTokenSource == null || cancellationTokenSource.IsCancellationRequested)
-                return; // we're already polling, not started, or no longer needed
+            if ((_directoryDiscoveryTask != null && !_directoryDiscoveryTask.IsCompleted) ||
+                cancellationTokenSource == null || cancellationTokenSource.IsCancellationRequested)
+            {
+                return;
+            }
 
-            isPollingForNewFile = true;
-            Task.Run(async () => {
-                while (isPollingForNewFile)
+            var token = cancellationTokenSource.Token;
+            _directoryDiscoveryTask = Task.Run(async () =>
+            {
+                try
                 {
-                    try
+                    while (true)
                     {
-                        await Task.Delay(5000, cancellationTokenSource.Token); // check every five seconds
-                        if (cancellationTokenSource.IsCancellationRequested)
-                        {
-                            isPollingForNewFile = false;
-                            return;
-                        }
+                        await Task.Delay(DIRECTORY_DISCOVERY_INTERVAL_MILLISECONDS, token)
+                            .ConfigureAwait(false);
 
-                        // Acquire the lifecycle gate before performing file checks
-                        await _lifecycleGate.WaitAsync(cancellationTokenSource.Token).ConfigureAwait(false);
-                        try
-                        {
-                            await UpdateLatestJournalFile();
-                        }
-                        finally
-                        {
-                            _lifecycleGate.Release();
-                        }
+                        // Periodic discovery follows the same coalesced lifecycle path as
+                        // Created/Changed notifications; it never competes with them directly.
+                        _signalQueue.Enqueue(LifecycleSignal.DirectoryScan);
+                        _signalReady.Release();
                     }
-                    catch (OperationCanceledException)
-                    {
-                        isPollingForNewFile = false;
-                    }
-                    catch (Exception e)
-                    {
-                        Trace.TraceError($"Error while polling for new journal: {e.Message}.");
-                    }
+                }
+                catch (OperationCanceledException) when (token.IsCancellationRequested)
+                {
+                    // Watcher shutdown is normal control flow.
+                }
+                catch (Exception e)
+                {
+                    Trace.TraceError($"Error while polling for new journal: {e.Message}.");
+                    Trace.TraceInformation(e.ToString());
+                    OnError(new ErrorEventArgs(e));
                 }
             });
         }
@@ -601,8 +624,38 @@ namespace EliteJournalReader
                 }
             }
 
-            // Release the signal processor if it's waiting
+            // Release the signal processor if it is waiting, then await both
+            // watcher-lifetime loops so no scan or lifecycle work survives shutdown.
             _signalReady.Release();
+
+            await AwaitLifecycleTaskAsync(_directoryDiscoveryTask, "directory discovery")
+                .ConfigureAwait(false);
+            _directoryDiscoveryTask = null;
+
+            await AwaitLifecycleTaskAsync(_signalProcessorTask, "signal processor")
+                .ConfigureAwait(false);
+            _signalProcessorTask = null;
+        }
+
+        private async Task AwaitLifecycleTaskAsync(Task task, string taskName)
+        {
+            if (task == null)
+                return;
+
+            try
+            {
+                await task.ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                // Cancellation is normal control flow during watcher shutdown.
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"Journal watcher {taskName} faulted during stop: {ex.Message}");
+                Trace.TraceInformation(ex.ToString());
+                OnError(new ErrorEventArgs(ex));
+            }
         }
 
         /// <summary>
@@ -635,8 +688,11 @@ namespace EliteJournalReader
         /// </summary>
         private void StartSignalProcessor()
         {
+            if (_signalProcessorTask != null && !_signalProcessorTask.IsCompleted)
+                return;
+
             var token = cancellationTokenSource.Token;
-            Task.Run(async () =>
+            _signalProcessorTask = Task.Run(async () =>
             {
                 while (!token.IsCancellationRequested)
                 {
@@ -644,12 +700,13 @@ namespace EliteJournalReader
                     {
                         await _signalReady.WaitAsync(token).ConfigureAwait(false);
                     }
-                    catch (OperationCanceledException)
+                    catch (OperationCanceledException) when (token.IsCancellationRequested)
                     {
                         return;
                     }
 
-                    // Drain all queued signals
+                    // Coalesce all pending notification and fallback-scan signals into
+                    // one directory check under the lifecycle gate.
                     bool needsFileCheck = false;
                     while (_signalQueue.TryDequeue(out _))
                     {
@@ -659,23 +716,30 @@ namespace EliteJournalReader
                     if (!needsFileCheck || token.IsCancellationRequested)
                         continue;
 
-                    // Perform lifecycle work under the gate
-                    await _lifecycleGate.WaitAsync(token).ConfigureAwait(false);
+                    try
+                    {
+                        await _lifecycleGate.WaitAsync(token).ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException) when (token.IsCancellationRequested)
+                    {
+                        return;
+                    }
+
                     try
                     {
                         if (token.IsCancellationRequested)
                             return;
 
-                        await UpdateLatestJournalFile().ConfigureAwait(false);
+                        UpdateLatestJournalFile();
                     }
-                    catch (OperationCanceledException)
+                    catch (OperationCanceledException) when (token.IsCancellationRequested)
                     {
                         return;
                     }
                     catch (Exception ex)
                     {
                         Trace.TraceError($"Error processing filesystem signal: {ex.Message}");
-                        Trace.TraceInformation(ex.StackTrace);
+                        Trace.TraceInformation(ex.ToString());
                         OnError(new ErrorEventArgs(ex));
                     }
                     finally
@@ -683,7 +747,7 @@ namespace EliteJournalReader
                         _lifecycleGate.Release();
                     }
                 }
-            }, token);
+            });
         }
 
         /// <summary>
@@ -826,10 +890,8 @@ namespace EliteJournalReader
                     if (currentLength <= framer.ReadOffset && !framer.HasPendingBytes)
                         continue;
 
-                    // we found new data, so this is definitely not a stale file
-                    isPollingForNewFile = false;
-
-                    // parse the data using byte-level newline framing
+                    // Parse newly appended data. Directory discovery remains active
+                    // independently for the complete watcher lifetime.
                     offset = ParseData(stream, framer);
                 }
             }
@@ -866,48 +928,6 @@ namespace EliteJournalReader
             return framer.CommittedOffset;
         }
 
-        /// <summary>
-        /// Legacy ParseData overload retained for backward compatibility with any subclass usage.
-        /// Delegates to the byte-level framer approach.
-        /// </summary>
-        private long ParseData(StreamReader reader, long offset)
-        {
-            try
-            {
-                // seek to the last max offset
-                reader.BaseStream.Seek(offset, SeekOrigin.Begin);
-                reader.DiscardBufferedData(); // Ensure StreamReader buffer is in sync with new position
-
-                // Efficiently read new lines from the current offset
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    ParseAndProcess(line);
-                }
-            }
-            catch (Exception e)
-            {
-                Trace.TraceError($"Exception while parsing journal data: {e.Message}");
-            }
-            finally
-            {
-                try
-                {
-                    // update the last max offset
-                    offset = reader.BaseStream.Position;
-                    // Update the lastJournalFileOffset if this is the current file
-                    lastJournalFileOffset = offset;
-                }
-                catch (Exception e)
-                {
-                    Trace.TraceError($"Exception while updating position in journal file: {e.Message}");
-                    // might be something wrong with the file - let's start polling for a new one
-                    StartPollingForNewJournal();
-                }
-            }
-            return offset;
-        }
-
         // Parses multiple lines of journal data
         public void ParseText(string text)
         {
@@ -935,24 +955,12 @@ namespace EliteJournalReader
         ///     Must be called under the lifecycle gate.
         ///     In live mode, switches only to a newer session or a higher part of the selected session.
         /// </summary>
-        private async Task<string> UpdateLatestJournalFile()
+        private string UpdateLatestJournalFile()
         {
             // filenames have format: Journal.160922194205.01.log
             string[] journals = Directory.GetFiles(Path, DefaultFilter);
-
-            // keep waiting until there is a journal, or we're being cancelled.
-            while (journals.Length == 0)
-            {
-                try
-                {
-                    await Task.Delay(UPDATE_INTERVAL_MILLISECONDS, cancellationTokenSource.Token);
-                    journals = Directory.GetFiles(Path, DefaultFilter);
-                }
-                catch (TaskCanceledException)
-                {
-                    return null;
-                }
-            }
+            if (journals.Length == 0)
+                return null;
 
             // Use the session selector for deterministic live-mode file selection.
             // Switch only to a newer session or a higher part of the current session.
@@ -962,7 +970,6 @@ namespace EliteJournalReader
             if (isChanged)
             {
                 LatestJournalFile = latestJournalFileName;
-                isPollingForNewFile = false;
                 FireEvent("MagicMau.NewJournalFileEvent", new JObject(
                     new JProperty("timestamp", DateTime.UtcNow),
                     new JProperty("Filename", LatestJournalFile)));

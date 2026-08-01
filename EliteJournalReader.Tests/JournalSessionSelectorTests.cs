@@ -33,6 +33,7 @@ namespace EliteJournalReader.Tests
             Assert.IsNotNull(result);
             Assert.IsFalse(result.Value.IsBeta);
             Assert.AreEqual("20260407173045", result.Value.SessionIdentity);
+            Assert.AreEqual(new DateTime(2026, 4, 7, 17, 30, 45, DateTimeKind.Utc), result.Value.SessionInstantUtc);
             Assert.AreEqual(1, result.Value.PartNumber);
         }
 
@@ -43,18 +44,67 @@ namespace EliteJournalReader.Tests
             Assert.IsNotNull(result);
             Assert.IsFalse(result.Value.IsBeta);
             Assert.AreEqual("2026-04-07T170000", result.Value.SessionIdentity);
+            Assert.AreEqual(new DateTime(2026, 4, 7, 17, 0, 0, DateTimeKind.Utc), result.Value.SessionInstantUtc);
             Assert.AreEqual(2, result.Value.PartNumber);
         }
 
         [TestMethod]
-        public void TryParse_BetaCanonical_ParsesWithBetaMarker()
+        public void TryParse_EquivalentCompactAndIsoForms_NormalizeToSameSessionKey()
         {
-            var result = JournalSessionSelector.TryParse(@"C:\Journals\JournalBeta.20260407173045.03.log");
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Value.IsBeta);
-            Assert.AreEqual("20260407173045", result.Value.SessionIdentity);
-            Assert.AreEqual(3, result.Value.PartNumber);
-            Assert.AreEqual("Beta:20260407173045", result.Value.SessionKey);
+            // **Validates: Requirements 2.9**
+            var compact = JournalSessionSelector.TryParse(
+                @"C:\Journals\Journal.20260407170000.01.log");
+            var iso = JournalSessionSelector.TryParse(
+                @"C:\Journals\Journal.2026-04-07T170000.02.log");
+
+            Assert.IsNotNull(compact);
+            Assert.IsNotNull(iso);
+            Assert.AreEqual(compact.Value.SessionInstantUtc, iso.Value.SessionInstantUtc);
+            Assert.AreEqual(compact.Value.SessionKey, iso.Value.SessionKey);
+        }
+
+        [TestMethod]
+        public void ParsedJournalFile_CompareTo_MixedFormsOrdersByUtcInstant()
+        {
+            // **Validates: Requirements 2.9**
+            var olderCompact = JournalSessionSelector.TryParse(
+                @"C:\Journals\Journal.20260407170000.01.log");
+            var newerIso = JournalSessionSelector.TryParse(
+                @"C:\Journals\Journal.2026-04-07T180000.01.log");
+
+            Assert.IsNotNull(olderCompact);
+            Assert.IsNotNull(newerIso);
+            Assert.IsLessThan(0, olderCompact.Value.CompareTo(newerIso.Value),
+                "Canonical journal comparison must follow the parsed UTC instant, not raw timestamp text.");
+        }
+
+        [TestMethod]
+        public void TryParse_BetaCanonical_ParsesWithSeparateIdentity()
+        {
+            // **Validates: Requirements 2.9, 3.4**
+            var beta = JournalSessionSelector.TryParse(
+                @"C:\Journals\JournalBeta.20260407173045.03.log");
+            var live = JournalSessionSelector.TryParse(
+                @"C:\Journals\Journal.2026-04-07T173045.03.log");
+
+            Assert.IsNotNull(beta);
+            Assert.IsNotNull(live);
+            Assert.IsTrue(beta.Value.IsBeta);
+            Assert.AreEqual("20260407173045", beta.Value.SessionIdentity);
+            Assert.AreEqual(new DateTime(2026, 4, 7, 17, 30, 45, DateTimeKind.Utc), beta.Value.SessionInstantUtc);
+            Assert.AreEqual(3, beta.Value.PartNumber);
+            Assert.AreEqual("Beta:20260407173045", beta.Value.SessionKey);
+            Assert.AreNotEqual(beta.Value.SessionKey, live.Value.SessionKey);
+            Assert.AreNotEqual(0, beta.Value.CompareTo(live.Value));
+        }
+
+        [TestMethod]
+        public void TryParse_InvalidCanonicalTimestamp_ReturnsNull()
+        {
+            var result = JournalSessionSelector.TryParse(
+                @"C:\Journals\Journal.20261340179999.01.log");
+
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -97,24 +147,24 @@ namespace EliteJournalReader.Tests
         }
 
         [TestMethod]
-        public void SelectSessionFiles_MultipleSessionsWithMixedParts_SelectsGreatestSession()
+        public void SelectSessionFiles_MixedTimestampForms_SelectsGreatestInstantAndOrdersPartsNumerically()
         {
-            // This is the core bug scenario: .01, .02, .10 from different sessions
+            // **Validates: Requirements 2.9, 3.4**
             var files = new[]
             {
-                @"C:\Journals\Journal.20260407100000.01.log",
-                @"C:\Journals\Journal.20260407100000.02.log",
-                @"C:\Journals\Journal.20260407120000.01.log", // newer session
-                @"C:\Journals\Journal.20260407120000.10.log", // part 10, not part 2!
+                @"C:\Journals\Journal.20260407170000.99.log",
+                @"C:\Journals\Journal.2026-04-07T180000.10.log",
+                @"C:\Journals\Journal.2026-04-07T180000.02.log",
             };
 
             var selector = new JournalSessionSelector();
             var result = selector.SelectSessionFiles(files, _ => DateTime.MinValue);
 
-            // Should select only the newer session (20260407120000)
-            Assert.AreEqual(2, result.Count);
-            Assert.AreEqual(@"C:\Journals\Journal.20260407120000.01.log", result[0]);
-            Assert.AreEqual(@"C:\Journals\Journal.20260407120000.10.log", result[1]);
+            CollectionAssert.AreEqual(new[]
+            {
+                @"C:\Journals\Journal.2026-04-07T180000.02.log",
+                @"C:\Journals\Journal.2026-04-07T180000.10.log",
+            }, result.ToArray());
         }
 
         [TestMethod]
@@ -168,27 +218,25 @@ namespace EliteJournalReader.Tests
         }
 
         [TestMethod]
-        public void SelectSessionFiles_NoCanonical_LegacyFallbackSelectsOneFile()
+        public void SelectSessionFiles_NoCanonicalNameParses_UsesMetadataForSingleFileFallback()
         {
-            // Legacy files (don't match canonical pattern)
+            // **Validates: Requirements 3.4**
             var files = new[]
             {
                 @"C:\Journals\Journal.log",
-                @"C:\Journals\JournalOther.log",
+                @"C:\Journals\Journal.20261340179999.01.log",
             };
 
             var writeTimeLookup = new Dictionary<string, DateTime>
             {
-                [@"C:\Journals\Journal.log"] = new DateTime(2026, 4, 6, 10, 0, 0, DateTimeKind.Utc),
-                [@"C:\Journals\JournalOther.log"] = new DateTime(2026, 4, 7, 12, 0, 0, DateTimeKind.Utc),
+                [files[0]] = new DateTime(2026, 4, 6, 10, 0, 0, DateTimeKind.Utc),
+                [files[1]] = new DateTime(2026, 4, 7, 12, 0, 0, DateTimeKind.Utc),
             };
 
             var selector = new JournalSessionSelector();
-            var result = selector.SelectSessionFiles(files, f => writeTimeLookup.GetValueOrDefault(f, DateTime.MinValue));
+            var result = selector.SelectSessionFiles(files, f => writeTimeLookup[f]);
 
-            // Legacy: exactly one file, the one with the latest write time
-            Assert.AreEqual(1, result.Count);
-            Assert.AreEqual(@"C:\Journals\JournalOther.log", result[0]);
+            CollectionAssert.AreEqual(new[] { files[1] }, result.ToArray());
         }
 
         [TestMethod]
@@ -217,37 +265,24 @@ namespace EliteJournalReader.Tests
         }
 
         [TestMethod]
-        public void SelectSessionFiles_BetaAndNonBetaSeparateSessions()
+        public void SelectSessionFiles_BetaAndNonBeta_SelectsGreatestPartitionSessionWithoutMixing()
         {
+            // **Validates: Requirements 2.9, 3.4**
             var files = new[]
             {
-                @"C:\Journals\Journal.20260407173045.01.log",
-                @"C:\Journals\JournalBeta.20260407173045.01.log",
-                @"C:\Journals\JournalBeta.20260407173045.02.log",
+                @"C:\Journals\Journal.20260407180000.09.log",
+                @"C:\Journals\JournalBeta.2026-04-07T190000.10.log",
+                @"C:\Journals\JournalBeta.2026-04-07T190000.02.log",
             };
 
             var selector = new JournalSessionSelector();
             var result = selector.SelectSessionFiles(files, _ => DateTime.MinValue);
 
-            // Both sessions have the same timestamp but different beta markers.
-            // The non-beta session identity "20260407173045" equals the beta session identity "20260407173045",
-            // but they have different session keys ("" vs "Beta:20260407173045").
-            // The selector groups by session key, so they are separate.
-            // The "greatest" is determined by session identity comparison — since both are the same string,
-            // we pick one deterministically. The non-beta session key is "" + "20260407173045" = "20260407173045",
-            // and beta is "Beta:20260407173045". Since we group by SessionKey, they're in different groups.
-            // The greatest SessionIdentity is "20260407173045" for both — tie-break by the first found.
-            // Actually the SessionIdentity is the same for both. The greatest session is picked from the first group found.
-            // Let me verify: what matters is we never mix them.
-            // All files in result should share the same SessionKey.
-            var parsedResults = result
-                .Select(f => JournalSessionSelector.TryParse(f))
-                .Where(p => p.HasValue)
-                .Select(p => p!.Value)
-                .ToList();
-
-            var distinctKeys = parsedResults.Select(p => p.SessionKey).Distinct().ToList();
-            Assert.AreEqual(1, distinctKeys.Count, "All selected files must belong to one session");
+            CollectionAssert.AreEqual(new[]
+            {
+                @"C:\Journals\JournalBeta.2026-04-07T190000.02.log",
+                @"C:\Journals\JournalBeta.2026-04-07T190000.10.log",
+            }, result.ToArray());
         }
 
         #endregion
@@ -255,48 +290,70 @@ namespace EliteJournalReader.Tests
         #region Live Mode Switching Tests
 
         [TestMethod]
-        public void ShouldSwitchToFile_NewerSession_ReturnsTrue()
+        public void ShouldSwitchToFile_NewerMixedFormSession_ReturnsTrue()
         {
+            // **Validates: Requirements 2.9**
             var selector = new JournalSessionSelector();
             bool result = selector.ShouldSwitchToFile(
-                "20260407100000", 2,
-                @"C:\Journals\Journal.20260407120000.01.log");
+                "20260407170000", 2,
+                @"C:\Journals\Journal.2026-04-07T180000.01.log");
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void ShouldSwitchToFile_HigherPartSameSession_ReturnsTrue()
+        public void ShouldSwitchToFile_EquivalentMixedFormHigherPart_ReturnsTrue()
         {
+            // **Validates: Requirements 2.9, 3.4**
             var selector = new JournalSessionSelector();
             bool result = selector.ShouldSwitchToFile(
-                "20260407100000", 2,
-                @"C:\Journals\Journal.20260407100000.03.log");
+                "20260407170000", 2,
+                @"C:\Journals\Journal.2026-04-07T170000.03.log");
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void ShouldSwitchToFile_OlderSession_ReturnsFalse()
+        public void ShouldSwitchToFile_OlderNewlyCreatedMixedFormSession_ReturnsFalse()
         {
+            // **Validates: Requirements 2.9, 3.5**
+            // Preserve task 2's counterexample direction: raw compact text sorts after ISO text
+            // even though this newly created compact session is chronologically older.
             var selector = new JournalSessionSelector();
             bool result = selector.ShouldSwitchToFile(
-                "20260407120000", 1,
-                @"C:\Journals\Journal.20260407100000.05.log");
+                "2026-04-07T180000", 1,
+                @"C:\Journals\Journal.20260407170000.99.log");
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void ShouldSwitchToFile_SamePartSameSession_ReturnsFalse()
+        public void ShouldSwitchToFile_EquivalentMixedFormSamePart_ReturnsFalse()
         {
+            // **Validates: Requirements 2.9, 3.5**
+            // Preserve task 2's same-part tie direction, which failed under raw text comparison.
             var selector = new JournalSessionSelector();
             bool result = selector.ShouldSwitchToFile(
-                "20260407100000", 2,
-                @"C:\Journals\Journal.20260407100000.02.log");
+                "2026-04-07T170000", 2,
+                @"C:\Journals\Journal.20260407170000.02.log");
             Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void ShouldSwitchToFile_OtherBetaPartition_ReturnsFalse()
+        {
+            // **Validates: Requirements 2.9, 3.4**
+            var selector = new JournalSessionSelector();
+
+            Assert.IsFalse(selector.ShouldSwitchToFile(
+                "20260407170000", 2,
+                @"C:\Journals\JournalBeta.20260407180000.01.log"));
+            Assert.IsFalse(selector.ShouldSwitchToFile(
+                "Beta:20260407170000", 2,
+                @"C:\Journals\Journal.20260407180000.01.log"));
         }
 
         [TestMethod]
         public void ShouldSwitchToFile_LegacyFile_ReturnsFalse()
         {
+            // **Validates: Requirements 3.4**
             var selector = new JournalSessionSelector();
             bool result = selector.ShouldSwitchToFile(
                 "20260407100000", 1,
@@ -397,6 +454,252 @@ namespace EliteJournalReader.Tests
         #endregion
 
         #region FsCheck Property Tests
+
+        [TestMethod]
+        public void ParsedJournalFile_EquivalentFormsWithSamePart_UsesOriginalFilenameForDeterministicTie()
+        {
+            // **Validates: Requirements 2.9, 3.4**
+            string compactPath = Name(GeneratedBaseUtc, iso: false, isBeta: false, part: 2);
+            string isoPath = Name(GeneratedBaseUtc, iso: true, isBeta: false, part: 2);
+            var compact = JournalSessionSelector.TryParse(compactPath);
+            var iso = JournalSessionSelector.TryParse(isoPath);
+
+            Assert.IsNotNull(compact);
+            Assert.IsNotNull(iso);
+            Assert.AreEqual(compact.Value.SessionKey, iso.Value.SessionKey);
+
+            int expected = StringComparer.Ordinal.Compare(compact.Value.Filename, iso.Value.Filename);
+            Assert.AreEqual(Math.Sign(expected), Math.Sign(compact.Value.CompareTo(iso.Value)),
+                "Equivalent identity and part ties must use the retained original filename deterministically.");
+        }
+
+        [TestMethod]
+        public void Property_GeneratedCanonicalForms_ParseEquivalentAndOrderedIdentities()
+        {
+            // **Validates: Requirements 2.9, 3.4**
+            Property property = FsCheck.FSharp.Prop.ForAll(
+                CanonicalRegressionScenarioArbitrary(),
+                FuncConvert.ToFSharpFunc<CanonicalRegressionScenario, bool>(scenario =>
+                {
+                    var older = JournalSessionSelector.TryParse(scenario.OlderCompactFile);
+                    var equivalentCompact = JournalSessionSelector.TryParse(scenario.EquivalentCompactFile);
+                    var equivalentIso = JournalSessionSelector.TryParse(scenario.EquivalentIsoFile);
+                    var otherPartition = JournalSessionSelector.TryParse(scenario.OtherPartitionFile);
+
+                    if (!older.HasValue || !equivalentCompact.HasValue ||
+                        !equivalentIso.HasValue || !otherPartition.HasValue)
+                    {
+                        return false;
+                    }
+
+                    return equivalentCompact.Value.SessionInstantUtc == equivalentIso.Value.SessionInstantUtc &&
+                        string.Equals(
+                            equivalentCompact.Value.SessionKey,
+                            equivalentIso.Value.SessionKey,
+                            StringComparison.OrdinalIgnoreCase) &&
+                        equivalentCompact.Value.IsBeta == scenario.IsBeta &&
+                        equivalentIso.Value.IsBeta == scenario.IsBeta &&
+                        equivalentCompact.Value.PartNumber == scenario.CurrentPart &&
+                        older.Value.CompareTo(equivalentCompact.Value) < 0 &&
+                        otherPartition.Value.IsBeta != equivalentCompact.Value.IsBeta &&
+                        !string.Equals(
+                            otherPartition.Value.SessionKey,
+                            equivalentCompact.Value.SessionKey,
+                            StringComparison.OrdinalIgnoreCase);
+                }));
+
+            Check.One(RegressionConfig(0x1D3E71A5UL), property);
+        }
+
+        [TestMethod]
+        public void Property_GeneratedMixedForms_StartupSelectsNewestSessionAndNumericPartSet()
+        {
+            // **Validates: Requirements 2.9, 3.4**
+            Property property = FsCheck.FSharp.Prop.ForAll(
+                CanonicalRegressionScenarioArbitrary(),
+                FuncConvert.ToFSharpFunc<CanonicalRegressionScenario, bool>(scenario =>
+                {
+                    IReadOnlyList<string> selected = new JournalSessionSelector().SelectSessionFiles(
+                        scenario.StartupFiles,
+                        path => path == scenario.OlderCompactFile ? DateTime.MaxValue : DateTime.MinValue);
+
+                    return selected.SequenceEqual(
+                        scenario.ExpectedStartupFiles,
+                        StringComparer.OrdinalIgnoreCase);
+                }));
+
+            Check.One(RegressionConfig(0x57A27E11UL), property);
+        }
+
+        [TestMethod]
+        public void Property_GeneratedMixedForms_LiveSwitchesOnlyForNewerSessionOrHigherCurrentPart()
+        {
+            // **Validates: Requirements 2.9, 3.4, 3.5**
+            Property property = FsCheck.FSharp.Prop.ForAll(
+                CanonicalRegressionScenarioArbitrary(),
+                FuncConvert.ToFSharpFunc<CanonicalRegressionScenario, bool>(scenario =>
+                {
+                    var selector = new JournalSessionSelector();
+
+                    return HasExpectedLiveDecisions(
+                            selector, scenario, scenario.NormalizedCurrentSessionKey, useIsoCandidates: true) &&
+                        HasExpectedLiveDecisions(
+                            selector, scenario, scenario.IsoCurrentSessionKey, useIsoCandidates: false);
+                }));
+
+            Check.One(RegressionConfig(0x11CE5EEDUL), property);
+        }
+
+        private static bool HasExpectedLiveDecisions(
+            JournalSessionSelector selector,
+            CanonicalRegressionScenario scenario,
+            string currentSessionKey,
+            bool useIsoCandidates)
+        {
+            bool samePartRejected = !selector.ShouldSwitchToFile(
+                currentSessionKey,
+                scenario.CurrentPart,
+                scenario.EquivalentSamePartFile(useIsoCandidates));
+            bool higherPartAccepted = selector.ShouldSwitchToFile(
+                currentSessionKey,
+                scenario.CurrentPart,
+                scenario.EquivalentHigherPartFile(useIsoCandidates));
+            bool olderNewlyCreatedRejected = !selector.ShouldSwitchToFile(
+                currentSessionKey,
+                scenario.CurrentPart,
+                scenario.OlderNewlyCreatedFile(useIsoCandidates));
+            bool newerSessionAccepted = selector.ShouldSwitchToFile(
+                currentSessionKey,
+                scenario.CurrentPart,
+                scenario.NewerSessionFile(useIsoCandidates));
+            bool otherPartitionRejected = !selector.ShouldSwitchToFile(
+                currentSessionKey,
+                scenario.CurrentPart,
+                scenario.OtherPartitionCandidate(useIsoCandidates));
+
+            return samePartRejected &&
+                higherPartAccepted &&
+                olderNewlyCreatedRejected &&
+                newerSessionAccepted &&
+                otherPartitionRejected;
+        }
+
+        private static readonly DateTime GeneratedBaseUtc =
+            new DateTime(2026, 4, 7, 17, 0, 0, DateTimeKind.Utc);
+
+        private static Config RegressionConfig(ulong seed)
+        {
+            var replay = new Replay(new Rnd(seed), null);
+            return Config.QuickThrowOnFailure
+                .WithMaxTest(100)
+                .WithReplay(FSharpOption<Replay>.Some(replay));
+        }
+
+        private static string SessionKey(DateTime utc, bool iso, bool isBeta)
+        {
+            string session = utc.ToString(iso ? "yyyy-MM-dd'T'HHmmss" : "yyyyMMddHHmmss");
+            return (isBeta ? "Beta:" : "") + session;
+        }
+
+        private static string Name(DateTime utc, bool iso, bool isBeta, int part)
+        {
+            string prefix = isBeta ? "JournalBeta" : "Journal";
+            string session = utc.ToString(iso ? "yyyy-MM-dd'T'HHmmss" : "yyyyMMddHHmmss");
+            return $@"C:\Journals\{prefix}.{session}.{part:D2}.log";
+        }
+
+        private static Arbitrary<CanonicalRegressionScenario> CanonicalRegressionScenarioArbitrary()
+        {
+            Gen<CanonicalRegressionScenario> generator = Gen.Choose(1, 180)
+                .SelectMany(gapMinutes => Gen.Elements(false, true)
+                    .SelectMany(isBeta => Gen.Choose(1, 24)
+                        .SelectMany(currentPart => Gen.Choose(2, 30)
+                            .Select(extraPart => new CanonicalRegressionScenario(
+                                gapMinutes,
+                                isBeta,
+                                currentPart,
+                                extraPart)))));
+
+            return Arb.From(generator, ShrinkCanonicalRegressionScenario);
+        }
+
+        private static IEnumerable<CanonicalRegressionScenario> ShrinkCanonicalRegressionScenario(
+            CanonicalRegressionScenario scenario)
+        {
+            if (scenario.GapMinutes != 1)
+                yield return new CanonicalRegressionScenario(
+                    1, scenario.IsBeta, scenario.CurrentPart, scenario.ExtraPart);
+            if (scenario.IsBeta)
+                yield return new CanonicalRegressionScenario(
+                    scenario.GapMinutes, false, scenario.CurrentPart, scenario.ExtraPart);
+            if (scenario.CurrentPart != 1)
+                yield return new CanonicalRegressionScenario(
+                    scenario.GapMinutes, scenario.IsBeta, 1, scenario.ExtraPart);
+            if (scenario.ExtraPart != 2)
+                yield return new CanonicalRegressionScenario(
+                    scenario.GapMinutes, scenario.IsBeta, scenario.CurrentPart, 2);
+        }
+
+        private sealed class CanonicalRegressionScenario
+        {
+            public int GapMinutes { get; }
+            public bool IsBeta { get; }
+            public int CurrentPart { get; }
+            public int ExtraPart { get; }
+            public DateTime CurrentUtc => GeneratedBaseUtc.AddMinutes(GapMinutes);
+            public DateTime NewerUtc => CurrentUtc.AddMinutes(GapMinutes);
+            public string OlderCompactFile => Name(GeneratedBaseUtc, false, IsBeta, 99);
+            public string EquivalentCompactFile => Name(CurrentUtc, false, IsBeta, CurrentPart);
+            public string EquivalentIsoFile => Name(CurrentUtc, true, IsBeta, CurrentPart);
+            public string NormalizedCurrentSessionKey => SessionKey(CurrentUtc, false, IsBeta);
+            public string IsoCurrentSessionKey => SessionKey(CurrentUtc, true, IsBeta);
+            public string OtherPartitionFile => Name(CurrentUtc, true, !IsBeta, CurrentPart + 10);
+
+            public string EquivalentSamePartFile(bool iso) =>
+                Name(CurrentUtc, iso, IsBeta, CurrentPart);
+
+            public string EquivalentHigherPartFile(bool iso) =>
+                Name(CurrentUtc, iso, IsBeta, CurrentPart + 1);
+
+            public string OlderNewlyCreatedFile(bool iso) =>
+                Name(GeneratedBaseUtc, iso, IsBeta, 99);
+
+            public string NewerSessionFile(bool iso) =>
+                Name(NewerUtc, iso, IsBeta, 1);
+
+            public string OtherPartitionCandidate(bool iso) =>
+                Name(CurrentUtc, iso, !IsBeta, CurrentPart + 10);
+
+            public int[] Parts => new[] { 1, 10, CurrentPart, ExtraPart }
+                .Distinct()
+                .OrderBy(part => part)
+                .ToArray();
+
+            public string[] ExpectedStartupFiles => Parts
+                .Select((part, index) => Name(CurrentUtc, index % 2 == 0, IsBeta, part))
+                .ToArray();
+
+            public string[] StartupFiles => new[] { OlderCompactFile }
+                .Concat(ExpectedStartupFiles.Reverse())
+                .ToArray();
+
+            public CanonicalRegressionScenario(
+                int gapMinutes,
+                bool isBeta,
+                int currentPart,
+                int extraPart)
+            {
+                GapMinutes = gapMinutes;
+                IsBeta = isBeta;
+                CurrentPart = currentPart;
+                ExtraPart = extraPart;
+            }
+
+            public override string ToString() =>
+                $"GapMinutes={GapMinutes}; Partition={(IsBeta ? "beta" : "normal")}; " +
+                $"CurrentPart={CurrentPart}; Parts=[{string.Join(",", Parts)}]; " +
+                $"Startup=[{string.Join(", ", StartupFiles.Select(Path.GetFileName))}]";
+        }
 
         [TestMethod]
         public void Property_NeverMixesSessions()

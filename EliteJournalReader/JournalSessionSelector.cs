@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -36,6 +37,12 @@ namespace EliteJournalReader
             @"^Journal(?<beta>Beta)?\.(?<session>[0-9T\-]+)\.(?<part>\d+)\.log$",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+        private static readonly string[] CanonicalSessionFormats =
+        {
+            "yyyyMMddHHmmss",
+            "yyyy-MM-dd'T'HHmmss"
+        };
+
         /// <summary>
         /// Represents a parsed canonical journal filename.
         /// </summary>
@@ -44,41 +51,63 @@ namespace EliteJournalReader
             public string FullPath { get; }
             public string Filename { get; }
             public bool IsBeta { get; }
+
+            /// <summary>
+            /// Original timestamp text retained for diagnostics and compatibility.
+            /// Identity comparisons use <see cref="SessionInstantUtc"/> instead.
+            /// </summary>
             public string SessionIdentity { get; }
+
+            public DateTime SessionInstantUtc { get; }
             public int PartNumber { get; }
 
             /// <summary>
-            /// A normalized session key combining beta marker and session identity.
-            /// Used for grouping files that belong to the same session.
+            /// A normalized session key combining beta partition and canonical UTC instant.
+            /// Equivalent compact and ISO timestamp forms produce the same key.
             /// </summary>
-            public string SessionKey => (IsBeta ? "Beta:" : "") + SessionIdentity;
+            public string SessionKey =>
+                (IsBeta ? "Beta:" : "") +
+                SessionInstantUtc.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture);
 
-            public ParsedJournalFile(string fullPath, string filename, bool isBeta, string sessionIdentity, int partNumber)
+            public ParsedJournalFile(
+                string fullPath,
+                string filename,
+                bool isBeta,
+                string sessionIdentity,
+                DateTime sessionInstantUtc,
+                int partNumber)
             {
                 FullPath = fullPath;
                 Filename = filename;
                 IsBeta = isBeta;
                 SessionIdentity = sessionIdentity;
+                SessionInstantUtc = sessionInstantUtc;
                 PartNumber = partNumber;
             }
 
             /// <summary>
-            /// Compares by session identity descending, then part number ascending.
-            /// Session identity is compared ordinally (which works for both timestamp formats).
+            /// Compares canonical session partition and UTC instant, then numeric part and
+            /// original filename for deterministic ties.
             /// </summary>
             public int CompareTo(ParsedJournalFile other)
             {
-                int sessionCmp = StringComparer.OrdinalIgnoreCase.Compare(SessionIdentity, other.SessionIdentity);
+                int betaCmp = IsBeta.CompareTo(other.IsBeta);
+                if (betaCmp != 0) return betaCmp;
+
+                int sessionCmp = SessionInstantUtc.CompareTo(other.SessionInstantUtc);
                 if (sessionCmp != 0) return sessionCmp;
+
                 int partCmp = PartNumber.CompareTo(other.PartNumber);
                 if (partCmp != 0) return partCmp;
-                return StringComparer.OrdinalIgnoreCase.Compare(Filename, other.Filename);
+
+                return StringComparer.Ordinal.Compare(Filename, other.Filename);
             }
         }
 
         /// <summary>
         /// Attempts to parse a filename into a canonical journal file descriptor.
-        /// Returns null if the filename does not match the canonical pattern.
+        /// Returns null if the filename does not match the canonical pattern or contains
+        /// an invalid compact/ISO UTC session timestamp.
         /// </summary>
         internal static ParsedJournalFile? TryParse(string fullPath)
         {
@@ -90,10 +119,32 @@ namespace EliteJournalReader
             bool isBeta = !string.IsNullOrEmpty(match.Groups["beta"].Value);
             string session = match.Groups["session"].Value;
 
-            if (!int.TryParse(match.Groups["part"].Value, out int partNumber))
+            if (!DateTime.TryParseExact(
+                    session,
+                    CanonicalSessionFormats,
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                    out DateTime sessionInstantUtc))
+            {
                 return null;
+            }
 
-            return new ParsedJournalFile(fullPath, filename, isBeta, session, partNumber);
+            if (!int.TryParse(
+                    match.Groups["part"].Value,
+                    NumberStyles.None,
+                    CultureInfo.InvariantCulture,
+                    out int partNumber))
+            {
+                return null;
+            }
+
+            return new ParsedJournalFile(
+                fullPath,
+                filename,
+                isBeta,
+                session,
+                sessionInstantUtc,
+                partNumber);
         }
 
         /// <summary>
@@ -142,21 +193,44 @@ namespace EliteJournalReader
         public bool ShouldSwitchToFile(string currentSessionKey, int currentMaxPart, string newFilePath)
         {
             var parsed = TryParse(newFilePath);
-            if (!parsed.HasValue)
-                return false; // Cannot parse — ignore in live mode
+            if (!parsed.HasValue ||
+                !TryParseSessionKey(currentSessionKey, out bool currentIsBeta, out DateTime currentInstantUtc))
+            {
+                return false;
+            }
 
             var newFile = parsed.Value;
 
-            // Switch to a newer session
-            int sessionCmp = StringComparer.OrdinalIgnoreCase.Compare(newFile.SessionKey, currentSessionKey);
+            // Normal and beta journals are independent partitions. A filesystem creation event
+            // from the other partition must never displace the current canonical session.
+            if (newFile.IsBeta != currentIsBeta)
+                return false;
+
+            int sessionCmp = newFile.SessionInstantUtc.CompareTo(currentInstantUtc);
             if (sessionCmp > 0)
                 return true;
 
-            // Same session: switch only if higher part number
-            if (sessionCmp == 0 && newFile.PartNumber > currentMaxPart)
-                return true;
+            // Equivalent compact/ISO identities switch only to a numerically higher part.
+            return sessionCmp == 0 && newFile.PartNumber > currentMaxPart;
+        }
 
-            return false;
+        private static bool TryParseSessionKey(
+            string sessionKey,
+            out bool isBeta,
+            out DateTime sessionInstantUtc)
+        {
+            const string betaPrefix = "Beta:";
+            sessionInstantUtc = default;
+            isBeta = !string.IsNullOrEmpty(sessionKey) &&
+                sessionKey.StartsWith(betaPrefix, StringComparison.OrdinalIgnoreCase);
+            string sessionIdentity = isBeta ? sessionKey.Substring(betaPrefix.Length) : sessionKey;
+
+            return !string.IsNullOrEmpty(sessionIdentity) && DateTime.TryParseExact(
+                sessionIdentity,
+                CanonicalSessionFormats,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                out sessionInstantUtc);
         }
 
         /// <summary>
@@ -164,30 +238,33 @@ namespace EliteJournalReader
         /// </summary>
         private static IReadOnlyList<string> SelectCanonicalSession(List<ParsedJournalFile> parsed)
         {
-            // Group by session key (beta + session identity)
-            var groups = parsed.GroupBy(f => f.SessionKey, StringComparer.OrdinalIgnoreCase);
+            // First select the greatest UTC session in each beta partition. Then select the
+            // greatest partition candidate overall. Filename ordering makes equal-instant
+            // cross-partition input deterministic without ever mixing their files.
+            var partitionCandidates = parsed
+                .GroupBy(f => f.IsBeta)
+                .Select(partition => partition
+                    .GroupBy(f => f.SessionInstantUtc)
+                    .OrderByDescending(session => session.Key)
+                    .First())
+                .ToList();
 
-            // Find the greatest session: compare session identity ordinally (timestamp strings sort correctly)
-            string greatestSessionKey = null;
-            string greatestSessionIdentity = null;
-            foreach (var group in groups)
-            {
-                var representative = group.First();
-                if (greatestSessionIdentity == null ||
-                    StringComparer.OrdinalIgnoreCase.Compare(representative.SessionIdentity, greatestSessionIdentity) > 0)
-                {
-                    greatestSessionKey = group.Key;
-                    greatestSessionIdentity = representative.SessionIdentity;
-                }
-            }
+            var selectedSession = partitionCandidates
+                .OrderByDescending(session => session.Key)
+                .ThenBy(
+                    session => session
+                        .OrderBy(f => f.Filename, StringComparer.OrdinalIgnoreCase)
+                        .First()
+                        .Filename,
+                    StringComparer.OrdinalIgnoreCase)
+                .First();
+            string selectedSessionKey = selectedSession.First().SessionKey;
 
 #if DEBUG
-            Trace.TraceInformation($"JournalSessionSelector: selected canonical session '{greatestSessionKey}' from {parsed.Count} file(s).");
+            Trace.TraceInformation($"JournalSessionSelector: selected canonical session '{selectedSessionKey}' from {parsed.Count} file(s).");
 #endif
 
-            // Select only files from the greatest session, ordered by numeric part then filename
-            var sessionFiles = parsed
-                .Where(f => StringComparer.OrdinalIgnoreCase.Equals(f.SessionKey, greatestSessionKey))
+            var sessionFiles = selectedSession
                 .OrderBy(f => f.PartNumber)
                 .ThenBy(f => f.Filename, StringComparer.OrdinalIgnoreCase)
                 .Select(f => f.FullPath)
