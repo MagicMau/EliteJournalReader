@@ -27,6 +27,7 @@ namespace EliteJournalReader.Events
         {
             public string StarSystem { get; set; }
             public string StationName { get; set; }
+            public string StationName_Localised { get; set; }
             public long SystemAddress { get; set; }
             public long MarketID { get; set; }
             public string StationType { get; set; }
